@@ -1,0 +1,53 @@
+<mat-dialog-content>
+	<div class="row m-0 h-310">
+		<div class="col-6 p-20">
+			<mat-list>
+				<mat-list-item>
+					<h5>Voucher ID: {{ data.voucher.id }}</h5>
+				</mat-list-item>
+				<!-- <mat-list-item> <i class="far fa-play-circle"></i> <strong>Not Used</strong> </mat-list-item> -->
+				<!-- <mat-list-item> Agreement ID: <strong>#{{ getVoucherInfo['agreement-id'] }}</strong> </mat-list-item> -->
+				<mat-list-item> Valid date & time</mat-list-item> 
+				<mat-list-item> <i class="far fa-calendar"></i> <strong>{{ formatDate(getVoucherInfo['validity-start-date-and-time-utc']) }} - 
+          {{ formatDate(getVoucherInfo['validity-end-date-and-time-utc']) }}</strong></mat-list-item>
+				<mat-list-item> <i class="far fa-clock"></i> <strong>{{ formatTime(getVoucherInfo['validity-start-date-and-time-utc']) }} - 
+          {{ formatTime(getVoucherInfo['validity-end-date-and-time-utc']) }}</strong></mat-list-item>
+			</mat-list>
+
+			<mat-list>
+				<mat-list-item>
+					Voucher code:
+				</mat-list-item>
+				<mat-list-item>
+					<h5>{{ getVoucherInfo?.code }}</h5>
+				</mat-list-item>
+			</mat-list>
+
+		</div>
+		<div class="col-6 bg-right p-20">
+      <div class="d-flex justify-content-end"><i (click)="dialogRef.close()" class="fas fa-times"></i></div>
+			<p>Included Packages/Service:</p>
+			<div *ngIf="getVoucherRelationships" class="row">
+				<div *ngFor="let package of getVoucherRelationships; let i = index" class="col-12 mb-2">
+					<div class="row">
+						<div class="col-10"><h5 class="mb-1">{{ getPackage(package['package-id']).attributes.name }} - {{ (data?.voucher?.packages[i]?.redeemed / data?.voucher?.packages[i]?.redemptions) * 100 }}%</h5></div>
+						<div class="col-2"><h5 class="text-right mb-1">x{{ data?.voucher?.packages[i]?.redemptions }}</h5></div>
+					</div>
+
+					<div class="row">
+						<div class="col"><p class="mb-0">Usage:</p></div>
+						<div class="col"><p class="text-right mb-0">{{ data?.voucher?.packages[i]?.redeemed }} of {{ data?.voucher?.packages[i]?.redemptions }}</p></div>
+					</div>
+					<mat-progress-bar mode="determinate" [value]="(data?.voucher?.packages[i]?.redeemed / data?.voucher?.packages[i]?.redemptions) * 100"></mat-progress-bar>
+				</div>
+			</div>
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-end">
+	<button (click)="deleteVoucher()" tabindex="-1" mat-button>
+		<mat-icon>delete_outline</mat-icon>Delete Voucher
+	</button>
+	<button (click)="editVoucher()" tabindex="-1" mat-button>Edit Voucher</button>
+	<!-- <button mat-dialog-close mat-button>Close</button> -->
+</mat-dialog-actions>

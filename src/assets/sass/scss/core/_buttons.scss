@@ -1,0 +1,211 @@
+@import "../variables";
+
+.btn.mazaya-btn, .btn.btn-mazaya {
+	background    : $mazaya-default-button-background-color;
+	color         : $mazaya-default-button-font-color;
+	border-radius : $mazaya-default-button-border-radius;
+	border        : 1px solid $mazaya-default-button-background-color;
+	padding       : $mazaya-button-padding;
+	margin-bottom : $mazaya-default-button-margin-bottom;
+	margin-top    : $mazaya-default-button-margin-top;
+	transition    : background-color 300ms;
+
+	&:hover {
+		cursor : pointer;
+	}
+
+	&:hover, &:active {
+		outline          : none;
+		border           : 1px solid $mazaya-default-button-background-color;
+		box-shadow       : none;
+		background-color : darken($mazaya-default-button-background-color, 3%);
+	}
+
+	@each $width in $utility-widths {
+		&.btn-w-#{$width} {
+			min-width : #{$width}px;
+		}
+	}
+
+	&.btn-mazaya-dark {
+		background   : #000000;
+		color        : #ffffff;
+		border-color : #000000;
+	}
+
+	&.btn-mazaya-gray {
+		background   : #1f1f1f;
+		color        : #656565;
+		border-color : #1f1f1f;
+	}
+
+	&.btn-mazaya-gray-alt-1 {
+		background   : #585959;
+		color        : #ffffff;
+		border-color : #585959;
+	}
+
+	&.btn-mazaya-gray-alt-2 {
+		background   : #898c8e;
+		color        : #ffffff;
+		border-color : #898c8e;
+		&:disabled {
+			opacity : 0.6;
+		}
+	}
+
+	&.btn-mazaya-logo {
+		padding         : 10px;
+		height          : 40px;
+		width           : 40px;
+		display         : inline-flex;
+		align-items     : center;
+		justify-content : center;
+		margin          : 0;
+	}
+
+	&.btn-transparent, &.btn-mazaya-transparent {
+		background-color : transparent;
+		border-color     : transparent;
+		color            : #ffffff;
+	}
+
+	&.btn-slim, &.btn-mazaya-slim {
+		padding : 5px 10px;
+		margin  : 0;
+	}
+
+	&.btn-mazaya-square {
+		border-radius : 5px !important;
+	}
+
+	&.mazaya-dropdown-default {
+		@extend .btn-slim;
+		background-color : transparent;
+		border-color     : #ffffff;
+		color            : #ffffff;
+		height           : 40px;
+		display          : flex;
+		align-items      : center;
+		justify-content  : space-between;
+		width            : 100%;
+		& + .dropdown-menu {
+			background-color        : $mazaya-default-background;
+			color                   : $mazaya-default-font-color;
+			border-top-left-radius  : 0;
+			border-top-right-radius : 0;
+			border-top              : transparent;
+			margin-top              : calc(0.125rem - 2.5px);
+			.dropdown-item {
+				&, &:hover {
+					background-color : $mazaya-default-background;
+				}
+				color : $mazaya-default-font-color;
+				&:hover {
+					color : darken($mazaya-default-font-color, 15%);
+				}
+			}
+		}
+	}
+}
+
+.btn-pagination {
+	border-radius    : 5px;
+	border           : 1px solid #cccccc;
+	color            : #000000;
+	background-color : #ffffff;
+	&.active {
+		background-color : #000000;
+		color            : #ffffff;
+		border-color     : #000000;
+	}
+}
+
+.btn-date-filter {
+	background-color : transparent;
+	border           : 1px solid #7f7f7f;
+	border-radius    : 5px;
+	color            : #7f7f7f;
+	&:hover, &.active {
+		background-color : #7f7f7f;
+		color            : #000000;
+	}
+}
+
+.input-group-prepend {
+	.btn.btn-mazaya {
+		background-color           : #222222;
+		border-color               : #222222;
+		margin                     : 0;
+		border-top-right-radius    : 0 !important;
+		border-bottom-right-radius : 0 !important;
+		height                     : 55px;
+		min-height                 : 55px;
+		max-height                 : 55px;
+		color                      : #7d8082;
+		border-right-color         : lighten(#222222, 10%);
+	}
+	&.input-group-btn-light {
+		.btn.btn-mazaya {
+			background-color : #ffffff;
+			border-color     : #a0a0a0;
+		}
+	}
+	&.input-group-btn {
+		.btn.btn-mazaya {
+			background-color   : #222222;
+			color              : #7d8082;
+			border-color       : #222222;
+			border-right-color : #7d8082;
+		}
+	}
+}
+
+.input-group-append {
+	.btn.btn-mazaya.show-password-button {
+		height                    : 55px;
+		min-height                : 55px;
+		max-height                : 55px;
+		border-color              : #222222;
+		background                : #222222 url("/assets/img/icons/ic_show_password.png") no-repeat center center;
+		background-size           : 16px auto;
+		border-top-left-radius    : 0 !important;
+		border-bottom-left-radius : 0 !important;
+		border-left-color         : lighten(#222222, 10%);
+	}
+}
+
+button.dropdown-toggle, .btn.dropdown-toggle {
+	background-color : #ffffff;
+	border           : 1px solid #cccccc;
+	margin-bottom    : 1rem;
+	& + .dropdown-menu {
+		background-color : #ffffff;
+		border-color     : #cccccc;
+		color            : #000000;
+
+		&.scrollable-dropdown {
+			height     : auto;
+			max-height : 250px;
+			overflow-x : hidden;
+		}
+
+		.dropdown-divider {
+			border-color : #cccccc;
+		}
+
+		a, .btn {
+			color : #7d8082;
+			&, &:hover {
+				background-color : #222222;
+			}
+			&, &:hover, &:active, &:visited, &:focus {
+				text-decoration : none;
+			}
+		}
+	}
+}
+
+.pointer {
+	cursor : pointer;
+}

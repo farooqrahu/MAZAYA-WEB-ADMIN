@@ -1,0 +1,26 @@
+@import "scss/variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/ladda/css/ladda";
+@import "scss/core/palette";
+@import "scss/app-variables";
+@import "scss/mixins";
+@import "scss/custom-bootstrap";
+@import "scss/core";
+@import "scss/fonts/weather-icons";
+@import "scss/plugins";
+@import "scss/global";
+@import "scss/grid-rows";
+@import "scss/sp_tabs";
+
+@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+$mazaya-primary: mat-palette($mat-gray);
+$mazaya-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+$mazaya-warn:    mat-palette($mat-red);
+$mazaya-theme: mat-light-theme($mazaya-primary, $mazaya-accent, $mazaya-warn);
+@include angular-material-theme($mazaya-theme);
+@include mat-datetimepicker-theme($mazaya-theme);

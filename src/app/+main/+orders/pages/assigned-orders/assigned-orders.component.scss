@@ -1,0 +1,16 @@
+.date-filter-select {
+	.mat-form-field-underline, .mat-input-underline, .mat-select-arrow, .mat-select-value-text {
+		color : #7f7f7f !important;
+	}
+	.mat-form-field-underline, .mat-input-underline{
+		background-color: #7f7f7f !important;
+	}
+}
+
+.filter-active {
+	color: #fff;
+	border-color: #fff;
+	z-index: 999;
+}
+
+

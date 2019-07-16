@@ -1,0 +1,8 @@
+bower.json
+.bower.json
+install.json
+LICENSE
+README.md
+themes/*
+!themes/black
+!themes/red

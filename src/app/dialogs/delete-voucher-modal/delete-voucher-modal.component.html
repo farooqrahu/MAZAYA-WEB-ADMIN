@@ -1,0 +1,13 @@
+<h2 matDialogTitle>Delete Voucher</h2>
+<mat-dialog-content>
+	<div class="row">
+		<div class="col-12 text-center">
+			Are you sure you want to delete the Voucher "{{data.voucher.id}}"?
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between p-0 mt-2 mb-1">
+	<button (click)="deleteVoucher()" mat-button>
+		<mat-icon>delete_outline</mat-icon>Delete Voucher</button>
+	<button [mat-dialog-close]="null" mat-button>Cancel</button>
+</mat-dialog-actions>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mazaya :: Admin</title>
+  <base href="/">
+
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/img/favicon/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/img/favicon/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/assets/img/favicon/apple-touch-icon-60x60.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/assets/img/favicon/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/assets/img/favicon/apple-touch-icon-76x76.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/img/favicon/apple-touch-icon-152x152.png" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon/favicon-128.png" sizes="128x128" />
+  <meta name="application-name" content="Mazaya :: Admin"/>
+  <!--<meta name="msapplication-TileColor" content="#FFFFFF" />-->
+  <meta name="msapplication-TileImage" content="/assets/img/favicon/mstile-144x144.png" />
+  <meta name="msapplication-square70x70logo" content="/assets/img/favicon/mstile-70x70.png" />
+  <meta name="msapplication-square150x150logo" content="/assets/img/favicon/mstile-150x150.png" />
+  <meta name="msapplication-wide310x150logo" content="/assets/img/favicon/mstile-310x150.png" />
+  <meta name="msapplication-square310x310logo" content="/assets/img/favicon/mstile-310x310.png" />
+
+  <link href="assets/fonts/feather/style.min.css" rel="stylesheet">
+  <link href="assets/fonts/simple-line-icons/style.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="assets/vendor/pace/themes/black/pace-theme-flash.css"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style type="text/css">
+    .pace .pace-activity {
+      top     : 19px;
+      right   : 19px;
+      display : none;
+    }
+
+    .page-loading {
+      position   : fixed;
+      left       : 0;
+      top        : 0;
+      bottom     : 0;
+      right      : 0;
+      overflow   : hidden;
+      background : rgba(51, 51, 51, 1.00);
+      opacity    : 0;
+      transition : opacity 1s ease-in-out;
+      z-index    : -1;
+    }
+
+    .loading-icon {
+      position    : absolute;
+      left        : 50%;
+      top         : 50%;
+      width       : 38px;
+      height      : 38px;
+      margin-left : -19px;
+      margin-top  : -19px;
+    }
+
+    app-root:empty ~ .page-loading {
+      opacity : 1;
+      z-index : 1;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="assets/vendor/pace/pace.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    (function (window) {
+      // Polyfills DOM4 MouseEvent only on IE11
+      // Fixes ngx-charts line-chart hover
+      // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent#Polyfill
+      if (!!window.MSInputMethodContext && !!document.documentMode || document.documentMode === 10) {
+        function MouseEvent(eventType, params) {
+          params = params || {bubbles: false, cancelable: false};
+          var mouseEvent = document.createEvent('MouseEvent');
+          mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+
+          return mouseEvent;
+        }
+
+        MouseEvent.prototype = Event.prototype;
+
+        window.MouseEvent = MouseEvent;
+      }
+
+      // Initialize PACE
+      window.paceOptions = {
+        document: true,
+        eventLag: true,
+        restartOnPushState: true,
+        restartOnRequestAfter: true,
+        ajax: {
+          trackMethods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE']
+        }
+      };
+    })(window);
+  </script>
+  <script>
+    var NGXSTORE_CONFIG = {
+      prefix: 'mazaya_',
+      clearType: 'prefix',
+      mutateObjects: true,
+      debugMode: false,
+      previousPrefix: 'ngx_'
+    };
+  </script>
+</head>
+<body>
+<mazaya-root></mazaya-root>
+<div class="page-loading">
+  <img src="assets/img/oval.svg" class="loading-icon"/>
+</div>
+</body>
+</html>

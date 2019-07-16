@@ -1,0 +1,24 @@
+<h2 matDialogTitle>Service "{{service.name}}"</h2>
+<mat-dialog-content>
+	<div class="row">
+		<div class="col-12 text-center">
+			<h5 class="text-left">Description:</h5>
+			<p class="text-left">{{service.description}}</p>
+			<div class="text-left">
+				<strong>
+					Used in {{service.inPackagesCount}} package{{service.inPackagesCount === 1 ? 's' : ''}}
+				</strong>
+			</div>
+			<div class="text-left">
+				<strong>
+					Used in {{service.inOrdersCount}} order{{service.inOrdersCount === 1 ? 's' : ''}}
+				</strong>
+			</div>
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+	<button mat-dialog-close class="btn btn-mazaya btn-mazaya-gray-alt-2 mr-1">Cancel</button>
+	<!--<button (click)="editService()" class="btn btn-mazaya btn-mazaya-gray-alt-2 mr-1">Edit</button>-->
+	<!--<button (click)="deleteService()" class="btn btn-mazaya btn-mazaya-gray-alt-2">Delete</button>-->
+</mat-dialog-actions>

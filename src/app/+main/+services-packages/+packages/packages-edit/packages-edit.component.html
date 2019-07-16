@@ -1,0 +1,114 @@
+<div class="container-fluid container--package-edit p-0">
+  <form novalidate [formGroup]="editPackageForm" class="add-package-form row">
+    <div class="col-md-6 mx-auto">
+      <h2>Edit Package</h2>
+
+	    <mat-form-field class="w-100">
+		    <mat-label>Package Name</mat-label>
+		    <input matInput type="text" formControlName="name">
+		    <mat-error *ngIf="name.hasError('required')">
+			    Package Name is required
+		    </mat-error>
+	    </mat-form-field>
+
+	    <div dir="rtl" class="w-100">
+		    <mat-form-field class="w-100">
+			    <mat-label>Package Name AR</mat-label>
+			    <input matInput type="text" formControlName="name_ar">
+			    <mat-error *ngIf="name_ar.hasError('required')">
+				    Package Name AR is required
+			    </mat-error>
+		    </mat-form-field>
+	    </div>
+
+      <mat-form-field class="w-100">
+	      <mat-label>Package Description</mat-label>
+	      <textarea matInput formControlName="description" cdkTextareaAutosize></textarea>
+	      <mat-error *ngIf="description.hasError('required')">
+		      Package Description is required
+	      </mat-error>
+      </mat-form-field>
+
+	    <div dir="rtl" class="w-100">
+		    <mat-form-field class="w-100">
+			    <mat-label>Package Description AR</mat-label>
+			    <textarea matInput formControlName="description_ar" cdkTextareaAutosize></textarea>
+			    <mat-error *ngIf="description_ar.hasError('required')">
+				    Package Description AR is required
+			    </mat-error>
+		    </mat-form-field>
+	    </div>
+
+	    <mat-form-field class="w-100">
+		    <mat-label>Package Description (Short)</mat-label>
+		    <textarea matInput formControlName="description_short" cdkTextareaAutosize></textarea>
+		    <mat-error *ngIf="description_short.hasError('required')">
+			    Package Short Description is required
+		    </mat-error>
+	    </mat-form-field>
+
+	    <div dir="rtl" class="w-100">
+		    <mat-form-field class="w-100">
+			    <mat-label>Package Description (Short) AR</mat-label>
+			    <textarea matInput formControlName="description_short_ar" cdkTextareaAutosize></textarea>
+			    <mat-error *ngIf="description_short_ar.hasError('required')">
+				    Package Short Description AR is required
+			    </mat-error>
+		    </mat-form-field>
+	    </div>
+
+	    <h4>Services</h4>
+
+	    <mat-form-field class="w-100">
+		    <mat-label>Select included Services</mat-label>
+		    <mat-select formControlName="services" multiple>
+			    <mat-option *ngFor="let service of availableServices" [value]="service.id">{{service.attributes.name}}</mat-option>
+		    </mat-select>
+	    </mat-form-field>
+
+	    <h4>Availabilites</h4>
+
+      <mat-form-field class="w-100">
+	      <mat-label>Individual Price</mat-label>
+	      <input matInput type="number" step="1" formControlName="individualPrice">
+	      <mat-error *ngIf="individualPrice.hasError('required')">
+		      Individual Price is required
+	      </mat-error>
+	      <mat-error *ngIf="!individualPrice.hasError('required') && individualPrice.hasError('min')">
+		      Individual Price must be higher than 0
+	      </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100">
+	      <mat-label>Family Price</mat-label>
+	      <input matInput type="number" step="1" formControlName="familyPrice">
+	      <mat-error *ngIf="familyPrice.hasError('required')">
+		      Family Price is required
+	      </mat-error>
+	      <mat-error *ngIf="!familyPrice.hasError('required') && familyPrice.hasError('min')">
+		      Family Price must be higher than 0
+	      </mat-error>
+      </mat-form-field>
+
+	    <mat-form-field class="w-100">
+		    <mat-label>Additional Passenger Price</mat-label>
+		    <input matInput type="number" step="1" formControlName="additionalPassengerPrice">
+		    <mat-error *ngIf="additionalPassengerPrice.hasError('required')">
+			    Additional Passenger Price is required
+		    </mat-error>
+		    <mat-error *ngIf="!additionalPassengerPrice.hasError('required') && additionalPassengerPrice.hasError('min')">
+			    Additional Passenger Price must be higher than 0
+		    </mat-error>
+	    </mat-form-field>
+
+    </div>
+  </form>
+
+  <div class="row--footer">
+    <button (click)="updatePackage()"
+            type="button"
+            class="save-button pull-right">
+      SAVE
+    </button>
+  </div>
+</div>

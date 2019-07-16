@@ -1,0 +1,110 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<div class="row bar-menu">
+				<div class="col-1 bar-menu-back-button" [routerLink]="['..']">
+					<img class="img-fluid" src="assets/img/icons/ic_arrow_right.png">
+				</div>
+				<div class="col-2 ml-auto bar-menu-button" [routerLink]="['..','new']" *ngIf="userIs('admin')">
+					<span>+ Add new User</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3" *ngIf="user">
+		<div class="container-fluid container--user-view mb-5">
+			<div class="row row--details">
+				<div class="row--details__left" *ngIf="isCustomer">
+					<div class="image-wrapper">
+						<div class="blank-image" *ngIf="!user.attributes['avatar']">
+							<i class="fas fa-user"></i>
+						</div>
+						<img [attr.src]="user.attributes['avatar']"
+						     *ngIf="user.attributes['avatar']" class="img-fluid">
+					</div>
+					<input type="file" accept="image/jpeg,image/png" style="display:none;" #avatarFileSelect
+					       (change)="uploadAndSaveNewAvatar()">
+					<a id="change-photo" (click)="selectNewAvatar($event)">Change Photo</a>
+				</div>
+				<div class="row--details__left" *ngIf="!isCustomer">
+					<div class="image-wrapper">
+						<div class="blank-image" *ngIf="!user.attributes['image-url']">
+							<i class="fas fa-user"></i>
+						</div>
+						<img [attr.src]="user.attributes['image-url']"
+						     *ngIf="user.attributes['image-url']" class="img-fluid">
+					</div>
+					<input type="file" accept="image/jpeg,image/png" style="display:none;" #avatarFileSelect
+					       (change)="uploadAndSaveNewAvatar()">
+					<a id="change-photo" (click)="selectNewAvatar($event)">Change Photo</a>
+				</div>
+
+				<div class="row--details__right">
+					<div class="full-name">
+						{{ user.attributes['first-name'] }} {{user.attributes['last-name']}}, {{user.attributes['salutation']}}
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="email">
+								<i class="fas fa-envelope"></i> {{ user.attributes.email || 'N/A' }}
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="phone">
+								<i class="fas fa-phone"></i> {{ getUserPhoneNumber(user) || 'N/A' }}
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="user-status">
+								<i class="fas fa-heartbeat"></i> {{ isDeactivated() ? 'Inactive' : 'Active'}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row row--footer" *ngIf="userIs('admin')">
+				<div class="row--footer__list-wrapper">
+					<ul class="list-inline">
+						<li class="list-inline-item" *ngIf="!isCustomer">
+							<i class="far fa-edit mr-1"></i>
+							<a (click)="routeToEdit()">
+								Edit Profile
+							</a>
+						</li>
+						<li class="list-inline-item" *ngIf="isDeactivated()">
+							<i class="fas fa-power-off mr-1"></i>
+							<a href="#" (click)="showActivateModal($event)">
+								Activate
+							</a>
+						</li>
+						<li class="list-inline-item" *ngIf="!isDeactivated()">
+							<i class="fas fa-power-off mr-1"></i>
+							<a href="#" (click)="showDeactivateModal($event)">
+								Deactivate
+							</a>
+						</li>
+						<li class="list-inline-item" *ngIf="!isDeleted()">
+							<i class="fas fa-trash-alt mr-1"></i>
+							<a href="#" (click)="showDeleteModal($event)">
+								Delete Account
+							</a>
+						</li>
+						<li class="list-inline-item" *ngIf="isDeleted()">
+							<i class="fas fa-trash-alt mr-1"></i>
+							<a href="#" (click)="showRestoreModal($event)">
+								Restore Account
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

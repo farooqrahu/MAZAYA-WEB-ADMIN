@@ -1,0 +1,62 @@
+<!-- Sidebar Header starts -->
+<div class="sidebar-header">
+	<div class="logo">
+		<a [routerLink]="['/']" class="logo-text">
+			<div class="logo-img">
+				<img src="assets/img/logos/mazaya-logo-inverse-transparent-no-text.png"/>
+			</div>
+			<span class="text align-middle">
+              <img src="assets/img/logos/mazaya-logo-inverse-transparent-text-only.png"/>
+            </span>
+		</a>
+		<!--<a class="nav-toggle hidden-sm hidden-xs" href="javascript:;">-->
+		<!--<i class="ft-toggle-right toggle-icon" data-toggle="expanded"></i>-->
+		<!--</a>-->
+	</div>
+</div>
+<!-- Sidebar Header Ends -->
+
+<!-- Sidebar Content starts -->
+<div class="sidebar-content">
+	<div class="nav-container">
+		<ul class="navigation">
+			<!-- First level menu -->
+			<li [ngClass]="[menuItem.class]"
+			    [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'"
+			    [routerLinkActiveOptions]="{exact: true}" *ngFor="let menuItem of menuItems">
+				<a [routerLink]="menuItem.class === '' ? [menuItem.path] : null"
+				   *ngIf="visibleForCurrentUser(menuItem.visibleFor)">
+					<i [ngClass]="[menuItem.icon]"></i>
+					<span class="menu-title">{{menuItem.title}}</span>
+					<span *ngIf="menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
+				</a>
+				<!-- Second level menu -->
+				<ul class="menu-content" *ngIf="menuItem.submenu.length > 0">
+					<li *ngFor="let menuSubItem of menuItem.submenu"
+					    [routerLinkActive]="menuSubItem.submenu.length > 0 ? '' : 'active'"
+					    [routerLinkActiveOptions]="{exact: true}" [ngClass]="[menuSubItem.class]">
+						<a [routerLink]="menuSubItem.submenu.length > 0 ? null : [menuSubItem.path]"
+						   *ngIf="visibleForCurrentUser(menuSubItem.visibleFor)">
+							<i [ngClass]="[menuSubItem.icon]"></i>
+							<span class="menu-title">{{menuSubItem.title}}</span>
+							<span *ngIf="menuSubItem.badge != '' " [ngClass]="[menuSubItem.badgeClass]">{{menuSubItem.badge}}</span>
+						</a>
+						<!-- Third level menu -->
+						<ul class="menu-content" *ngIf="menuSubItem.submenu.length > 0">
+							<li *ngFor="let menuSubsubItem of menuSubItem.submenu" routerLinkActive="active"
+							    [routerLinkActiveOptions]="{exact: true}"
+							    [ngClass]="[menuSubsubItem.class]">
+								<a [routerLink]="[menuSubsubItem.path]"
+								   *ngIf="visibleForCurrentUser(menuSubsubItem.visibleFor)">
+									<i [ngClass]="[menuSubsubItem.icon]"></i>
+									<span class="menu-title">{{menuSubsubItem.title}}</span>
+									<span *ngIf="menuSubsubItem.badge != '' " [ngClass]="[menuSubsubItem.badgeClass]">{{menuSubsubItem.badge}}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>

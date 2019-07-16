@@ -1,0 +1,260 @@
+<ng-template #cancelBookingModal let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<div *ngIf="isBookLessThanADay">
+			<div class="modal-header">
+				<h4 class="modal-title">Cancel Order?</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row mt-3 mb-3 pl-2 pr-2">
+					<div class="col-12">
+						The time of flight is less than 24 hours from now,
+						if you cancel your order, you will not receive a refund.
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer d-flex justify-content-between align-items-center">
+				<button type="button" class="btn btn-mazaya btn-mazaya-gray-alt-2 btn-mazaya-slim" (click)="cancelOrder(d)">
+					Continue
+				</button>
+				<button type="button" class="btn btn-mazaya btn-mazaya-gray-alt-2 btn-mazaya-slim" (click)="c()">Close</button>
+			</div>
+		</div>
+		<div *ngIf="!isBookLessThanADay">
+			<div class="modal-header">
+				<h4 class="modal-title">Cancel Order?</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row mt-3 mb-3 pl-2 pr-2">
+					<div class="col-12">
+						The time of flight is more than 24 hours,
+						so a refund will be processed.
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer d-flex justify-content-between align-items-center">
+				<button type="button" class="btn btn-mazaya btn-mazaya-gray-alt-2 btn-mazaya-slim" (click)="cancelOrder(d)">
+					Continue
+				</button>
+				<button type="button" class="btn btn-mazaya btn-mazaya-gray-alt-2 btn-mazaya-slim" (click)="c()">Close</button>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<div class="container-fluid container--order-view pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<div class="row bar-menu">
+				<div class="col-1 bar-menu-back-button" [routerLink]="['..']">
+					<img class="img-fluid" src="assets/img/icons/ic_arrow_right.png">
+				</div>
+			</div>
+		</div>
+	</div>
+	<ng-container *ngIf="order">
+		<div class="row mt-4" *ngIf="!isOrderCancelled()">
+			<div class="col-10 m-auto">
+				<span class="status-badge">{{getCurrentOrderStatusDescription()}}</span>
+				<span class="status-badge">{{getOrderedBy()}}</span>
+			</div>
+		</div>
+		<div class="row mt-4" *ngIf="isOrderCancelled()">
+			<div class="col-12 text-center">
+				<span class="text-danger">Order has been cancelled</span>
+			</div>
+		</div>
+	</ng-container>
+	<div class="row mt-4" *ngIf="order">
+		<div class="col-10 m-auto">
+			<div class="row booking-details">
+				<div class="col-7 mr-auto">
+					<div class="row">
+						<div class="col-12 package-overview">
+							<div class="row package-information align-items-center">
+								<div class="col-6 package-details">
+									<div class="date">{{order.attributes['date-time-utc'] | formatDate:true}}</div>
+									<div class="package-name">{{getPackageName()}}</div>
+									<div class="package-description"><!--Fast Lane, Luggage, Transport to Airport | 2 Additional--></div>
+								</div>
+								<div class="col-6 flight-details">
+									<div class="row">
+										<div class="col-12 text-left">Flight Details</div>
+									</div>
+									<div class="row align-items-center">
+										<div class="col-6 flight-destination">
+											<span>{{order.attributes.origin}}</span>
+											<span>{{order.attributes.destination}}</span>
+										</div>
+										<div class="col-6 flight-information">
+											<div class="row">
+												<div class="col-12 text-right">
+													{{order.attributes['flight-date-and-time-utc'] | formatDate:true}}
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-12 text-right">
+													{{order.attributes['flight-number']}}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- service list -->
+					<div class="row margin-bottom-15">
+						<div class="col-md-12 service-list padding-vertical-20">
+							<div class="row padding-vertical-10 padding-0" *ngFor="let service of services; let i = index;">
+                <span class="col-md-6 pointer" (click)="showOperator(i)">
+                  <div class="row padding-0">
+                    <div class="col-md-3">
+                       <img class="img-fluid service-image" [src]="service['image-url']">
+                    </div>
+                    <div class="col-md-9 padding-0">
+                      <span class="margin-left-15 text-white">{{ service['service-name'] }}</span>
+                    </div>
+                  </div>
+                </span>
+								<div class="col-md-3">
+                  <span class="badge badge-dark">
+                    {{ service['status'] }}
+                  </span>
+								</div>
+								<div class="col-md-3">
+									<div [hidden]="service['status'] === serviceStatusEnum[serviceStatusEnum.Open]
+                              || service['status'] === serviceStatusEnum[serviceStatusEnum.Completed]
+                              || service['status'] === serviceStatusEnum.DriverOnTheWay
+                              || service['status'] === serviceStatusEnum.ArrivedAtCustomer
+                    ">
+										<button type="button" class="btn" *ngIf="service['status'] === 'Driver on the Way'"
+										        (click)="displayMap(service)">
+
+											<fa-icon [icon]="['far','map']" class="mr-3"></fa-icon>
+											Track Driver
+										</button>
+										<button type="button" class="btn margin-left-10" [disabled]="service['status'] === 'Cancelled'"
+										        (click)="cancelService(service['order-service-id'])" *ngIf="false">
+											<fa-icon [icon]="['fas','trash-alt']" class="mr-3"></fa-icon>
+											Cancel
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-12 invoice-details">
+							<div class="row subtotal">
+								<div class="col-12">
+									<div class="text-slim text-white">Subtotal</div>
+									<div class="text-bold text-white">{{getSubtotal()}} SAR</div>
+								</div>
+							</div>
+							<!--<div class="row coupon-code">-->
+							<!--<div class="col-12">-->
+							<!--<div class="text-slim text-white">Coupon code</div>-->
+							<!--<div class="text-bold text-white">{{getCouponValue()}} SAR</div>-->
+							<!--</div>-->
+							<!--</div>-->
+							<div class="row vat">
+								<div class="col-12">
+									<div class="text-slim text-white">VAT 5%</div>
+									<div class="text-bold text-white">{{getVAT()}} SAR</div>
+								</div>
+							</div>
+							<div class="row total">
+								<div class="col-12 p-0">
+									<div class="text-slim text-white">Total</div>
+									<div class="text-bold text-white">{{getTotal()}} SAR</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="row mb-3" *ngIf="operator && !driver">
+						<div class="col-12 operator-assignment">
+							<div>Assigned Operator</div>
+							<div class="operator-image">
+								<img [attr.src]="getOperatorAvatar(operator)" class="img-fluid">
+							</div>
+							<div class="operator-name text-white">{{ operator['first-name'] }} {{ operator['last-name'] }}</div>
+							<div class="operator-phone text-white"
+							     *ngIf="getOperatorPhoneNumber(order.attributes['assigned-operator'])">
+								<fa-icon [icon]="['fas','phone-volume']" class="mr-2"></fa-icon>
+								{{ getOperatorPhoneNumber(order.attributes['assigned-operator']) }}
+							</div>
+							<div class="text-center text-white">{{ operator['email'] }}</div>
+						</div>
+					</div>
+
+					<div class="row mb-3" *ngIf="!operator">
+						<div class="col-12 operator-assignment">
+							<div>Assigned Operator</div>
+							<div class="operator-image">
+								<img [attr.src]="getOperatorAvatar()" class="img-fluid">
+							</div>
+							<div class="operator-name">For Assignment</div>
+						</div>
+					</div>
+
+
+					<div class="row mb-3" *ngIf="driver">
+						<div class="col-12 operator-assignment">
+							<div>Assigned Driver</div>
+							<div class="operator-image">
+								<img [attr.src]="driver['image-url']" class="img-fluid">
+							</div>
+							<div class="operator-name">{{ driver['first-name'] }} {{ driver['last-name'] }}</div>
+							<div class="operator-phone">
+								<fa-icon [icon]="['fas','phone-volume']" class="mr-2"></fa-icon>
+								{{ driver['phone-number'] }}
+							</div>
+							<div class="text-center">{{ driver['email'] }}</div>
+						</div>
+					</div>
+					<div class="row" *ngIf="showMap">
+						<div class="col-12 pick-up-and-drop-off-locations">
+							<div class="row header">
+								<div class="col-10">
+									<div class="heading" [ngSwitch]="order.attributes['booking-type']">
+										<ng-container *ngSwitchCase="'departure'">
+											Pick-up location
+										</ng-container>
+										<ng-container *ngSwitchCase="'arrival'">
+											Drop-off location
+										</ng-container>
+									</div>
+									<div class="location">
+										<!--Street Name 12, District, City Name-->
+									</div>
+								</div>
+								<div class="col-2 d-flex">
+									<a href="#" class="edit-locations" (click)="$event.preventDefault()"><!--Edit--></a>
+								</div>
+							</div>
+							<div class="row map">
+								<div class="col-12">
+									<agm-map [latitude]="order.attributes['location-latitude']"
+									         [longitude]="order.attributes['location-longitude']" [zoom]="14" [clickableIcons]="false"
+									         [disableDefaultUI]="true" [disableDoubleClickZoom]="true" [mapDraggable]="false"
+									         [maxZoom]="14" [minZoom]="14" [scrollwheel]="false" [streetViewControl]="false"
+									         [zoomControl]="false" [styles]="mapStyles">
+										<agm-marker [latitude]="order.attributes['location-latitude']"
+										            [longitude]="order.attributes['location-longitude']" [markerClickable]="false"
+										            [markerDraggable]="false"
+										            [iconUrl]="'assets/img/icons/ic_user_track_small.png'"></agm-marker>
+									</agm-map>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,80 @@
+// Theme Colors
+$theme-colors : (
+  primary: #009da0,
+  success: #0cc27e,
+  info: #1cbcd8,
+  warning: #ff8d60,
+  danger: #ff586b,
+  secondary: #868e96,
+  light: #f8f9fa,
+  mazaya-grey: #a0a0a0,
+  mazaya-red: #af5e57,
+  dark: #343a40
+);
+
+$mazaya-grey-dark: #272727;
+$mazaya-grey-darker: #222222;
+$mazaya-red : #c65b72;
+$mazaya-grey : #a0a0a0;
+
+$mazaya-default-background : #131313;
+$mazaya-default-font-color : #F5F4F4;
+
+$mazaya-colors : (
+	"mazaya-red": $mazaya-red,
+	"full-red": #ff0000,
+	"full-green": #00ff00,
+	"full-blue": #0000ff,
+	"yellow": #ffff00,
+	"mazaya-grey": #767676,
+	"mazaya-gray": #767676
+);
+
+$mazaya-button-padding : 15px 25px;
+$mazaya-default-button-margin-bottom : 15px;
+$mazaya-default-button-margin-top : 15px;
+$mazaya-default-button-border-radius : 5px !important;
+$mazaya-default-button-background-color : #cc5971;
+$mazaya-default-button-font-color : #ffffff;
+
+$nav-height : 120px;
+$nav-content-height : 60px;
+$nav-bg-color : $mazaya-default-background;
+$nav-font-color : $mazaya-default-font-color;
+$nav-divider-color : lighten($nav-font-color, 30%);
+
+$footer-height : 90px;
+$footer-content-height : $footer-height;
+$footer-bg-color : $mazaya-default-background;
+$footer-font-color : $mazaya-default-font-color;
+
+$utility-widths : (
+	50, 100, 150, 200, 250, 300, 350, 400, 450, 500
+);
+
+// Spacing
+
+$spacer : 1.5rem;
+
+$spacers : (
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .75),
+  3: $spacer,
+  4: ($spacer * 1.5),
+  5: ($spacer * 3)
+) !default;
+
+// Body
+$body-bg : #727273;
+
+@font-face {
+  font-family : "FrutigerLT";
+  src         : url("/assets/fonts/FrutigerLTArabic-55Roman.ttf");
+}
+
+// Fonts
+$font-family-sans-serif : " FrutigerLT ", sans-serif;
+$font-family-content : " FrutigerLT ",  sans-serif;
+
+$font-size-root : 16px;

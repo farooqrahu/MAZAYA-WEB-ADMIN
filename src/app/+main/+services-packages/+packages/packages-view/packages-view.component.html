@@ -1,0 +1,49 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<mazaya-add-button title="Add new Package" [link]="['.','add']"></mazaya-add-button>
+			<mazaya-sp-header></mazaya-sp-header>
+
+			<div class="grid-content row row--packages-view">
+				<div class="col-md-7 row--packages-view__left">
+					<div class="container p-0 mb-0">
+						<div class="row align-items-center mb-2">
+							<div class="col-4">
+								<span class="service-package-icon wide"><img [attr.src]="_package?.en['image-url-web']"></span>
+							</div>
+							<div class="col-8 text-right">
+								<mat-slide-toggle [formControl]="packageOnHold" style="min-width:130px;" color="primary">
+									{{packageOnHold.value ? 'On Hold' : 'Not On Hold'}}
+								</mat-slide-toggle>
+								<mat-slide-toggle [formControl]="packageActive" style="min-width:100px;" color="primary">
+									{{packageActive.value ? 'Active' : 'Inactive'}}
+								</mat-slide-toggle>
+							</div>
+						</div>
+					</div>
+
+					<h2 class="mb-2">{{ _package?.en.name }}</h2>
+					<ng-container *ngIf="_package">
+						<h5 class="m-0">{{getIndividualPrice()}} SAR for Individuals</h5>
+						<h5 class="m-0">{{getFamilyPrice()}} SAR for Families</h5>
+						<h5 class="m-0">{{getAdditionalMemberPrice()}} SAR for Additional Members</h5>
+					</ng-container>
+					<p class="mt-2" [innerHtml]="_package?.en['short-description']"></p>
+				</div>
+
+				<div class="col-md-5 row--packages-view__right">
+					<p>List of services included in package</p>
+
+					<div *ngIf="_package?.en.services?.length">
+						<ul class="clearfix list-unstyled">
+							<li *ngFor="let service of _package.en.services" class="d-block">
+								<div class="pull-left d-block"><strong><a [routerLink]="['/app','sp','services']">{{ service.name
+									}}</a></strong></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

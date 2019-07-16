@@ -1,0 +1,56 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<div class="row bar-menu">
+				<div class="mr-auto col-2 bar-menu-button" *ngIf="stepper.selectedIndex > 0" (click)="stepper.previous(); routeToStep(stepper.selectedIndex + 1)">
+					<span class="d-inline-flex">
+						<mat-icon class="mr-1">arrow_back_ios</mat-icon>
+						Back
+					</span>
+				</div>
+				<div class="ml-auto col-2 bar-menu-button" [ngClass]="{'disabled':!(canProceed() | async)}" *ngIf="!isLastStep()"
+				     (click)="stepper.next(); routeToStep(stepper.selectedIndex + 1)">
+					<span class="d-inline-flex">
+						Proceed
+						<mat-icon class="ml-1">arrow_forward_ios</mat-icon>
+					</span>
+				</div>
+				<div class="ml-auto col-2 bar-menu-button" *ngIf="isLastStep()" (click)="completeOrder()">
+					<span class="d-inline-flex">
+						Complete
+						<mat-icon class="ml-1">done</mat-icon>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 pl-0 pr-0">
+					<mat-horizontal-stepper [linear]="false" #stepper="matHorizontalStepper">
+						<mat-step [completed]="isFlightSelected()" [editable]="true">
+							<ng-template matStepLabel>Flight</ng-template>
+						</mat-step>
+						<mat-step [completed]="isOrderTypeSelected()" [editable]="true">
+							<ng-template matStepLabel>Order Type</ng-template>
+						</mat-step>
+						<mat-step [completed]="isServicesSelected()" [editable]="true">
+							<ng-template matStepLabel>Services</ng-template>
+						</mat-step>
+						<mat-step [completed]="isMembersSelected()" [editable]="true">
+							<ng-template matStepLabel>Members</ng-template>
+						</mat-step>
+						<mat-step [completed]="isPickupLocationSelected()" [editable]="true" *ngIf="orderRequiresPickup()">
+							<ng-template matStepLabel>Pickup Location</ng-template>
+						</mat-step>
+						<mat-step [completed]="isPaymentSelected()" [editable]="true">
+							<ng-template matStepLabel>Payment</ng-template>
+						</mat-step>
+					</mat-horizontal-stepper>
+				</div>
+			</div>
+			<div class="row grid-content">
+				<div class="col-12">
+					<router-outlet></router-outlet>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

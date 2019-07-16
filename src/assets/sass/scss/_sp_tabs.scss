@@ -1,0 +1,15 @@
+.tab-head {
+	//float            : right;
+	//width            : 100%;
+	//display          : block;
+	background-color : #9b9b9c;
+	//box-shadow: 0 3px 3px 1px #ccc;
+
+	li {
+		cursor : pointer;
+
+		&.active {
+			background-color : white;
+		}
+	}
+}

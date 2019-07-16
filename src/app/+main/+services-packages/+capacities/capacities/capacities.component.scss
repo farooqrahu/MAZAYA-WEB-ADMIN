@@ -1,0 +1,18 @@
+mat-header-cell, mat-row mat-cell {
+	&:nth-child(1) {
+		width     : 15%;
+		max-width : 15%;
+	}
+	&:nth-child(2) {
+		width     : 30%;
+		max-width : 30%;
+	}
+	&:nth-child(3) {
+		width     : 35%;
+		max-width : 35%;
+	}
+	&:last-child {
+		width     : 20%;
+		max-width : 20%;
+	}
+}

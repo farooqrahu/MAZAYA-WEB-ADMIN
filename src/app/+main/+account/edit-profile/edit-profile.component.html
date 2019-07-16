@@ -1,0 +1,76 @@
+<div class="container container--navbar p-0">
+	<a routerLink="/app/account/profile" class="arrow-back">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+</div>
+
+<div class="container container--user-add p-0">
+	<div class="row row--details">
+		<div class="row--details__right">
+			<div class="row">
+				<div class="image-placeholder">
+					<div class="image-placeholder__inner">
+						<div class="icon-holder text-center" *ngIf="!avatarPreview">
+							<i class="fas fa-user"></i>
+						</div>
+						<img [attr.src]="avatarPreview" *ngIf="avatarPreview" class="img-fluid">
+						<div class="text-center drag-drop-text">
+							<input type="file" accept="image/jpeg,image/png" style="display:none;" #userAvatarFileInput
+							       (change)="loadAvatarForPreview()">
+							<a href="#" (click)="$event.preventDefault();userAvatarFileInput.click()">Browse</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-pane pull-right">
+					<ng-container>
+						<h5>USER DETAILS</h5>
+						<form novalidate [formGroup]="updateInternalUserForm">
+							<mat-form-field class="w-100">
+								<mat-label>First Name</mat-label>
+								<input matInput type="text" formControlName="first_name">
+								<mat-error *ngIf="first_name_internal.hasError('required')">
+									First Name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Last Name</mat-label>
+								<input matInput type="text" formControlName="last_name">
+								<mat-error *ngIf="last_name_internal.hasError('required')">
+									Last Name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Email Address</mat-label>
+								<input matInput type="email" formControlName="email">
+								<mat-error *ngIf="email_internal.hasError('required')">
+									Email Address is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Phone Number</mat-label>
+								<input matInput type="tel" formControlName="mobile">
+								<span matPrefix class="mr-1">+966</span>
+								<mat-error *ngIf="mobile_internal.hasError('required')">
+									Phone Number is required
+								</mat-error>
+								<mat-error *ngIf="mobile_internal.hasError('pattern')">
+									Must be a valid Phone Number
+								</mat-error>
+							</mat-form-field>
+						</form>
+
+					</ng-container>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row--footer">
+		<button (click)="updateUser()"
+		        type="button"
+		        class="save-button pull-right">
+			SAVE
+		</button>
+	</div>
+</div>

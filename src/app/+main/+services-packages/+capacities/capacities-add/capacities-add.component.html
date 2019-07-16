@@ -1,0 +1,152 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<mazaya-add-button title="Add new Capacity" [link]="['.']"></mazaya-add-button>
+			<mazaya-sp-header></mazaya-sp-header>
+			<div class="row grid-content">
+				<form novalidate [formGroup]="createCapacityForm" class="add-package-form col-12">
+					<div class="col-md-8 col-12 ml-auto mr-auto">
+						<h2 class="text-center">Create Capacity</h2>
+						<div class="row">
+							<div class="col-12 text-center">
+								<mat-error *ngIf="endDateBeforeStartDateError">
+									Selected end date must be after the selected start date
+								</mat-error>
+								<mat-error *ngIf="startDateBeforeCurrentDateError">
+									Selected start date must be the current date and time or later
+								</mat-error>
+								<mat-error *ngIf="capacityDateOverlapError">
+									Selected start and end dates overlap with another capacity restriction<br>
+									<div *ngFor="let overlappingCapacity of overlappingCapacities">
+										{{overlappingCapacity.attributes.package.name}},&nbsp;
+										{{overlappingCapacity.attributes.capacity}} Capacity,&nbsp;
+										from {{overlappingCapacity.attributes['from-date-and-time-utc'] | formatDate:true}}&nbsp;
+										to {{overlappingCapacity.attributes['to-date-and-time-utc'] | formatDate:true}}
+									</div>
+								</mat-error>
+							</div>
+						</div>
+						<mat-form-field class="w-100">
+							<mat-label>Select Package</mat-label>
+							<mat-select matInput formControlName="package" type="text" multiple>
+								<mat-option *ngFor="let package of packages" [value]="package.id">{{package.attributes.name}}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngIf="package.hasError('required')">
+								Package is required
+							</mat-error>
+						</mat-form-field>
+						<mat-form-field class="w-100">
+							<mat-label>Set Capacity</mat-label>
+							<input matInput formControlName="capacity" min="1" type="number">
+							<mat-error *ngIf="capacity.hasError('required')">
+								Capacity is required
+							</mat-error>
+							<mat-error *ngIf="capacity.hasError('min') && !capacity.hasError('required')">
+								Capacity must be greater than or equal to 1
+							</mat-error>
+						</mat-form-field>
+						<div class="d-flex justify-content-between align-items-center">
+							<mat-form-field class="w-100 mr-3">
+								<mat-label>Set Start Date</mat-label>
+								<mat-datetimepicker-toggle [for]="startDatePicker" matSuffix></mat-datetimepicker-toggle>
+								<mat-datetimepicker type="datetime" #startDatePicker [mode]="'landscape'" openOnFocus="true"></mat-datetimepicker>
+								<input [min]="minDate" matInput formControlName="from" [matDatetimepicker]="startDatePicker" required
+											 autocomplete="false">
+								<mat-error *ngIf="from.hasError('required')">
+									Start Date is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Set End Date</mat-label>
+								<mat-datetimepicker-toggle [for]="endDatePicker" matSuffix></mat-datetimepicker-toggle>
+								<mat-datetimepicker type="datetime" #endDatePicker [mode]="'landscape'" openOnFocus="true"></mat-datetimepicker>
+								<input matInput [min]="minDate" formControlName="to" [matDatetimepicker]="endDatePicker" required autocomplete="false">
+								<mat-error *ngIf="to.hasError('required')">
+									End Date is required
+								</mat-error>
+							</mat-form-field>
+						</div>
+	
+					</div>
+				</form>
+
+				<div class="row--footer">
+					<button (click)="createCapacity()" [disabled]="!createCapacityForm.valid" type="button" class="btn save-button">
+						SAVE
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+					<!--<mat-accordion class="mt-2">-->
+						<!--<mat-expansion-panel>-->
+						<!--<mat-expansion-panel-header>-->
+						<!--<mat-panel-title>Flight Number Restriction</mat-panel-title>-->
+						<!--</mat-expansion-panel-header>-->
+						<!--<div class="d-flex justify-content-between align-items-center">-->
+
+						<!--<mat-slide-toggle [ngModelOptions]="{standalone: true}" [(ngModel)]="flightType" class="w-50"-->
+						<!--color="primary">-->
+						<!--{{flightType ? 'Arrival' : 'Departure'}}-->
+						<!--</mat-slide-toggle>-->
+
+						<!--<div class="w-100 text-left" *ngIf="!flightType">Riyadh King Khalid International Airport (RUH)</div>-->
+						<!--<mat-form-field class="w-100" *ngIf="flightType">-->
+						<!--<mat-chip-list #departureAirportChiplist>-->
+						<!--<mat-chip *ngFor="let selectedDepartureAirport of selectedDepartureAirports" [removable]="true"-->
+						<!--(removed)="removeDepartureAirportFromSelection(selectedDepartureAirport)">-->
+						<!--{{airportResultFormatter(selectedDepartureAirport)}}-->
+						<!--<mat-icon matChipRemove>cancel</mat-icon>-->
+						<!--</mat-chip>-->
+						<!--</mat-chip-list>-->
+						<!--<mat-label>Choose Departure Airports</mat-label>-->
+						<!--<input [matChipInputFor]="departureAirportChiplist" [matAutocomplete]="departureAirportAutoComplete"-->
+						<!--[formControl]="departureAirports" #departureAirportInput/>-->
+						<!--</mat-form-field>-->
+						<!--<mat-autocomplete #departureAirportAutoComplete="matAutocomplete"-->
+						<!--(optionSelected)="addDepartureAirport($event)">-->
+						<!--<mat-option *ngFor="let airport of departureAirportFilter | async" [value]="airport">-->
+						<!--{{ airportResultFormatter(airport) }}-->
+						<!--</mat-option>-->
+						<!--</mat-autocomplete>-->
+
+						<!--<div class="w-100 text-right" *ngIf="flightType">Riyadh King Khalid International Airport (RUH)</div>-->
+						<!--<mat-form-field class="w-100" *ngIf="!flightType">-->
+						<!--<mat-chip-list #arrivalAirportChiplist>-->
+						<!--<mat-chip *ngFor="let selectedArrivalAirport of selectedArrivalAirports" [removable]="true"-->
+						<!--(removed)="removeArrivalAirportFromSelection(selectedArrivalAirport)">-->
+						<!--{{airportResultFormatter(selectedArrivalAirport)}}-->
+						<!--<mat-icon matChipRemove>cancel</mat-icon>-->
+						<!--</mat-chip>-->
+						<!--</mat-chip-list>-->
+						<!--<mat-label>Choose Arrival Airports</mat-label>-->
+						<!--<input [matChipInputFor]="arrivalAirportChiplist" [matAutocomplete]="arrivalAirportAutoComplete"-->
+						<!--[formControl]="arrivalAirports" #arrivalAirportInput/>-->
+						<!--</mat-form-field>-->
+						<!--<mat-autocomplete #arrivalAirportAutoComplete="matAutocomplete"-->
+						<!--(optionSelected)="addArrivalAirport($event)">-->
+						<!--<mat-option *ngFor="let airport of arrivalAirportFilter | async" [value]="airport">-->
+						<!--{{ airportResultFormatter(airport) }}-->
+						<!--</mat-option>-->
+						<!--</mat-autocomplete>-->
+
+						<!--</div>-->
+						<!--<mat-form-field class="w-100">-->
+						<!--<mat-label>Select Flight Numbers</mat-label>-->
+						<!--<mat-select multiple [formControl]="selectedFlights">-->
+						<!--<mat-option *ngFor="let selectableFlight of selectableFlights"-->
+						<!--[value]="selectableFlight">-->
+						<!--{{selectableFlight}}-->
+						<!--</mat-option>-->
+						<!--</mat-select>-->
+						<!--</mat-form-field>-->
+						<!--</mat-expansion-panel>-->
+						<!--</mat-accordion>-->

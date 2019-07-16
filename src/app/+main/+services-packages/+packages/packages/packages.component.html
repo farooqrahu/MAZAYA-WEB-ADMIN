@@ -1,0 +1,104 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<mazaya-add-button title="Add new Package" [link]="['.','add']"></mazaya-add-button>
+			<mazaya-sp-header></mazaya-sp-header>
+			<div class="row grid-content">
+				<div class="col-2 filter-select">
+					<mat-button-toggle-group #statusFilterOption value="all"
+					                         (change)="statusFilter = statusFilterOption.value;loadPackages()">
+						<mat-button-toggle *ngFor="let _statusFilterOption of statusFilterOptions" [value]="_statusFilterOption">
+							{{formatStatusFilterOption(_statusFilterOption)}}
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+				</div>
+				<div class="col-7">
+					<mat-form-field class="w-100">
+						<span matPrefix><img src="assets/img/icons/ic_search.png" class="pr-2 img-fluid"></span>
+						<input matInput [(ngModel)]="searchQuery" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+						<button mat-button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery=''">
+							<mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+				</div>
+				<div class="col-3 sort-by text-right">
+					<mat-form-field class="w-100">
+						<mat-label>Sort by</mat-label>
+						<mat-select [(ngModel)]="sortBy" (change)="loadPackages()">
+							<mat-option value="name">Name (A-Z)</mat-option>
+							<mat-option value="-name">Name (Z-A)</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-12">
+					<div [hidden]="!packagesDataSource?.data?.length">
+						<mat-table [dataSource]="packagesDataSource" class="table-fw">
+							<ng-container matColumnDef="name">
+								<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+								<mat-cell *matCellDef="let package">
+									<span class="service-package-icon wide" [ngClass]="{'clean': !package.attributes['image-url']}">
+										<img [attr.src]="package.attributes['image-url']">
+									</span>
+									{{ package.attributes.name }}
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="tags">
+								<mat-header-cell *matHeaderCellDef>Additionals</mat-header-cell>
+								<mat-cell *matCellDef="let package">
+									<span class="badge badge-dark mr-1" *ngIf="package.attributes['web-only']">Web Only</span>
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="services">
+								<mat-header-cell *matHeaderCellDef>Services</mat-header-cell>
+								<mat-cell *matCellDef="let package">
+									<span *ngIf="!package.attributes['web-only']">{{ package.attributes.services.length }} Services</span>
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="active">
+								<mat-header-cell *matHeaderCellDef>Active&nbsp;/&nbsp;On-Hold</mat-header-cell>
+								<mat-cell *matCellDef="let package">
+									<div class="d-flex align-items-center">
+										<mat-icon *ngIf="package.attributes.active" color="primary">done</mat-icon>
+										<mat-icon *ngIf="!package.attributes.active" color="primary">clear</mat-icon>
+										&nbsp;/&nbsp;
+										<mat-icon *ngIf="package.attributes['on-hold']" color="primary">done</mat-icon>
+										<mat-icon *ngIf="!package.attributes['on-hold']" color="primary">clear</mat-icon>
+									</div>
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="actions">
+								<mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+								<mat-cell *matCellDef="let package" class="d-flex justify-content-between">
+									<div class="grid-action" [routerLink]="['view',package.id]">
+										<img src="assets/img/icons/ic_show_password.png" class="img-fluid" style="max-height:24px;">
+										View Details
+									</div>
+								</mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="columnsToDisplay;"></mat-header-row>
+							<mat-row *matRowDef="let packagesData; columns: columnsToDisplay"></mat-row>
+
+						</mat-table>
+
+						<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50, 100]"
+						               showFirstLastButtons></mat-paginator>
+					</div>
+
+					<div *ngIf="!packagesDataSource?.data?.length">
+						<div class="row mb-2">
+							<div class="col-12 text-center">
+								No Records found. Please try a different Filter.
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,120 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<div class="row search-bar mt-3 align-items-center">
+				<div class="col-12 pl-2 pr-0 d-flex align-items-center">
+					<form [formGroup]="searchForm">
+						<div class="d-flex align-items-center">
+							<img src="assets/img/icons/ic_calendar.png" class="pr-2 img-fluid">
+							<span class="mr-2">From</span>
+							<input type="date" class="form-control d-inline" formControlName="firstDate">
+							<span class="mr-2">To</span>
+							<input type="date" class="form-control d-inline" formControlName="secondDate">
+							<mat-form-field class="w-20 date-filter-select mr-4">
+								<mat-label style="color:#7f7f7f;">Apply dates to</mat-label>
+								<mat-select class="date-filter-select" (change)="filterOrders()" [(ngModel)]="filterByDateType" [ngModelOptions]="{standalone: true}">
+									<mat-option value="booked-date">Booked Date</mat-option>
+									<mat-option value="flight-date">Flight Date</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<div class="btn-group">
+								<button [ngClass]="{'filter-active': selectedFilter === 'today'}" class="btn mb-0 btn-default btn-date-filter" (click)="setDateFilterToday()">
+									Today
+								</button>
+								<button [ngClass]="{'filter-active': selectedFilter === 'thisWeek'}" class="btn mb-0 btn-default btn-date-filter" (click)="setDateFilterCurrentWeek()">
+									This week
+								</button>
+								<button [ngClass]="{'filter-active': selectedFilter === 'thisMonth'}" class="btn mb-0 btn-default btn-date-filter" (click)="setDateFilterCurrentMonth()">
+									This month
+								</button>
+								<button [ngClass]="{'filter-active': selectedFilter === 'reset'}" class="btn mb-0 btn-default btn-date-filter" (click)="resetDateFilter()">
+									Reset
+								</button>
+								<!--<button class="btn mb-0 btn-default btn-date-filter" (click)="searchOrders()">-->
+								<!--Search-->
+								<!--</button>-->
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row grid-content mt-3">
+				<div class="col-12">
+					<form class="form-container">
+						<mat-form-field class="w-100">
+							<span matPrefix><img src="assets/img/icons/ic_search.png" class="pr-2 img-fluid"></span>
+							<input name="search" matInput [(ngModel)]="searchQuery" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+							<button mat-button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery=''">
+								<mat-icon>close</mat-icon>
+							</button>
+						</mat-form-field>
+					</form>
+					<div [hidden]="!ordersDataSource?.data?.length">
+						<mat-table [dataSource]="ordersDataSource" class="table-fw">
+							<ng-container matColumnDef="reference">
+								<mat-header-cell *matHeaderCellDef> Reference</mat-header-cell>
+								<mat-cell *matCellDef="let order"> {{order.attributes['booking-ref']}}</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="total">
+								<mat-header-cell *matHeaderCellDef> Total</mat-header-cell>
+								<mat-cell *matCellDef="let order"> {{order.attributes.total}} SAR</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="booked_at">
+								<mat-header-cell *matHeaderCellDef> Booked At</mat-header-cell>
+								<mat-cell *matCellDef="let order"> {{order.attributes['date-time-utc'] | formatDate:true}}</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="scheduled_at">
+								<mat-header-cell *matHeaderCellDef> Scheduled At</mat-header-cell>
+								<mat-cell *matCellDef="let order"> {{order.attributes['flight-date-and-time-utc'] | formatDate:true}}
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="packages">
+								<mat-header-cell *matHeaderCellDef> Packages</mat-header-cell>
+								<mat-cell *matCellDef="let order"> {{getOrderPackages(order)}}</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="orderedBy">
+								<mat-header-cell *matHeaderCellDef> Ordered By</mat-header-cell>
+								<mat-cell *matCellDef="let order" matTooltipPosition="before" [matTooltip]="getOrderedBy(order)">
+									<span [className]="getOrderedByLabel(order)">
+										{{getOrderedByRole(order)}}
+									</span>
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="actions">
+								<mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+								<mat-cell *matCellDef="let order">
+									<div class="grid-action" [routerLink]="['..',order.id]">
+										<img src="assets/img/icons/ic_show_password.png" class="img-fluid" style="max-height:24px;">
+										View Details
+									</div>
+								</mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="columnsToDisplay;"></mat-header-row>
+							<mat-row *matRowDef="let orderData; columns: columnsToDisplay"></mat-row>
+
+						</mat-table>
+
+						<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50, 100]"
+						               showFirstLastButtons></mat-paginator>
+					</div>
+
+					<div *ngIf="!ordersDataSource?.data?.length">
+						<div class="row mb-2">
+							<div class="col-12 text-center">
+								No Records found. Please try a different Filter.
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

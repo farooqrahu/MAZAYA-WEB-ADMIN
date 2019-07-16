@@ -1,0 +1,8 @@
+.alert {
+	&.alert-danger {
+		background-color : #898c8e !important;
+		border           : 1px solid #898c8e !important;
+		color            : #ffffff !important;
+		border-radius    : 5px !important;
+	}
+}

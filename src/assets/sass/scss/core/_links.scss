@@ -1,0 +1,10 @@
+a{
+	color: #767676;
+	&,&:active,&:focus,&:hover{
+		color: inherit;
+		text-decoration: underline;
+	}
+	&.no-border,&.no-underline{
+		text-decoration: none !important;
+	}
+}

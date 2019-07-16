@@ -1,0 +1,173 @@
+<div class="container container--navbar p-0">
+	<a routerLink="/app/users" class="arrow-back">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+</div>
+
+<div class="container container--user-add p-0" *ngIf="roles">
+	<h2>Add new user</h2>
+
+	<div class="row row--details">
+		<div class="row--details__left">
+			<div *ngFor="let role of roles"
+			     class="user-role-tag text-center mb-3" [ngClass]="{'active':isSelectedRole(role)}"
+			     (click)="$event.preventDefault();selectRole(role)">
+				{{ role.attributes.name }}
+			</div>
+		</div>
+
+		<div class="row--details__divider"></div>
+
+		<div class="row--details__right">
+			<div class="row">
+				<div class="image-placeholder" *ngIf="isRoleSelected()">
+					<div class="image-placeholder__inner">
+						<div class="icon-holder text-center" *ngIf="!avatarPreview">
+							<i class="fas fa-user"></i>
+						</div>
+						<img [attr.src]="avatarPreview" *ngIf="avatarPreview" class="img-fluid">
+						<div class="text-center drag-drop-text">
+							<input type="file" accept="image/jpeg,image/png" style="display:none;" #userAvatarFileInput
+							       (change)="loadAvatarForPreview()">
+							<a href="#" (click)="$event.preventDefault();userAvatarFileInput.click()">Browse</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-pane pull-right">
+					<ng-container *ngIf="isRoleSelected()">
+						<h5>USER DETAILS</h5>
+						<form novalidate [formGroup]="createInternalUserForm" *ngIf="isCreateInternalUser()">
+							<mat-form-field class="w-100">
+								<mat-label>First Name<span class="text-danger">*</span></mat-label>
+								<input matInput type="text" formControlName="first_name">
+								<mat-error *ngIf="first_name_internal.hasError('required')">
+									First Name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Last Name<span class="text-danger">*</span></mat-label>
+								<input matInput type="text" formControlName="last_name">
+								<mat-error *ngIf="last_name_internal.hasError('required')">
+									Last Name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Email Address<span class="text-danger">*</span></mat-label>
+								<input matInput type="email" formControlName="email">
+								<mat-error *ngIf="email_internal.hasError('required')">
+									Email Address is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Phone Number<span class="text-danger">*</span>
+									<span class="text-danger" *ngIf="invalidPhoneNumberError">
+									(invalid)
+								</span>
+								</mat-label>
+								<input matInput type="tel" (change)="invalidPhoneNumberError = false;" maxlength="10"
+								       formControlName="mobile" placeholder="xxxxxxxxx">
+								<span matPrefix class="mr-1">+966</span>
+								<mat-error *ngIf="mobile_internal.hasError('required')">
+									Phone Number is required
+								</mat-error>
+								<mat-error *ngIf="!mobile_internal.hasError('required') && mobile_internal.hasError('pattern')">
+									Must be a valid Phone Number
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Password<span class="text-danger">*</span></mat-label>
+								<input matInput type="password" formControlName="password">
+								<mat-error *ngIf="password_internal.hasError('required')">
+									Password is required
+								</mat-error>
+								<mat-error *ngIf="!password_internal.hasError('required') && password_internal.hasError('pattern')">
+									Password must contain at least one lowercase character, one uppercase character, one number, one
+									special character, and must be at least 8 characters long
+								</mat-error>
+							</mat-form-field>
+						</form>
+
+						<form novalidate [formGroup]="createUserForm" *ngIf="!isCreateInternalUser()">
+							<mat-form-field class="w-100">
+								<mat-label>First Name</mat-label>
+								<input matInput type="text" formControlName="first_name">
+								<mat-error *ngIf="first_name.hasError('required')">
+									First Name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Last Name</mat-label>
+								<input matInput type="text" formControlName="last_name">
+								<mat-error *ngIf="last_name.hasError('required')">
+									Last Name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Email Address</mat-label>
+								<input matInput type="email" formControlName="email">
+								<mat-error *ngIf="email.hasError('required')">
+									Email Address is required
+								</mat-error>
+							</mat-form-field>
+							<div class="d-flex">
+								<mat-form-field class="w-50">
+									<mat-label>Dial Code</mat-label>
+									<mat-select formControlName="dial_code">
+										<mat-option *ngFor="let dialCode of dialCodes" [value]="dialCode['dial-code']">
+											{{dialCode['dial-code']}} ({{dialCode['nationality']}})
+										</mat-option>
+									</mat-select>
+									<mat-error *ngIf="dial_code.hasError('required')">
+										Dial Code is required
+									</mat-error>
+								</mat-form-field>
+								<mat-form-field class="w-50">
+									<mat-label>Phone Number</mat-label>
+									<input matInput type="tel" maxlength="9" formControlName="mobile">
+									<mat-error *ngIf="mobile.hasError('required')">
+										Phone Number is required
+									</mat-error>
+									<mat-error *ngIf="invalidPhoneNumberError && !mobile.hasError('required')">
+										Invalid Phone Number
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<mat-form-field class="w-100">
+								<mat-label>Nationality</mat-label>
+								<mat-select formControlName="nationality">
+									<mat-option *ngFor="let nationality of nationalities" [value]="nationality">
+										{{nationality['nationality-name']}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<mat-form-field class="w-100">
+								<mat-label>Password</mat-label>
+								<input matInput type="text" formControlName="password">
+								<mat-error *ngIf="password.hasError('required')">
+									Password is required
+								</mat-error>
+							</mat-form-field>
+							<div class="d-flex">
+								<!--Passport scans-->
+								<!--passport expiry-->
+							</div>
+						</form>
+
+					</ng-container>
+					<div *ngIf="!isRoleSelected()">
+						<h5>Please select a role from the left</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row--footer">
+		<button (click)="createUser()"
+		        type="button"
+		        class="save-button pull-right">
+			SAVE
+		</button>
+	</div>
+</div>

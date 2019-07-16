@@ -1,0 +1,20 @@
+a {
+	&, &:hover, &.active, &:visited, &:focus {
+		text-decoration : none !important;
+	}
+}
+
+.sidebar-header {
+	.logo {
+		.logo-img {
+			img {
+				width : 30px;
+			}
+		}
+		.text {
+			img {
+				width : 60px;
+			}
+		}
+	}
+}

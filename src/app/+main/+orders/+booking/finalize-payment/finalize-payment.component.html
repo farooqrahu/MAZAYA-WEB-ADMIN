@@ -1,0 +1,7 @@
+<mat-list role="list">
+	<mat-list-item role="listitem" *ngFor="let paymentOption of availablePaymentOptions; trackBy: optionTrack">
+		<mat-radio-button [value]="paymentOption.id" name="payment-option">
+			{{paymentOption.name}}
+		</mat-radio-button>
+	</mat-list-item>
+</mat-list>

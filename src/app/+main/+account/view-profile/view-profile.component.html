@@ -1,0 +1,54 @@
+<div class="container-fluid pl-2 pr-2">
+
+	<div class="row mt-3" *ngIf="user">
+		<div class="container-fluid container--user-view mb-5">
+			<div class="row row--details">
+				<div class="row--details__left">
+					<div class="image-wrapper">
+						<div class="blank-image" *ngIf="!user.attributes['image-url']">
+							<i class="fas fa-user"></i>
+						</div>
+						<img [attr.src]="user.attributes['image-url']"
+						     *ngIf="user.attributes['image-url']" class="img-fluid">
+					</div>
+					<input type="file" accept="image/jpeg,image/png" style="display:none;" #avatarFileSelect
+					       (change)="uploadAndSaveNewAvatar()">
+					<!--<a id="change-photo" (click)="selectNewAvatar($event)">Change Photo</a>-->
+				</div>
+
+				<div class="row--details__right">
+					<div class="full-name">
+						{{ user.attributes['first-name'] }} {{user.attributes['last-name']}}
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="email">
+								<i class="fas fa-envelope"></i> {{ user.attributes.email || 'N/A' }}
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="phone">
+								<i class="fas fa-phone"></i> {{ user.attributes['mobile-number'] || 'N/A' }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row row--footer">
+				<div class="row--footer__list-wrapper">
+					<ul class="list-inline">
+						<li class="list-inline-item">
+							<i class="far fa-edit mr-1"></i>
+							<a [routerLink]="['.','edit']">
+								Edit Profile
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

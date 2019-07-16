@@ -1,0 +1,42 @@
+@import "../../../assets/sass/scss/variables";
+@import "../../../assets/sass/scss/mixins";
+
+section#login {
+	.card {
+		border-radius : 0;
+	}
+}
+
+.wrapper {
+	background : rgba(0, 0, 0, 1);
+	position   : relative;
+}
+
+.wrapper-bg-img {
+	height     : auto;
+	max-height : 100%;
+	width      : 40%;
+	position   : absolute;
+	bottom     : -10%;
+	right      : -25px;
+	transform  : scale(0.75, 0.75);
+	opacity    : 0.1;
+	z-index    : 0;
+}
+
+.auth-bg {
+	background      : url("/assets/img/front-hero-left.jpg") no-repeat center center;
+	background-size : cover;
+}
+
+#login {
+	.card {
+		margin-top : 50px;
+	}
+
+	.right-pane {
+		padding-left     : 50px;
+		padding-right    : 60px;
+		background-color : black;
+	}
+}

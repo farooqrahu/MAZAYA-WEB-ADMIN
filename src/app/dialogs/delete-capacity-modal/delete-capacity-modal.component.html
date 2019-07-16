@@ -1,0 +1,16 @@
+<h2 matDialogTitle>Delete Capacity</h2>
+<mat-dialog-content>
+	<div class="row">
+		<div class="col-12 text-center">
+			Are you sure you want to delete the capacity for {{data.capacity.attributes.package.name}}, valid from
+			{{data.capacity.attributes['from-date-and-time-utc'] | formatDate:true}} until
+			{{data.capacity.attributes['to-date-and-time-utc'] | formatDate:true}}?<br><br>
+			This capacity has {{data.capacity.attributes.capacity}} total available slots with
+			{{data.capacity.attributes.stocks}} remaining slots.
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+	<button [mat-dialog-close]="null" class="btn btn-mazaya btn-mazaya-gray-alt-2 p-0">Cancel</button>
+	<button (click)="deleteCapacity()" class="btn btn-mazaya btn-mazaya-gray-alt-2 p-0">Delete</button>
+</mat-dialog-actions>

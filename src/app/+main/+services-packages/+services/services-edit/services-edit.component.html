@@ -1,0 +1,46 @@
+<div class="container-fluid container--package-add p-0 pt-2">
+	<form novalidate [formGroup]="updateServiceForm" class="add-package-form row">
+		<div class="col-md-6 col-10 ml-auto mr-auto">
+			<mat-form-field class="w-100">
+				<mat-label>Service Name</mat-label>
+				<input matInput formControlName="name" type="text">
+				<mat-error *ngIf="name.hasError('required')">
+					Service name is required
+				</mat-error>
+			</mat-form-field>
+			<div dir="rtl" class="w-100">
+				<mat-form-field class="w-100">
+					<mat-label>اسم الخدمة</mat-label>
+					<input matInput formControlName="name_ar" type="text">
+					<mat-error *ngIf="name_ar.hasError('required')">
+						Service Name (AR) is required
+					</mat-error>
+				</mat-form-field>
+			</div>
+			<mat-form-field class="w-100">
+				<mat-label>Service Description</mat-label>
+				<input matInput formControlName="description" type="text">
+				<mat-error *ngIf="description.hasError('required')">
+					Service Description is required
+				</mat-error>
+			</mat-form-field>
+			<div dir="rtl" class="w-100">
+				<mat-form-field class="w-100">
+					<mat-label>وصف الخدمة</mat-label>
+					<input matInput formControlName="description_ar" type="text" dir="rtl">
+					<mat-error *ngIf="description_ar.hasError('required')">
+						Service Description (AR) is required
+					</mat-error>
+				</mat-form-field>
+			</div>
+		</div>
+	</form>
+
+	<div class="row--footer">
+		<button (click)="updateService()"
+		        type="button"
+		        class="save-button pull-right">
+			SAVE
+		</button>
+	</div>
+</div>

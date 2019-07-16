@@ -1,0 +1,29 @@
+$default-spinner-height : 80px;
+$default-spinner-width : 120px;
+
+$spinner-multiplication-factor : 1.75;
+
+$calculated-spinner-width : $default-spinner-width * $spinner-multiplication-factor;
+$calculated-spinner-height : ($default-spinner-height / $default-spinner-width) * $calculated-spinner-width;
+
+div {
+	width           : 100%;
+	height          : 100%;
+	display         : flex;
+	align-items     : center;
+	justify-content : center;
+	img {
+		height                    : $calculated-spinner-height;
+		width                     : $calculated-spinner-width;
+		animation-name            : spinner-pulse;
+		animation-duration        : 1s;
+		animation-iteration-count : infinite;
+		animation-direction       : alternate;
+		animation-timing-function : ease-in-out;
+	}
+}
+
+@keyframes spinner-pulse {
+	0% { opacity : 1; }
+	100% { opacity : 0.5; }
+}

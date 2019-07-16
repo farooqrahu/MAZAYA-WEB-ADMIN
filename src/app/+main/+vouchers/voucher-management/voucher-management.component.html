@@ -1,0 +1,107 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<div class="row bar-menu">
+				<div class="ml-auto col-2 bar-menu-button" [routerLink]="['.','new']" *ngIf="userIs('admin')">
+					<span>+ Add new Voucher</span>
+				</div>
+			</div>
+			<div class="row grid-content mt-3">
+				<div class="col-8 filter-select">
+					<mat-button-toggle-group #statusFilterOption value="all"
+																	 (change)="statusFilter = statusFilterOption.value">
+						<mat-button-toggle *ngFor="let _statusFilterOption of statusFilterOptions" [value]="_statusFilterOption">
+							{{formatStatusFilterOption(_statusFilterOption)}}
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+				</div>
+				<div class="col-4 sort-by text-right">
+					<mat-form-field class="w-100">
+						<mat-label>Sort by</mat-label>
+						<mat-select [(ngModel)]="sortBy" >
+							<mat-option value="voucher-id">Voucher ID (ascending)</mat-option>
+							<mat-option value="-voucher-id">Voucher ID (descending)</mat-option>
+							<mat-option value="client">Client (ascending)</mat-option>
+							<mat-option value="-client">Client (descending)</mat-option>
+							<mat-option value="agreement-id">Agreement ID (ascending)</mat-option>
+							<mat-option value="-agreement-id">Agreement ID (descending)</mat-option>
+							<mat-option value="validity">Validity (latest first)</mat-option>
+							<mat-option value="-validity">Validity (oldest first)</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-12">
+					<!--<form class="form-container">-->
+						<mat-form-field class="w-100">
+							<span matPrefix><img src="assets/img/icons/ic_search.png" class="pr-2 img-fluid"></span>
+							<!--<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">-->
+							<input matInput placeholder="Search" [ngModel]='searchText' (ngModelChange)='onChangeSearchText($event)'>
+						</mat-form-field>
+					<!--</form>-->
+					<div>
+						<mat-table [dataSource]="vouchersDataSource" matSort (matSortChange)="sortVouchers($event)"
+											 class="table-fw">
+							<ng-container matColumnDef="voucher-id">
+								<mat-header-cell *matHeaderCellDef>Voucher ID</mat-header-cell>
+								<mat-cell *matCellDef="let voucher">#{{voucher.id}}</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="voucher-code">
+								<mat-header-cell *matHeaderCellDef>Voucher code</mat-header-cell>
+								<mat-cell *matCellDef="let voucher">
+									{{ voucher['attributes']['code'] }}
+								</mat-cell>
+							</ng-container>
+
+							<!--<ng-container matColumnDef="client">-->
+								<!--<mat-header-cell *matHeaderCellDef>Client</mat-header-cell>-->
+								<!--<mat-cell *matCellDef="let voucher">-->
+									<!--{{ 'Corporate' }}-->
+								<!--</mat-cell>-->
+							<!--</ng-container>-->
+
+							<ng-container matColumnDef="validity">
+								<mat-header-cell *matHeaderCellDef>Validity</mat-header-cell>
+								<mat-cell *matCellDef="let voucher">
+									<strong>From</strong>
+									{{voucher['attributes']['validity-start-date-and-time-utc'] | formatDate:true}}&nbsp;
+									<strong>To</strong> {{voucher['attributes']['validity-end-date-and-time-utc'] | formatDate:true}}
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="actions">
+								<mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+								<mat-cell *matCellDef="let voucher" class="d-flex justify-content-between">
+									<div class="grid-action" (click)="showVoucherDetails(voucher)">
+										<img src="assets/img/icons/ic_show_password.png" class="img-fluid" style="max-height:24px;">
+										View Details
+									</div>
+									<div class="grid-action" (click)="deleteVoucher(voucher)">
+										<img src="assets/img/icons/ic_deletemember.png" class="img-fluid" style="max-height:24px;">
+										Delete Voucher
+									</div>
+								</mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="columnsToDisplay;"></mat-header-row>
+							<mat-row *matRowDef="let voucherData; columns: columnsToDisplay"></mat-row>
+
+						</mat-table>
+						<mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+													 (page)="setPageSizeOptions($event)">
+						</mat-paginator>
+					</div>
+
+					<div *ngIf="!vouchersDataSource?.data?.length">
+						<div class="row mb-2">
+							<div class="col-12 text-center">
+								No Records found. Please try a different Filter.
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

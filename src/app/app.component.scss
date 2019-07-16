@@ -1,0 +1,43 @@
+$default-spinner-height : 80px;
+$default-spinner-width : 120px;
+
+$spinner-multiplication-factor : 1.75;
+
+$calculated-spinner-width : $default-spinner-width * $spinner-multiplication-factor;
+$calculated-spinner-height : ($default-spinner-height / $default-spinner-width) * $calculated-spinner-width;
+
+.loading-overlay {
+	width            : 100%;
+	height           : 100%;
+	display          : flex;
+	align-items      : center;
+	justify-content  : center;
+	position         : absolute;
+	top              : 0;
+	left             : 0;
+	background-color : #131313;
+	z-index          : -1;
+	opacity          : 0;
+	visibility       : hidden;
+	transition       : all 300ms;
+	&.active {
+		z-index    : 999999999999;
+		opacity    : 0.8;
+		visibility : visible;
+	}
+	img {
+		height                    : $calculated-spinner-height;
+		width                     : $calculated-spinner-width;
+		animation-name            : spinner-pulse;
+		animation-duration        : 1s;
+		animation-iteration-count : infinite;
+		animation-direction       : alternate;
+		animation-timing-function : ease-in-out;
+	}
+}
+
+@keyframes spinner-pulse {
+	0% { opacity : 1; }
+	100% { opacity : 0.5; }
+}
+

@@ -1,0 +1,32 @@
+<div [ngClass]="{
+       'container management-filter pl-0 pr-0 mb-3': true,
+       'hidden': !manageFilter
+     }">
+  <ng-content select=".tags"></ng-content>
+
+  <ng-content select=".add-button"></ng-content>
+</div>
+
+<ng-content select=".search-bar"></ng-content>
+
+<div class="container-fluid all-records-grid mb-3 pt-2 pb-2">
+  <div class="row pr-3 pl-3">
+    <ng-content select=".left"></ng-content>
+
+    <ng-content select=".middle"></ng-content>
+
+    <ng-content select=".right"></ng-content>
+  </div>
+
+  <ng-content select=".row--records"></ng-content>
+
+  <div class="row p-3 mt-5">
+    <div class="col-md-5 text-right pl-0 pr-0">
+      <ng-content select=".per-page"></ng-content>
+    </div>
+
+    <div class="col-md-7 text-right">
+      <ng-content select=".pager"></ng-content>
+    </div>
+  </div>
+</div>

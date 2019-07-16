@@ -1,0 +1,191 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<mazaya-add-button title="Add new Service" [link]="['.','add']"></mazaya-add-button>
+			<mazaya-sp-header></mazaya-sp-header>
+			<div class="row grid-content">
+				<div class="col-2 filter-select">
+					<mat-button-toggle-group #statusFilterOption value="all"
+					                         (change)="statusFilter = statusFilterOption.value;loadServices()">
+						<mat-button-toggle *ngFor="let _statusFilterOption of statusFilterOptions" [value]="_statusFilterOption">
+							{{formatStatusFilterOption(_statusFilterOption)}}
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+				</div>
+				<div class="col-7">
+					<mat-form-field class="w-100">
+						<span matPrefix><img src="assets/img/icons/ic_search.png" class="pr-2 img-fluid"></span>
+						<input matInput [(ngModel)]="searchQuery" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+						<button mat-button *ngIf="searchQuery" matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery=''">
+							<mat-icon>close</mat-icon>
+						</button>
+					</mat-form-field>
+				</div>
+				<div class="col-3 sort-by text-right">
+					<mat-form-field class="w-100">
+						<mat-label>Sort by</mat-label>
+						<mat-select [(ngModel)]="sortBy" (change)="loadServices()">
+							<mat-option value="name">Name (A-Z)</mat-option>
+							<mat-option value="-name">Name (Z-A)</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-12">
+					<div [hidden]="!servicesDataSource?.data?.length">
+						<mat-table [dataSource]="servicesDataSource" class="table-fw">
+							<ng-container matColumnDef="name">
+								<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+								<mat-cell *matCellDef="let service">
+									<span class="service-package-icon" [ngClass]="{'clean': !service.attributes['image-url']}">
+										<img [attr.src]="service.attributes['image-url']">
+									</span>
+									{{ service.attributes.name }}
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="tags">
+								<mat-header-cell *matHeaderCellDef>Additionals</mat-header-cell>
+								<mat-cell *matCellDef="let service">
+									<span class="badge badge-dark mr-1" *ngIf="service.attributes['affect-count']">Limited</span>
+									<span class="badge badge-dark mr-1" *ngIf="service.attributes.trackable">Trackable</span>
+								</mat-cell>
+							</ng-container>
+
+							<ng-container matColumnDef="actions">
+								<mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+								<mat-cell *matCellDef="let service" class="d-flex justify-content-between">
+									<div class="grid-action" (click)="viewService(service)">
+										<img src="assets/img/icons/ic_show_password.png" class="img-fluid" style="max-height:24px;">
+										View Details
+									</div>
+								</mat-cell>
+							</ng-container>
+
+							<mat-header-row *matHeaderRowDef="columnsToDisplay;"></mat-header-row>
+							<mat-row *matRowDef="let servicesData; columns: columnsToDisplay"></mat-row>
+
+						</mat-table>
+
+						<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50, 100]"
+						               showFirstLastButtons></mat-paginator>
+					</div>
+
+					<div *ngIf="!servicesDataSource?.data?.length">
+						<div class="row mb-2">
+							<div class="col-12 text-center">
+								No Records found. Please try a different Filter.
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--<mazaya-grid-table [manageFilter]="manageFilter">-->
+<!--<h3 class="col-md-3 grid-title left">-->
+<!--{{ gridTitle }}-->
+<!--</h3>-->
+
+<!--<div class="col-md-6 package-status middle">-->
+<!--&lt;!&ndash;<ul class="list-inline">&ndash;&gt;-->
+<!--&lt;!&ndash;<li *ngFor="let status of packageStatus"&ndash;&gt;-->
+<!--&lt;!&ndash;class="list-inline-item mr-4" [ngClass]="{'active':filterByStatus === status}"&ndash;&gt;-->
+<!--&lt;!&ndash;(click)="setStatusFilter(status)">&ndash;&gt;-->
+<!--&lt;!&ndash;{{ status }}&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->
+<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Sorting Options &ndash;&gt;-->
+<!--<div class="col-md-3 col-sort right">-->
+<!--<label>Sort by:</label>-->
+<!--<div class="sort-wrapper">-->
+<!--<select [(ngModel)]="chosenSortOption"-->
+<!--class="sort-wrapper__select" name="sort" (change)="changePage(1)">-->
+<!--<option value="name">Name (ASC)</option>-->
+<!--<option value="-name">Name (DESC)</option>-->
+<!--</select>-->
+<!--<i class="fa fa-angle-down"></i>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Row Records &ndash;&gt;-->
+<!--<div class="row row&#45;&#45;records pt-2 pb-2"-->
+<!--*ngFor="let record of records">-->
+
+<!--<div class="col-md-3 text-left pl-4 d-flex align-items-center">-->
+<!--<span class="service-package-icon" [ngClass]="{'clean': !record.imageUrl}">-->
+<!--<img [attr.src]="record.imageUrl">-->
+<!--</span>-->
+<!--{{ record.name }}-->
+<!--</div>-->
+
+<!--<div class="col-md-3 text-left d-flex align-items-center">-->
+<!--<span class="badge badge-dark mr-1" *ngIf="record.affectCount">Limited</span>-->
+<!--<span class="badge badge-dark mr-1" *ngIf="record.trackable">Trackable</span>-->
+<!--</div>-->
+
+<!--<div class="col-md-3 text-center d-flex align-items-center">-->
+
+<!--</div>-->
+
+<!--<div class="col-md-3 col-view text-center d-flex align-items-center">-->
+<!--<span class="col-view__details">-->
+<!--<i class="fa fa-eye mr-1"></i> <a (click)="viewService(record)">View Details</a>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Per Page Options &ndash;&gt;-->
+<!--<ul class="list-inline per-page">-->
+<!--<li class="list-inline-item per-page__item">-->
+<!--Show per page-->
+<!--</li>-->
+<!--<li *ngFor="let count of perPage"-->
+<!--class="list-inline-item per-page__item">-->
+<!--<a (click)="showPerPage(count)"-->
+<!--[ngClass]="{'per-page': true, 'active': selectedPerPage === count}">-->
+<!--{{ count }}-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+
+<!--&lt;!&ndash; Pager Options &ndash;&gt;-->
+<!--<ul class="list-inline pager">-->
+<!--<li class="list-inline-item">Pages</li>-->
+<!--<li class="list-inline-item pager__item">-->
+<!--<a (click)="changePage(1)" [attr.disabled]="currentPage === 1">-->
+<!--First-->
+<!--</a>-->
+<!--</li>-->
+<!--<li class="list-inline-item pager__item">-->
+<!--<a-->
+<!--(click)="previousPage()"-->
+<!--[attr.disabled]="currentPage === 1">-->
+<!--Previous-->
+<!--</a>-->
+<!--</li>-->
+
+<!--<li class="list-inline-item pager__item" *ngFor="let _page of nextThreePages">-->
+<!--<a (click)="changePage(_page)" [attr.disabled]="currentPage === _page">-->
+<!--{{_page}}-->
+<!--</a>-->
+<!--</li>-->
+
+<!--<li class="list-inline-item pager__item">-->
+<!--<a (click)="nextPage()" [attr.disabled]="currentPage === pagesAmount">-->
+<!--Next-->
+<!--</a>-->
+<!--</li>-->
+<!--<li class="list-inline-item pager__item">-->
+<!--<a (click)="changePage(pagesAmount)" [attr.disabled]="currentPage === pagesAmount">-->
+<!--Last-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</mazaya-grid-table>-->
+

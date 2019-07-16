@@ -1,0 +1,112 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"project": {
+		"name": "mazaya-admin"
+	},
+	"apps": [
+		{
+			"root": "src",
+			"outDir": "dist",
+			"assets": [
+				"assets",
+				"favicon.ico",
+				"web.config"
+			],
+			"index": "index.html",
+			"main": "main.ts",
+			"polyfills": "polyfills.ts",
+			"test": "test.ts",
+			"tsconfig": "tsconfig.app.json",
+			"testTsconfig": "tsconfig.spec.json",
+			"prefix": "mazaya",
+			"styles": [
+				"assets/sass/app.scss"
+			],
+			"scripts": [
+				"assets/js/perfect-scrollbar.jquery.min.js",
+				"../node_modules/chart.js/dist/Chart.js"
+			],
+			"environmentSource": "environments/environment.ts",
+			"environments": {
+				"dev": "environments/environment.ts",
+				"prod": "environments/environment.prod.ts",
+				"qa": "environments/environment.qa.ts",
+				"uat": "environments/environment.uat.ts"
+			}
+		}
+	],
+	"e2e": {
+		"protractor": {
+			"config": "./protractor.conf.js"
+		}
+	},
+	"lint": [
+		{
+			"project": "src/tsconfig.app.json",
+			"exclude": "**/node_modules/**/*"
+		},
+		{
+			"project": "src/tsconfig.spec.json",
+			"exclude": "**/node_modules/**/*"
+		},
+		{
+			"project": "e2e/tsconfig.e2e.json",
+			"exclude": "**/node_modules/**/*"
+		}
+	],
+	"test": {
+		"karma": {
+			"config": "./karma.conf.js"
+		}
+	},
+	"defaults": {
+		"styleExt": "scss",
+		"class": {
+			"spec": true
+		},
+		"component": {
+			"flat": false,
+			"spec": true,
+			"inlineStyle": false,
+			"inlineTemplate": false,
+			"viewEncapsulation": "Emulated",
+			"changeDetection": "Default"
+		},
+		"directive": {
+			"flat": false,
+			"spec": true
+		},
+		"guard": {
+			"flat": false,
+			"spec": true
+		},
+		"interface": {
+			"prefix": "I"
+		},
+		"module": {
+			"flat": false,
+			"spec": true
+		},
+		"pipe": {
+			"flat": false,
+			"spec": true
+		},
+		"service": {
+			"flat": false,
+			"spec": true
+		},
+		"build": {
+			"sourcemaps": true,
+			"progress": true,
+			"deleteOutputPath": true,
+			"preserveSymlinks": false,
+			"showCircularDependencies": true,
+			"namedChunks": true
+		},
+		"serve": {
+			"port": 4200,
+			"host": "localhost",
+			"ssl": false
+		}
+	}
+}

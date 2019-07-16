@@ -1,0 +1,62 @@
+@import '../../../../../assets/sass/scss/mixins/utilities';
+
+.container--navbar {
+	height: 55px;
+	margin-bottom: 25px;
+	overflow: hidden;
+	background-color: #474747;
+
+	.arrow-back {
+		float: left;
+		height: 55px;
+		color: white;
+		position: relative;
+		width: 55px;
+		padding: 17px;
+		cursor: pointer;
+		display: block;
+
+		i.fa-arrow-left {
+			font-size: 20px;
+		}
+	}
+}
+
+.container--package-edit {
+	background-color: white;
+	//box-shadow: 0 2px 3px #ccc;
+	overflow: hidden;
+	margin-bottom: 40px;
+
+	.add-package-form {
+		margin: 0 13px 40px;
+	}
+
+	h2 {
+		padding: 30px 0;
+	}
+
+	.col-right {
+		padding-right: 60px;
+	}
+
+	.row--footer {
+		float: left;
+		width: 100%;
+		display: block;
+		background-color: #f2f2f2;
+
+		.save-button {
+			border: 0;
+			padding: 15px 50px;
+			color: white;
+			font-size: 12px;
+			background-color: #878b8d;
+		}
+	}
+
+	.form-control-feedback {
+		font-size: 12px;
+		color: #333;
+	}
+}

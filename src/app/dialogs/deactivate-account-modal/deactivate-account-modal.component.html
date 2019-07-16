@@ -1,0 +1,15 @@
+<h2 matDialogTitle>Deactivate Account</h2>
+<mat-dialog-content>
+	<div class="row">
+		<div class="col-12 text-center">
+			Are you sure you want to deactivate the account for
+			<div>
+				{{data.user.attributes['first-name']}} {{data.user.attributes['last-name']}}?
+			</div>
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+	<button mat-dialog-close class="btn btn-mazaya btn-mazaya-gray-alt-2">Cancel</button>
+	<button (click)="deactivateAccount()" class="btn btn-mazaya btn-mazaya-gray-alt-2">Deactivate</button>
+</mat-dialog-actions>

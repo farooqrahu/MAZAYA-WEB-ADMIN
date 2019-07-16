@@ -1,0 +1,62 @@
+$operator: #4a4b4b;
+$supervisor: #727273;
+$reseller: #9b9b9c;
+$corporate: #c9c9ca;
+$consumer: #373738;
+$light-grey: #eeeeee;
+
+.row--records {
+  &:nth-child(odd) {
+    background-color: white;
+  }
+
+  &:nth-child(even) {
+    background-color: $light-grey;
+  }
+}
+
+.management-filter {
+  //box-shadow: 0 3px 3px 1px #ccc;
+  background-color: #474747;
+  overflow: hidden;
+  height: 55px;
+}
+
+.all-records-grid {
+  float: left;
+  width: 100%;
+  display: block;
+  //box-shadow: 0 3px 3px 1px #ccc;
+  background-color: white;
+
+  .search {
+    position: relative;
+    top: 1px;
+  }
+
+  .fa-search {
+    position: absolute;
+    top: 4px;
+    color: #cccccc;
+  }
+}
+
+.col-view__details {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  color: $reseller;
+  cursor: pointer;
+
+  a {
+    color: $reseller;
+  }
+}
+
+.fa-eye {
+  font-size: 17px;
+}
