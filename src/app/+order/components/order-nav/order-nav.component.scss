@@ -1,0 +1,13 @@
+.btn-continue,
+.btn-prev {
+	max-width: 150px;
+	background-color: #333;
+	border-color: #333;
+	color: #CCC;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+	cursor: not-allowed !important;
+	opacity: 0.5;
+}

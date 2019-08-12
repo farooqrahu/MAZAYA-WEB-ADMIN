@@ -1,0 +1,207 @@
+<div class="container-fluid pl-2 pr-2">
+	<form novalidate [formGroup]="voucherForm" (ngSubmit)="createVoucher()">
+		<div class="row">
+			<div class="col-12">
+				<div class="row grid-content mt-3">
+					<div class="col-10 m-auto">
+						<mat-accordion [multi]="true">
+							<mat-expansion-panel [expanded]="true" *ngIf="role === 'admin'">
+								<mat-expansion-panel-header>
+									<mat-panel-title class="text-bold">Agreement</mat-panel-title>
+								</mat-expansion-panel-header>
+
+								<div class="row w-100">
+									<div class="col-6">
+										<div class="row">
+											<div class="col">
+												<p class="mt-2">Select the type of agreement</p>
+											</div>
+											<div class="col">
+												<mat-form-field class="w-100">
+													<mat-label>Select</mat-label>
+													<mat-select (selectionChange)="onSelectType($event)">
+														<mat-option value="8">Corporate</mat-option>
+														<mat-option value="3">Reseller</mat-option>
+													</mat-select>
+												</mat-form-field>
+											</div>
+										</div>
+
+										<div class="row" *ngIf="selectedType">
+											<div class="col">
+												<p class="mt-2">Search account</p>
+											</div>
+											<div class="col">
+												<mat-form-field class="w-100">
+													<input type="text" placeholder="Search" aria-label="Number" matInput [matAutocomplete]="auto" [ngModel]='searchText' [ngModelOptions]="{ standalone: true }" (ngModelChange)='onChangeSearchText($event)'>
+													<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+														<mat-option *ngFor="let user of users" [value]="user">
+															{{user['attributes']['first-name']}}
+														</mat-option>
+													</mat-autocomplete>
+												</mat-form-field>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--<div class="row">-->
+									<!--<div class="col-6">-->
+										<!--<div class="row">-->
+											<!--<div class="col">-->
+												<!--<p class="mt-2">Create voucher</p>-->
+											<!--</div>-->
+											<!--<div class="col">-->
+												<!--<mat-form-field class="w-100">-->
+													<!--<mat-label>Select</mat-label>-->
+													<!--<mat-select (selectionChange)="onSelect($event)">-->
+														<!--<mat-option value="upload">Upload voucher</mat-option>-->
+														<!--<mat-option value="generate">Generate voucher</mat-option>-->
+													<!--</mat-select>-->
+												<!--</mat-form-field>-->
+											<!--</div>-->
+										<!--</div>-->
+										<!--<p *ngIf="voucherCodes.length && selectedVoucherOptions === 'upload'" class="mt-2">Total vouchers: {{ voucherCodes.length }}</p>-->
+										<!--<div *ngIf="selectedVoucherOptions === 'generate'" class="row">-->
+											<!--<div class="col">-->
+												<!--<p class="mt-2">Number of vouchers</p>-->
+											<!--</div>-->
+											<!--<div class="col">-->
+												<!--<mat-form-field class="text-left w-100">-->
+													<!--<input matInput class="packages_numeric_input" type="number" (keyup)="onNumberVoucherChange($event)" (change)="onNumberVoucherChange($event)" min="0">-->
+												<!--</mat-form-field>-->
+											<!--</div>-->
+										<!--</div>-->
+									<!--</div>-->
+									<!--<div class="col-6 text-right">-->
+										<!--<input #fileInput accept=".csv,.xls,.xlsx,.txt" (change)="parseFileToArray($event)"-->
+													 <!--style="display:none;" type="file">-->
+
+										<!--<button class="mr-2" *ngIf="voucherCodes.length" (click)="onResetFile()" color="primary" mat-raised-button>-->
+											<!--<span class="mat-button-wrapper">Reset File</span>-->
+										<!--</button>-->
+										<!--<button *ngIf="selectedVoucherOptions === 'upload'" type="button" (click)="fileInput.click()" color="primary" mat-raised-button>-->
+											<!--<span class="mat-button-wrapper">Choose File</span>-->
+										<!--</button>-->
+									<!--</div>-->
+								<!--</div>-->
+
+								<!--<div class="row" [innerHTML]="bindHtmlVoucherCode()"></div>-->
+							</mat-expansion-panel>
+
+							<mat-expansion-panel [expanded]="role !== 'admin'" *ngIf="selectedType === '8'">
+								<mat-expansion-panel-header>
+									<mat-panel-title class="text-bold">Validity Date</mat-panel-title>
+								</mat-expansion-panel-header>
+
+								<div class="text-center m-auto">
+									<mat-form-field class="m-2">
+										<mat-label>Set Validity Start Date</mat-label>
+										<mat-datetimepicker-toggle [for]="startDatePicker" matSuffix></mat-datetimepicker-toggle>
+										<mat-datetimepicker #startDatePicker type="datetime" [mode]="'landscape'" openOnFocus="true">
+										</mat-datetimepicker>
+										<input matInput formControlName="validStartDate" [matDatetimepicker]="startDatePicker" required
+													 autocomplete="false">
+
+									</mat-form-field>
+									<mat-form-field class="m-2">
+										<mat-label>Set Validity End Date</mat-label>
+										<mat-datetimepicker-toggle [for]="endDatePicker" matSuffix></mat-datetimepicker-toggle>
+										<mat-datetimepicker #endDatePicker type="datetime" [mode]="'landscape'" openOnFocus="true">
+										</mat-datetimepicker>
+										<input matInput formControlName="validEndDate" [matDatetimepicker]="endDatePicker" required
+													 autocomplete="false">
+									</mat-form-field>
+								</div>
+
+							</mat-expansion-panel>
+
+							<mat-expansion-panel *ngIf="selectedType">
+								<mat-expansion-panel-header>
+									<mat-panel-title class="text-bold">Packages & {{ selectedType === '3' ? 'Commission' : 'Discounts' }}</mat-panel-title>
+								</mat-expansion-panel-header>
+
+								<div class="w-70 m-auto text-center">
+									<div class="row">
+										<div class="col-8">
+											<mat-form-field class="w-100">
+												<mat-label>Select Package</mat-label>
+												<mat-select matInput formControlName="packagesId" type="text" multiple>
+													<mat-option *ngFor="let package of listOfPackages" [value]="package.id">
+														{{package.attributes.name}}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-4 text-left">
+											<button type="button" (click)="selectPackage(voucherForm.get('packagesId').value, voucherForm)" color="primary"
+															mat-raised-button>
+												<span class="mat-button-wrapper">Add Package</span>
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<div *ngIf="listOfPackages" class="row m-0 text-center">
+									<mat-card *ngFor="let package of voucherForm.get('packages')['controls']; let i = index"
+														class="col-md-4 mr-3 mb-3 packages">
+										<ng-container formArrayName="packages">
+
+											<div [formGroupName]="i">
+												<mat-card-header class="m-0">
+													<mat-card-title class="m-0 text-bold">
+														{{ getPackage(package.get('package-id').value).attributes.name }}</mat-card-title>
+												</mat-card-header>
+												<mat-card-content *ngIf="role === 'admin'">
+													<div class="row m-0">
+														<div class="col-5 p-0">
+															<mat-form-field class="text-left w-100">
+																<input *ngIf="package.get('isPercentage').value === 'false'" matInput placeholder="Discount Amount"
+																			 formControlName="discount-amount" class="packages_numeric_input" type="number" (keyup)="onNumberInputChange($event)" (change)="onNumberInputChange($event)" min="0">
+																<input *ngIf="package.get('isPercentage').value === 'true'" matInput
+																			 placeholder="{{ selectedType === '8' ? 'Discount Percentage' : 'Commission percentage' }}" formControlName="discount-percentage"
+																			 class="packages_numeric_input" type="number" (keyup)="onNumberInputChange($event)" (change)="onNumberInputChange($event)" min="0">
+															</mat-form-field>
+														</div>
+														<div class="col-7 p-0 text-left" *ngIf="selectedType === '8'">
+															<section class="packages__toggle">
+																<mat-radio-group aria-label="Select an option" (change)="onDiscountChange($event, package)" formControlName="isPercentage">
+																	<!--<mat-radio-button value="false" checked>SAR</mat-radio-button>-->
+																	<mat-radio-button value="true">Percentage</mat-radio-button>
+																</mat-radio-group>
+															</section>
+														</div>
+													</div>
+													<div class="row m-0">
+														<div class="col-5 p-0">
+															<mat-form-field class="text-left">
+																<input matInput placeholder="{{ selectedType === '8' ? 'Available Redemptions' : 'Available quantity' }}" formControlName="redemptions"
+																			 type="number" (keyup)="onNumberInputChange($event)" (change)="onNumberInputChange($event)" min="0">
+															</mat-form-field>
+														</div>
+													</div>
+												</mat-card-content>
+												<mat-card-actions class="text-right pr-2 mb-0">
+													<button (click)="removePackage(package.value['package-id'])" color="primary"
+																	mat-raised-button>
+														<span class="mat-button-wrapper">Remove Package</span>
+													</button>
+												</mat-card-actions>
+											</div>
+										</ng-container>
+									</mat-card>
+								</div>
+							</mat-expansion-panel>
+
+						</mat-accordion>
+					</div>
+
+					<div class="row--footer">
+						<button type="submit" [disabled]="!voucherForm.valid" class="btn save-button">
+							SAVE
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

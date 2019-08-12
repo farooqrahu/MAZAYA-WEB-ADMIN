@@ -1,0 +1,40 @@
+img {
+	max-width: 100%;
+	height: 140px;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.btn-submit {
+	background: #898c8e;
+	color: #fff;
+	border-color: #898c8e;
+
+	&:hover {
+		background: #898c8e !important;
+		opacity: 0.9;
+	}
+}
+
+h2 {
+	color: #FFF;
+}
+
+p {
+	color: #FFF;
+}
+
+:host ::ng-deep {
+  a {
+    color: #CCC;
+    text-decoration: underline;
+  }
+
+	mat-card {
+		width: 700px;
+		height: 350px;
+		background-color: #222;
+	}
+}

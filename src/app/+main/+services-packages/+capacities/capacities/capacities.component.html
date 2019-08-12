@@ -16,7 +16,7 @@
 				<div class="col-4 text-right">
 					<mat-form-field class="w-100">
 						<mat-label>Sort by</mat-label>
-						<mat-select [(ngModel)]="sortBy" (change)="sortCapacities()">
+						<mat-select [(ngModel)]="sortBy" (selectionChange)="sortCapacities()">
 							<mat-option value="package.name">Package Name (A-Z)</mat-option>
 							<mat-option value="-package.name">Package Name (Z-A)</mat-option>
 							<mat-option value="capacity">Capacity (highest first)</mat-option>

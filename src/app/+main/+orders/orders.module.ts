@@ -10,7 +10,9 @@ import { ViewOrderComponent } from './pages/view-order/view-order.component';
 import { MaterialFormsModule } from '../../material-forms/material-forms.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AgmCoreModule } from '@agm/core';
-import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule(
 	{
@@ -18,8 +20,11 @@ import { MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/mate
 			CommonModule,
 			OrdersRoutingModule,
 			MaterialFormsModule,
-			FormsModule,
-			ReactiveFormsModule,
+      FormsModule,
+      MatPaginatorModule,
+      ReactiveFormsModule,
+      MatSortModule, 
+      MatTableModule,
 			SharedModule,
 			NgbModule,
 			FontAwesomeModule,

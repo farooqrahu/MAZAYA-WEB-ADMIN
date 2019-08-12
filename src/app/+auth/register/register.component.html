@@ -1,0 +1,284 @@
+<div class="wrapper">
+	<section id="register">
+		<div class="container-fluid">
+			<div class="row full-height-vh">
+				<div class="col-12 d-flex ml-auto justify-content-center right-pane">
+					<div class="card card-inverse bg-transparent text-center width-400">
+						<div class="card-img text-left">
+							<img alt="Mazaya" class="mazaya-logo mazaya-logo--login"
+									 src="assets/img/logos/mazaya-logo-little-white.png">
+						</div>
+						<div class="card-body">
+							<div class="card-block p-0">
+
+								<section class="mb-3 text-left">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="type" id="typeCorporate" value="1" checked (change)="handleChange($event)">
+										<label class="form-check-label" for="typeCorporate">&nbsp;Corporate</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="type" id="typeReseller" value="2" (change)="handleChange($event)">
+										<label class="form-check-label" for="typeReseller">&nbsp;Reseller</label>
+									</div>
+								</section>
+
+
+								<section *ngIf="type === 1">
+									<h2 class="mt-1 mb-3 mt-2 text-left">Register as corporate</h2>
+									<form (submit)="register($event)" [formGroup]="corporateForm">
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="companyName" class="non-dual">
+													<span>Company Name</span>
+												</label>
+												<!-- Company name input -->
+												<input class="form-control"
+															 formControlName="name"
+															 id="companyName"
+															 tabindex="1"
+															 type="text">
+												<div class="help-block" *ngIf="!corporateForm.get('name').valid && corporateForm.get('name').touched">
+													<div>
+														Please enter your company name
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="companyContactPersonFirstName" class="non-dual">
+													<span>Company Contact Person First Name</span>
+												</label>
+												<!-- Company contact person input -->
+												<input class="form-control"
+															 formControlName="contactPersonFirstName"
+															 id="companyContactPersonFirstName"
+															 tabindex="2"
+															 type="text">
+												<div class="help-block" *ngIf="!corporateForm.get('contactPersonFirstName').valid && corporateForm.get('contactPersonFirstName').touched">
+													<div>
+														Please enter your company contact person first name
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="companyContactPersonLastName" class="non-dual">
+													<span>Company Contact Person Last Name</span>
+												</label>
+												<!-- Company contact person input -->
+												<input class="form-control"
+															 formControlName="contactPersonLastName"
+															 id="companyContactPersonLastName"
+															 tabindex="2"
+															 type="text">
+												<div class="help-block" *ngIf="!corporateForm.get('contactPersonLastName').valid && corporateForm.get('contactPersonLastName').touched">
+													<div>
+														Please enter your company contact person last name
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="companyEmailAddress" class="non-dual">
+													<span>Company Email Address</span>
+												</label>
+												<!-- Company email address input -->
+												<input class="form-control"
+															 formControlName="emailAddress"
+															 id="companyEmailAddress"
+															 tabindex="3"
+															 type="email">
+												<div class="help-block" *ngIf="!corporateForm.get('emailAddress').valid && corporateForm.get('emailAddress').touched">
+													<div>
+														Please enter your company email address
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="companyPhoneNumber" class="non-dual">
+													<span>Company Phone Number</span>
+												</label>
+												<!-- Company phone number -->
+												<input class="form-control"
+															 formControlName="phoneNumber"
+															 id="companyPhoneNumber"
+															 tabindex="4"
+															 type="text" mask=" 00 000 0000" prefix="+966">
+												<div class="help-block" *ngIf="!corporateForm.get('phoneNumber').valid && corporateForm.get('phoneNumber').touched">
+													<div>
+														Please enter your company phone number
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="companyRemarks" class="non-dual">
+													<span>Remarks</span>
+												</label>
+												<textarea class="form-control"
+																	cols="30"
+																	formControlName="remarks"
+																	id="companyRemarks"
+																	rows="5" tabindex="5"></textarea>
+												<div class="help-block" *ngIf="!corporateForm.get('remarks').valid && corporateForm.get('remarks').touched">
+													<div>
+														Please enter your remarks
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group ml-0 mr-0 row">
+											<div class="col-md-12 text-left p-0">
+												<button type="submit" class="btn btn-mazaya btn-mazaya-gray-alt-2" tabindex="6">
+													Register
+												</button>
+											</div>
+										</div>
+									</form>
+								</section>
+
+								<section *ngIf="type === 2">
+									<h2 class="mt-1 mb-3 mt-2 text-left">Register as reseller</h2>
+									<form (submit)="register($event)" [formGroup]="resellerForm">
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="resellerName" class="non-dual">
+													<span>Reseller Name</span>
+												</label>
+												<!-- Reseller first name input -->
+												<input class="form-control"
+															 formControlName="name"
+															 id="resellerName"
+															 tabindex="1"
+															 type="text">
+												<div class="help-block" *ngIf="!resellerForm.get('name').valid && resellerForm.get('name').touched">
+													<div>
+														Please enter your reseller name
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="resellerContactPersonFirstName" class="non-dual">
+													<span>Reseller Contact Person First Name</span>
+												</label>
+												<!-- Reseller contact person input -->
+												<input class="form-control"
+															 formControlName="contactPersonFirstName"
+															 id="resellerContactPersonFirstName"
+															 tabindex="3"
+															 type="text">
+												<div class="help-block" *ngIf="!resellerForm.get('contactPersonFirstName').valid && resellerForm.get('contactPersonFirstName').touched">
+													<div>
+														Please enter your reseller contact person first name
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="resellerContactPersonLastName" class="non-dual">
+													<span>Reseller Contact Person Last Name</span>
+												</label>
+												<!-- Reseller contact person input -->
+												<input class="form-control"
+															 formControlName="contactPersonLastName"
+															 id="resellerContactPersonLastName"
+															 tabindex="3"
+															 type="text">
+												<div class="help-block" *ngIf="!resellerForm.get('contactPersonLastName').valid && resellerForm.get('contactPersonLastName').touched">
+													<div>
+														Please enter your reseller contact person last name
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="resellerEmailAddress" class="non-dual">
+													<span>Reseller Email Address</span>
+												</label>
+												<input class="form-control"
+															 formControlName="emailAddress"
+															 id="resellerEmailAddress"
+															 tabindex="4"
+															 type="email">
+												<div class="help-block" *ngIf="!resellerForm.get('emailAddress').valid && resellerForm.get('emailAddress').touched">
+													<div>
+														Please enter your reseller email address
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label class="non-dual">
+													<span>Reseller Phone Number</span>
+												</label>
+												<input class="form-control"
+															 formControlName="phoneNumber"
+															 id="resellerPhoneNumber"
+															 tabindex="5"
+															 type="text" mask=" 00 000 0000" prefix="+966">
+												<div class="help-block" *ngIf="!resellerForm.get('phoneNumber').valid && resellerForm.get('phoneNumber').touched">
+													<div>
+														Please enter your reseller phone number
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-12 p-0">
+												<label for="resellerRemarks" class="non-dual">
+													<span>Remarks</span>
+												</label>
+												<textarea class="form-control"
+																	cols="30"
+																	formControlName="remarks"
+																	id="resellerRemarks"
+																	tabindex="6"
+																	rows="5"></textarea>
+												<div class="help-block" *ngIf="!resellerForm.get('remarks').valid && resellerForm.get('remarks').touched">
+													<div>
+														Please enter your remarks
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group ml-0 mr-0 row">
+											<div class="col-md-12 text-left p-0">
+												<button type="submit" class="btn btn-mazaya btn-mazaya-gray-alt-2" tabindex="7">
+													Register
+												</button>
+											</div>
+										</div>
+									</form>
+								</section>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

@@ -41,18 +41,18 @@ export class VoucherEditComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
     if (id) {
-     setTimeout(() => {
+      setTimeout(() => {
         this.voucherService.editVoucher(id).subscribe(res => this.parseToForm(res))
-     }, 100);
+      }, 100);
     }
   }
 
-	onNumberInputChange(ev) {
-		if (ev.target.value < 0) {
-			ev.target.value = 0;
-		}
-		return ev;
-	}
+  onNumberInputChange(ev) {
+    if (ev.target.value < 0) {
+      ev.target.value = 0;
+    }
+    return ev;
+  }
 
   public setPackage(pkgs: any): any {
     const packagesFormArray = <FormArray>this.voucherForm.get('packages') as FormArray;
@@ -83,7 +83,7 @@ export class VoucherEditComponent implements OnInit {
 
     this.voucherForm = this.fb.group({
       packagesId: [selectedPkgIds],
-      voucherId: res.data.id, 
+      voucherId: res.data.id,
       packages: pkgs,
       voucherCode: res.data.attributes['code'],
       validStartDate: [moment.utc(res.data.attributes['validity-start-date-and-time-utc']).utcOffset(offset).format()],
@@ -108,7 +108,7 @@ export class VoucherEditComponent implements OnInit {
       pkgs.removeAt(pkgs.value.findIndex(x => x['package-id'] === i));
     }
 
-		pkgs.reset();
+    pkgs.reset();
 
     event.forEach(id => {
       let newPkg: any = {
@@ -120,7 +120,7 @@ export class VoucherEditComponent implements OnInit {
         'package-availability-id': 1,
         'isPercentage': 'false'
       }
-     
+
       pkgs.push(this.fb.group(newPkg));
     });
   }
@@ -150,10 +150,12 @@ export class VoucherEditComponent implements OnInit {
       }
     };
 
-		data['data']['attributes']['voucher-package-list'].map(v => {
-			v.isPercentage = v.isPercentage === 'true';
-			return v;
-		});
+    data['data']['attributes']['voucher-package-list'].map(v => {
+      v.isPercentage = v.isPercentage === 'true';
+      return v;
+    });
+
+    console.log('data: ', data);
 
     this.voucherService.updateVoucher(data, this.route.snapshot.params['id']).subscribe(res => {
       if (res)
@@ -167,16 +169,16 @@ export class VoucherEditComponent implements OnInit {
     });
   }
 
-	public onDiscountChange(event: any, pkg: any): void {
-		if (event.value === 'true') {
-			pkg.get('isPercentage').patchValue('true');
-			pkg.get('discount-percentage').patchValue(pkg.get('discount-amount').value);
-			pkg.get('discount-amount').patchValue(0);
-		} else {
-			pkg.get('isPercentage').patchValue('false');
-			pkg.get('discount-amount').patchValue(pkg.get('discount-percentage').value);
-			pkg.get('discount-percentage').patchValue(0);
-		}
-	}
+  public onDiscountChange(event: any, pkg: any): void {
+    if (event.value === 'true') {
+      pkg.get('isPercentage').patchValue('true');
+      pkg.get('discount-percentage').patchValue(pkg.get('discount-amount').value);
+      pkg.get('discount-amount').patchValue(0);
+    } else {
+      pkg.get('isPercentage').patchValue('false');
+      pkg.get('discount-amount').patchValue(pkg.get('discount-percentage').value);
+      pkg.get('discount-percentage').patchValue(0);
+    }
+  }
 
 }

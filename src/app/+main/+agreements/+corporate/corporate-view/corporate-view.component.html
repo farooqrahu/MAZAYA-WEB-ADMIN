@@ -1,0 +1,96 @@
+<div class="row">
+	<div class="col-2 bar-menu-button" [routerLink]="['/app/agreements/corporate']">
+		<span class="d-inline-flex">
+			<mat-icon class="mr-1">keyboard_backspace</mat-icon>
+			Return
+		</span>
+	</div>
+</div>
+
+<div class="row mt-3" style="background-color: white">
+	<div class="col-12 p-4">
+		<h3>Corporate agreement #{{ corporate?.id }}</h3>
+		<p><i class="far fa-calendar"></i> {{ corporate?.attributes['datetime-utc'] | date:'d MMMM y \'at\' hh:mm' }}</p>
+		<mat-tab-group selectedIndex="1">
+			<mat-tab label="Used Vouchers (0)">
+			</mat-tab>
+			<mat-tab label="Not Used Vouchers (1)">
+				<div class="row mt-3">
+					<div class="col-6" *ngFor="let voucher of vouchers">
+						<section style="border: 1px solid #ccc; padding: 16px">
+							<div class="row">
+								<div class="col">
+									<section>
+										<h5>Corporate Voucher Details</h5>
+										<h2>{{ voucher?.attributes?.code }}</h2>
+										<p>Valid date & time:</p>
+										<p style="margin-bottom: 8px"><i class="far fa-calendar"></i>
+											&nbsp;
+											{{ voucher?.attributes['validity-start-date-and-time-utc'] | date:'d MMMM y' }} - {{ voucher?.attributes['validity-end-date-and-time-utc'] | date:'d MMMM y' }}</p>
+										<p style="margin-bottom: 8px"><i class="far fa-clock"></i>
+											&nbsp;
+											{{ voucher?.attributes['validity-start-date-and-time-utc'] | date:'hh:mm a' }} - {{ voucher?.attributes['validity-end-date-and-time-utc'] | date:'hh:mm a' }}</p>
+										<hr>
+
+										<p>Included Packages/Service:</p>
+										<div class="row" *ngFor="let package of voucher?.attributes['voucher-package-list']">
+											<div class="mb-2 col-12">
+												<div class="row">
+													<div class="col-10"><h5 class="mb-1">{{ package['package-name'] }} - {{ (package.redeemed / package.redemptions) * 100 }}%</h5></div>
+													<div class="col-2"><h5 class="text-right mb-1">x{{ package.redemptions }}</h5></div>
+												</div>
+
+												<div class="row">
+													<div class="col"><p class="mb-0">Usage:</p></div>
+													<div class="col"><p class="text-right mb-0">{{ package.redeemed }} of {{ package.redemptions }}</p></div>
+												</div>
+												<mat-progress-bar mode="determinate" [value]="(package.redeemed / package.redemptions) * 100"></mat-progress-bar>
+
+												<div class="row mt-3">
+													<div class="col-6">
+														<mat-form-field style="width: 100%">
+															<input matInput placeholder="Available redemptions"
+																		 type="number" [(ngModel)]="package['redemptions']" (keyup)="onNumberInputChange($event)" (change)="onNumberInputChange($event)" min="0" [disabled]="role === 'corporate'">
+														</mat-form-field>
+														<small style="color: red" *ngIf="package['redemptions'] === 0 && showError">Please enter an available redemptions.</small>
+													</div>
+													<div class="col-6">
+														<mat-form-field style="width: 100%">
+															<input matInput placeholder="Discount percentage"
+																		 type="number" [(ngModel)]="package['discount-percentage']" (keyup)="onNumberInputChange($event)" (change)="onNumberInputChange($event)" min="0" [disabled]="role === 'corporate'">
+														</mat-form-field>
+														<small style="color: red" *ngIf="package['discount-percentage'] === 0 && showError">Please enter a discount percentage.</small>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+	<div class="col-12 p-0" *ngIf="role === 'admin' && (corporate?.attributes['agreement-status-id'] === 1 || corporate?.attributes['agreement-status-id'] === '1')">
+		<div class="row--footer">
+			<button type="button" class="btn save-button mr-3" (click)="reject()">
+				REJECT
+			</button>
+
+			<button type="button" class="btn save-button" (click)="approve()">
+				APPROVE
+			</button>
+		</div>
+	</div>
+
+	<div class="col-12 p-0" *ngIf="role === 'admin' && (corporate?.attributes['agreement-status-id'] === 2 || corporate?.attributes['agreement-status-id'] === '2')">
+		<div class="row--footer">
+			<button type="button" class="btn save-button" (click)="saveVoucher()">
+				SAVE
+			</button>
+		</div>
+	</div>
+</div>
+

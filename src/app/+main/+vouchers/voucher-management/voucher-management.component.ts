@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog, MatPaginator, MatTableDataSource, Sort, PageEvent } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from 'ng2-ui-auth';
 import { DeleteVoucherModalComponent } from '../../../dialogs/delete-voucher-modal/delete-voucher-modal.component';
 import { VoucherDetailsModalComponent } from '../../../dialogs/voucher-details-modal/voucher-details-modal.component';
@@ -72,6 +75,7 @@ export class VoucherManagementComponent implements OnInit {
     this.vouchersService.getVouchers(pageVar, text).subscribe(res => {
       if (res.data) {
         this.vouchers = res.data;
+        console.log('vouchers: ', this.vouchers);
         this.vouchersPackages = res.included;
         //insert packages
         this.vouchers.forEach(v => {
@@ -125,7 +129,7 @@ export class VoucherManagementComponent implements OnInit {
     });
 
     this.textChanged.pipe(
-      debounceTime(500), // wait 300ms after the last event before emitting last event
+      debounceTime(500), // wait 700ms after the last event before emitting last event
       distinctUntilChanged() // only emit if value is different from previous value
     )
       .subscribe(model => {

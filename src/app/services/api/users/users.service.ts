@@ -43,6 +43,30 @@ export class UsersService extends EntityService {
 		return this.http.patch(`${environment.baseUrl}/users/${userId}`, data);
 	}
 
+	approveUser (userId: number) {
+		const data = {
+			data: {
+				attributes: {
+					'is-approved': true,
+				},
+				type: 'users'
+			}
+		};
+		return this.http.put(`${environment.baseUrl}/users/${userId}/approval`, data);
+	}
+
+	rejectUser (userId: number) {
+		const data = {
+			data: {
+				attributes: {
+					'is-approved': false,
+				},
+				type: 'users'
+			}
+		};
+		return this.http.put(`${environment.baseUrl}/users/${userId}/rejection`, data);
+	}
+
 	activateUser (userId: number) {
 		const data = {
 			data: {

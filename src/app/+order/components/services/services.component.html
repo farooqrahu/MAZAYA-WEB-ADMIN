@@ -1,0 +1,30 @@
+<div class="service__container">
+	<div class="service__header" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="gappx">
+		<h2>Services</h2>
+	</div>
+	<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+		<mat-card fxLayout="column" *ngFor="let service of (services$ | async); let i = index" class="service__box"
+							fxLayoutGap="20px">
+			<div fxLayout="row" fxFlexFill>
+				<div class="service__content" fxFlex="85">
+					<img [attr.src]="service.attributes['image-url-web']">
+					<h3>{{ service.attributes['name'] }}</h3>
+					<p>{{ service.attributes['short-description'] }}</p>
+				</div>
+
+				<div fxLayoutAlign="end center" fxFlex="15">
+					<div class="service__badge" fxLayout="column" fxLayoutAlign="end center">
+						<span>FROM</span>
+						<span>525</span>
+						<span>SAR</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="service__footer" fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
+				<button type="button" routerLink="/order/booking-form">More Info</button>
+			</div>
+		</mat-card>
+	</div>
+
+</div>

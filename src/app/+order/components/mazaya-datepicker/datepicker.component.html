@@ -1,0 +1,21 @@
+<div class=" dt-label">{{label}}</div>
+<div *ngIf="parentForm" [formGroup]="parentForm" fxLayout="column">
+	<div fxLayout="row">
+		<div class="col-12" class="input-group-prepend input-group-btn">
+			<button (click)="openCalendar($event)" class="btn btn-mazaya"
+							[ngStyle]="{'background-color': backgroundColor, 'border-color': backgroundColor, 'border-right-color': '#7d8082'}"
+							type="button" [tabindex]="tabindex">
+				<i class="far fa-calendar"></i>
+			</button>
+		</div>
+		<p-calendar #calendar (onSelect)="onChange($event)" [placeholder]="placeholder" [dateFormat]="customFormat"
+								[formControlName]="controlName" [style]="{'width':'100%'}" [inputStyleClass]="inputStyleClass"
+								[monthNavigator]="true" [yearNavigator]="true" [yearRange]="getYearRange()" [minDate]="minDateValue"
+								[maxDate]="maxDateValue" [readonlyInput]="true">
+		</p-calendar>
+	</div>
+
+	<p *ngIf="errorText 
+            && !parentForm.get(this.controlName).valid 
+            && parentForm.get(this.controlName).dirty" class="error-text">{{errorText}}</p>
+</div>

@@ -1,0 +1,36 @@
+<div fxLayout="row">
+	<h4>Please specify the drop-off location</h4>
+</div>
+
+<div class="location-card" fxLayout="row" fxLayoutGap="20px">
+	<div fxFlex="3">
+		<app-progress-line></app-progress-line>
+	</div>
+
+	<div class="location-content" fxFlex fxLayout="column" fxLayoutGap="20px">
+		<app-order-nav></app-order-nav>
+		<form novalidate *ngIf="locationForm" [formGroup]="locationForm">
+			<p>Find your address on the map or type it manually</p>
+			<input id="address" #selectAddressInput type="text" class="form-control" formControlName="address"
+						 (selectPlace)="addressToLocation($event, selectAddressInput)">
+
+			<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+				<agm-map [latitude]="selectedLatitude" [longitude]="selectedLongitude" [zoom]="14" [clickableIcons]="false"
+								 [disableDefaultUI]="false" [disableDoubleClickZoom]="false" [mapDraggable]="true" [scrollwheel]="true"
+								 [streetViewControl]="false" [zoomControl]="true" [styles]="mapStyles" [panControl]="true"
+								 [rotateControl]="true">
+					<agm-polygon [paths]="polyPaths" fillColor="#118543" fillOpacity="0.1" strokeColor="#118543"
+											 strokeOpacity="0.5"></agm-polygon>
+					<agm-marker [latitude]="selectedLatitude" [longitude]="selectedLongitude" [markerClickable]="false"
+											(dragEnd)="updateLocationAfterDrag($event)" [markerDraggable]="true"
+											[iconUrl]="'assets/img/icons/ic_user_track_small.png'"></agm-marker>
+				</agm-map>
+				<div class="overlay" [ngClass]="{'visible':loadingPosition}">Loading Position...</div>
+			</div>
+		</form>
+	</div>
+
+	<div fxFlex="25">
+		<app-order-panel></app-order-panel>
+	</div>
+</div>

@@ -1,0 +1,100 @@
+img {
+	max-height: 80px;
+	width: auto;
+}
+
+h3 {
+	color: #FFF;
+	margin-bottom: 20px;
+}
+
+h5 {
+	margin-bottom: 5px !important;
+	font-size: 15px;
+	color: #CCC;
+}
+
+.mt-20 {
+	margin-top: 20px;
+}
+
+.btn-submit {
+	background: #898c8e;
+	color: #fff;
+  border-color: #898c8e;
+  
+  &:hover {
+    background: #898c8e !important;
+    opacity: 0.9;
+  }
+}
+
+.op__calc-panel {
+	padding: 10px;
+	border-top: thin #CCC solid;
+}
+
+.op__panel-section {
+	font-size: 13px;
+	background-color: #FFF;
+	border-radius: 2px;
+	padding: 5px;
+	color: #000;
+
+	span {
+		font-weight: 600;
+	}
+}
+
+:host ::ng-deep {
+
+	.form-control:disabled,
+	.form-control[readonly] {
+    cursor: not-allowed !important;
+    opacity: 0.5 !important;
+	}
+
+	.ui-datepicker {
+		z-index: 99999 !important;
+	}
+
+	mat-card {
+		background-color: #000;
+		min-height: 345px;
+		color: #FFF !important;
+	}
+
+	.ui-inputtext {
+		color: #333 !important;
+		background: #222 !important;
+		border: 1px solid #222 !important;
+		color: #CCC !important;
+		border-radius: 0 2px 2px 0 !important;
+		min-width: 150px !important;
+	}
+}
+
+
+@media (max-width: 1440px) {
+  span {
+    line-height: 18px;
+  }
+
+	h3 {
+    font-size: 22px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  .op__calc-panel {
+    font-size: 14px;
+  }
+
+  :host ::ng-deep {
+    .mat-card {
+      padding: 5px !important; 
+    }
+  }
+}

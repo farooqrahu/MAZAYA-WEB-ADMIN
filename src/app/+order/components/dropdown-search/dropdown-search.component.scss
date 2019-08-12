@@ -1,0 +1,99 @@
+:host ::ng-deep .dropdown_bg-white {
+  .ui-inputtext {
+    background: #fff;
+    background-color: #fff;
+    height: 40px;
+    margin-bottom: 0;
+    border-color: #ccc;
+
+    &:enabled:hover:not(.ui-state-error) {
+      border-color: #ccc;
+    }
+  }
+
+  .form-group input,
+  .form-group input:active,
+  .form-group input:hover,
+  .form-group input:focus,
+  .form-group select,
+  .form-group select:active,
+  .form-group select:hover,
+  .form-group select:focus,
+  .form-group textarea,
+  .form-group textarea:active,
+  .form-group textarea:hover,
+  .form-group textarea:focus {
+    background: #fff;
+    border-color: #ccc !important;
+  }
+}
+
+#dropdown {
+  color: #CCC;
+}
+
+:host ::ng-deep .dropdown_bg-black {
+  .ui-inputtext {
+    background: #333;
+    height: 40px;
+    margin-bottom: 0;
+    border: thin #555;
+    color: #888;
+    font-size: 15px;
+    
+    &:enabled:hover:not(.ui-state-error) {
+      border-color: #555 !important;
+    }
+  }
+
+  .ui-dropdown {
+    background: #333;
+  }
+
+  .ui-dropdown-panel {
+    border: thin #555;
+    margin-top: 1px;
+
+    .ui-dropdown-items .ui-dropdown-item {
+      color: #ccc;
+      padding: 5px 10px;
+    }
+  }
+
+  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item:not(.ui-state-highlight):not(.ui-state-disabled):hover,
+  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group:not(.ui-state-highlight):not(.ui-state-disabled):hover {
+    color: #333 !important;
+  }
+
+  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight,
+  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight {
+    background-color: #ccc;
+    color: #333;
+  }
+
+  .ui-dropdown-items-wrapper {
+    background: #333;
+  }
+
+  .ui-dropdown {
+    border: thin #555 !important;
+
+    .ui-dropdown-trigger {
+      background: #333;
+    }
+  }
+
+  .ui-dropdown-filter-container {
+    background: #333;
+    border-color: #555;
+
+    .ui-dropdown-filter {
+      background: #333;
+      border: thin #555 solid;
+    }
+
+    .ui-dropdown-filter-icon {
+      color: #ccc;
+    }
+  }
+}

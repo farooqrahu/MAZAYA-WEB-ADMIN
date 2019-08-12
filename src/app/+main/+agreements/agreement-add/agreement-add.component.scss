@@ -1,0 +1,57 @@
+::ng-deep {
+	.mat-form-field-infix {
+		width: 100% !important;
+	}
+
+	.mat-card:not(.v-code) {
+		max-width: 360px;
+		min-width: 360px !important;
+	}
+
+	.mat-primary .mat-checkbox-ripple .mat-ripple-element {
+		background-color: #CCC !important;
+	}
+
+	.mat-checkbox .mat-checkbox-frame {
+		border-color: #454545 !important;
+	}
+
+	.mat-checkbox-checked .mat-checkbox-background {
+		background-color: #454545 !important;
+	}
+
+	mat-panel-title {
+		font-size: 16px !important;
+	}
+
+	.mat-card-header-text {
+		margin: 0 0 20px 0 !important;
+	}
+}
+
+.w-225 {
+	width: 225px;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+.packages {
+	max-width: 360px;
+}
+
+.packages__toggle {
+	height: 40px;
+	padding: 10px;
+}
+
+button:disabled,
+button[disabled] {
+	cursor: not-allowed;
+}
+
+input:read-only {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

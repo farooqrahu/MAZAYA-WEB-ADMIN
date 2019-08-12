@@ -77,16 +77,28 @@
 								Edit Profile
 							</a>
 						</li>
-						<li class="list-inline-item" *ngIf="isDeactivated()">
+						<li class="list-inline-item" *ngIf="(!user.attributes['approval-required'] || user.attributes['is-approved']) && isDeactivated()">
 							<i class="fas fa-power-off mr-1"></i>
 							<a href="#" (click)="showActivateModal($event)">
 								Activate
 							</a>
 						</li>
-						<li class="list-inline-item" *ngIf="!isDeactivated()">
+						<li class="list-inline-item" *ngIf="(!user.attributes['approval-required'] || user.attributes['is-approved']) && !isDeactivated()">
 							<i class="fas fa-power-off mr-1"></i>
 							<a href="#" (click)="showDeactivateModal($event)">
 								Deactivate
+							</a>
+						</li>
+						<li class="list-inline-item" *ngIf="user.attributes['approval-required'] && (!user.attributes['is-approved'] && !user.attributes['is-rejected'])">
+							<i class="fas fa-check-circle mr-1"></i>
+							<a href="#" (click)="showApproveModal($event)">
+								Approve
+							</a>
+						</li>
+						<li class="list-inline-item" *ngIf="user.attributes['approval-required'] && (!user.attributes['is-approved'] && !user.attributes['is-rejected'])">
+							<i class="fas fa-power-off mr-1"></i>
+							<a href="#" (click)="showRejectModal($event)">
+								Reject
 							</a>
 						</li>
 						<li class="list-inline-item" *ngIf="!isDeleted()">

@@ -1,0 +1,8 @@
+<div [formGroup]="parentForm" fxFlexFill fxLayout="column">
+	<label>{{ label }}</label>
+	<div fxLayout="row" fxLayoutAlign="start center">
+		<div fxLayoutAlign="center center" class="btn-cal"><i class="far fa-calendar" (click)="openCalendar($event)"></i>
+		</div>
+		<p-calendar #calendar [formControlName]="controlName" [autoZIndex]="false" [baseZIndex]="9999" [readonlyInput]="true"></p-calendar>
+	</div>
+</div>

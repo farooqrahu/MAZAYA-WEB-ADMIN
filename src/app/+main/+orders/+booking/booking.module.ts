@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatStepperModule } from '@angular/material';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MaterialFormsModule } from '../../../material-forms/material-forms.module';
 import { BookingRoutingModule } from './booking-routing.module';
 import { SelectFlightComponent } from './select-flight/select-flight.component';

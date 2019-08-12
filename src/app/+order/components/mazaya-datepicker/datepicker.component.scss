@@ -1,0 +1,102 @@
+
+p-calendar {
+  width: calc(100% - 65px);
+}
+
+.input-group-prepend.input-group-btn .btn.btn-mazaya {
+  background-color: #333;
+  color: #7d8082;
+  border-color: #333;
+}
+
+:host ::ng-deep .ui-datepicker-calendar {
+  color:#333;
+
+  .ui-datepicker-other-month .ui-state-disabled, .ui-widget:disabled {
+    opacity: 0 !important;
+  }
+}
+
+:host ::ng-deep .ui-inputtext {
+  height: 40px;
+  width: 235px;
+  text-shadow: none;
+  border: 1px solid #CCC;
+  border-radius: 0 3px 3px 0;
+  font-size: 16px;
+  float: right;
+  margin: 0px !important;
+
+  &:enabled:hover:not(.ui-state-error) {
+    border-color: #CCC;
+  }
+}
+
+:host ::ng-deep .ui-calendar {
+  min-width: 110px;
+}
+
+:host ::ng-deep .ui-calendar .ui-datepicker {
+  min-width: 200px;
+}
+
+.dt-label {
+  color:#CCC;
+  font-size: 14px;
+  padding: 0 0 6px 0;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.input-group-prepend .btn.btn-mazaya {
+  height: 40px;
+  min-height: 40px;
+  width: 65px;
+  min-width: 65px;
+}
+
+:host ::ng-deep .bg-color-black {
+  background: #333;
+  color:#848484;
+  border-color:#333;
+
+  &:hover {
+    border-color:#333 !important;
+  }
+}
+
+:host ::ng-deep .bg-color-white {
+  background: #FFF;
+  color:#333;
+  border-color:#CCC;
+}
+
+.btn.mazaya-btn, .btn.btn-mazaya {
+  padding: 8px;
+}
+
+.error-text {
+  color:#c82020;
+}
+
+:host ::ng-deep .ui-datepicker .ui-datepicker-header .ui-datepicker-title select {
+  margin-top: -.35em !important;
+  margin-bottom: 0 !important;
+  width: auto;
+  background: no-repeat;
+  -webkit-appearance: menulist;
+  height: 25px;
+  border-radius: 2px;
+  border-color: #777;
+
+  input.ui-inputtext {
+    width: 320px !important;
+  }
+}
+
+@media (max-width: 1440px) {
+  :host ::ng-deep {
+    input.ui-inputtext {
+      width: 218px !important;
+    }
+  }
+}

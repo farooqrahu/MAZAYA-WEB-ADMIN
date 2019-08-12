@@ -72,7 +72,7 @@
 							<ng-container matColumnDef="status">
 								<mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
 								<mat-cell *matCellDef="let user">
-									{{user.attributes['de-activated'] ? 'Inactive' : 'Active'}}
+									{{user.attributes['is-rejected'] && !user.attributes['is-approved'] ? 'Rejected' : user.attributes['de-activated'] ? 'Inactive' : 'Active'}} <span class="pending" *ngIf="user.attributes['approval-required'] && (user.attributes['is-approved'] === false && user.attributes['is-rejected'] === false)">Pending</span>
 								</mat-cell>
 							</ng-container>
 

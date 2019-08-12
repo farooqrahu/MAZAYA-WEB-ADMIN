@@ -1,0 +1,72 @@
+<div class="container-fluid pl-2 pr-2">
+	<div class="row">
+		<div class="col-12">
+			<mazaya-add-button title="Add new agreement" [link]="['/app/agreements/add']"></mazaya-add-button>
+			<mazaya-agreements-header></mazaya-agreements-header>
+
+			<div class="row grid-content">
+				<div class="col-9">
+				</div>
+				<div class="col-3 sort-by text-right">
+					<mat-form-field class="w-100">
+						<mat-label>Sort by</mat-label>
+						<mat-select>
+							<mat-option value="name">Name (A-Z)</mat-option>
+							<mat-option value="-name">Name (Z-A)</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-12">
+					<mat-table [dataSource]="packagesDataSource" class="table-fw">
+
+						<ng-container matColumnDef="name">
+							<mat-header-cell *matHeaderCellDef></mat-header-cell>
+							<mat-cell *matCellDef="let package">
+								<span>Corporate ID: {{ package.attributes['user-id'] }}</span>
+							</mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="agreementId">
+							<mat-header-cell *matHeaderCellDef></mat-header-cell>
+							<mat-cell *matCellDef="let package">
+								<span>Agreement ID: {{ package.id }}</span>
+							</mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="status">
+							<mat-header-cell *matHeaderCellDef></mat-header-cell>
+							<mat-cell *matCellDef="let package">
+								<span>{{ package.attributes['agreement-status-id'] === 2 ? 'APPROVED' : package.attributes['agreement-status-id'] === 3 ? 'REJECTED' : 'PENDING' }}</span>
+							</mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="actions">
+							<mat-header-cell *matHeaderCellDef></mat-header-cell>
+							<mat-cell *matCellDef="let package" class="d-flex justify-content-between">
+								<div class="grid-action" [routerLink]="['view', package.id]">
+									<img src="assets/img/icons/ic_show_password.png" class="img-fluid" style="max-height:24px;">
+									View Details
+								</div>
+							</mat-cell>
+						</ng-container>
+
+						<mat-header-row *matHeaderRowDef="columnsToDisplay;"></mat-header-row>
+						<mat-row *matRowDef="let packagesData; columns: columnsToDisplay"></mat-row>
+
+					</mat-table>
+
+					<div *ngIf="!packagesDataSource?.length">
+						<div class="col-12 text-center w-100 mt-3">
+							No Records found. Please try a different Filter.
+						</div>
+					</div>
+
+					<mat-paginator [length]="pageLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+												 (page)="setPageSizeOptions($event)"></mat-paginator>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+<div fxLayout="row">
+	<div fxFlex="50" fxLayoutAlign="start center">
+		<button *ngIf="progressIndex != 1" (click)="onPrev()" type="button" class="form-control btn-continue">Previous</button>
+	</div>
+
+	<div fxFlex="50" fxLayoutAlign="end center">
+		<button [hidden]="isNext" type="button" [disabled]="!goNext" (click)="onNext()" class="form-control btn-continue">Continue</button>
+	</div>
+</div>

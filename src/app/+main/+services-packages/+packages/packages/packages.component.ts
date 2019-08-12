@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { PackagesService } from '../../../../services/api/packages/packages.service';
 import { capitalize } from '../../../../utils/strings';
 

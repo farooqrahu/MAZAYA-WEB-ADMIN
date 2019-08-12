@@ -1,0 +1,12 @@
+<div class="progress__stepper" fxLayout="column" fxLayoutAlign="start center" *ngFor="let step of [1, 2, 3, 4];">
+
+	<div class="progress__circle" [ngClass]="(progressIndex | async) === step ? 'active': ''"
+			 fxLayoutAlign="center center">{{ step }}</div>
+	<div class="vl"></div>
+</div>
+
+<div *ngIf="!isSelectionFastTack" class="progress__stepper" fxLayout="column" fxLayoutAlign="start center">
+	<div class="progress__circle" [ngClass]="(progressIndex | async) === 5 ? 'active': ''" fxLayoutAlign="center center">5
+	</div>
+	<div class="vl"></div>
+</div>

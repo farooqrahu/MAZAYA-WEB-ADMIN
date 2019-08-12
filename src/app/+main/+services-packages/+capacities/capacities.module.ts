@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatChipsModule, MatDatepickerModule, MatSlideToggleModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { NgPipesModule } from 'ngx-pipes';

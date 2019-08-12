@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatHorizontalStepper } from '@angular/material';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../../../../services/checkout/checkout.service';
 

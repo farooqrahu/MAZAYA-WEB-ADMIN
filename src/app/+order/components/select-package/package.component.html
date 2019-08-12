@@ -1,0 +1,36 @@
+<div fxLayout="row">
+	<h4>Select your packages</h4>
+</div>
+
+<div class="pkg-card" fxLayout="row" fxLayoutGap="20px">
+	<div fxFlex="3">
+		<app-progress-line></app-progress-line>
+	</div>
+
+	<div class="pkg-content" fxFlex fxLayout="column" fxLayoutGap="20px">
+		<app-order-nav [goNext]="getPkgFromLocalStorage"></app-order-nav>
+		<div *ngIf="packages$ | async" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="21px">
+			<div fxLayout="row wrap" class="pkg__box" fxFlex="48" *ngFor="let pkg of (packages$ | async); let i = index"
+					 fxLayoutAlign="center center">
+				<div fxFlex="80" fxLayoutGap="20px">
+					<img [src]="pkg.attributes['image-url-web']">
+					<h5>{{ pkg.attributes['name'] }}</h5>
+				</div>
+				<div fxFlex="20" fxLayoutAlign="center center">
+					<div class="pkg__circle" (click)="onSelect(pkg, (i + 1))" fxLayoutAlign="center center"
+							 [ngClass]="{'selected': getPkgFromLocalStorage && getPkgIndexFromLocalStorage == (i + 1)}">
+						<i class="fas fa-plus"></i>
+						<i class="fas fa-check"></i>
+					</div>
+				</div>
+				<div fxLayout="row" fxFlex>
+					<span class="text-bold">{{ getPkgPrice(pkg).price }} SAR</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div fxFlex="25">
+		<app-order-panel ></app-order-panel>
+	</div>
+</div>

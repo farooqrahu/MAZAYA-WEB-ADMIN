@@ -1,0 +1,28 @@
+<div fxFlex="100" fxLayout="row" fxFlexFill>
+	<div class="sidebar-container" fxFlex="13">
+		<div class="app-sidebar" data-active-color="white" data-background-color="black">
+			<mazaya-sidebar></mazaya-sidebar>
+			<div class="sidebar-background"></div>
+		</div>
+	</div>
+	<div fxFlex class="router-container" fxFlexFill>
+		<router-outlet></router-outlet>
+	</div>
+</div>
+
+<p-dialog [width]="350" [positionTop]="30" [height]="auto" modal="modal" [responsive]="true" header="Payment Details"
+					[(visible)]="showPaymentDetails" modal="true">
+	<div class="p-content" fxLayout="column" fxLayoutAlign="start start">
+		<mat-checkbox class="example-margin" [(ngModel)]="isCashPayment" [(indeterminate)]="indeterminate"
+									[disabled]="disabled">
+			Cash Payment
+		</mat-checkbox>
+	</div>
+
+	<p-footer>
+		<button type="button" class="btn btn-mazaya btn-mazaya-gray-alt-2 btn-mazaya-slim float-left"
+						(click)="processPayment()">Accept</button>
+		<button type="button" class="btn btn-mazaya btn-mazaya-gray-alt-2 btn-mazaya-slim"
+						(click)="showPaymentDetails = false">Decline</button>
+	</p-footer>
+</p-dialog>

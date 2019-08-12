@@ -1,8 +1,7 @@
 .date-filter-select {
-	.mat-form-field-underline, .mat-input-underline, .mat-select-arrow, .mat-select-value-text {
+	.mat-form-field-underline, .mat-form-field-underlinerline.mat-form-field-underline, .mat-select-arrow, .mat-select-value-text {
 		color : #7f7f7f !important;
-	}
-	.mat-form-field-underline, .mat-input-underline{
+	}.mat-form-field-underlinenderline, .mat-form-field-underline.mat-form-field-underline{
 		background-color: #7f7f7f !important;
 	}
 }

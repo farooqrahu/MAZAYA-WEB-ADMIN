@@ -1,7 +1,7 @@
 import { CollectionViewer } from '@angular/cdk/collections';
 import { DataSource } from '@angular/cdk/table';
 import { HttpParams } from '@angular/common/http';
-import { SortDirection } from '@angular/material';
+import { SortDirection } from '@angular/material/sort';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { catchError, finalize } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class UsersDataSource implements DataSource<any> {
         .set('page[number]', (pageIndex + 1).toString());
       } else {
         params = new HttpParams()
-        .set('filter[deleted]', 'ne:true')
+        // .set('filter[deleted]', 'ne:true')
         .set('page[size]', pageSize.toString())
         .set('page[number]', (pageIndex + 1).toString());
       }

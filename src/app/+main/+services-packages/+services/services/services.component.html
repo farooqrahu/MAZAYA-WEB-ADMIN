@@ -24,7 +24,7 @@
 				<div class="col-3 sort-by text-right">
 					<mat-form-field class="w-100">
 						<mat-label>Sort by</mat-label>
-						<mat-select [(ngModel)]="sortBy" (change)="loadServices()">
+						<mat-select [(ngModel)]="sortBy" (selectionChange)="loadServices()">
 							<mat-option value="name">Name (A-Z)</mat-option>
 							<mat-option value="-name">Name (Z-A)</mat-option>
 						</mat-select>

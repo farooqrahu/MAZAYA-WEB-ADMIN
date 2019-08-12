@@ -63,9 +63,8 @@
 							<ng-container matColumnDef="validity">
 								<mat-header-cell *matHeaderCellDef>Validity</mat-header-cell>
 								<mat-cell *matCellDef="let voucher">
-									<strong>From</strong>
-									{{voucher['attributes']['validity-start-date-and-time-utc'] | formatDate:true}}&nbsp;
-									<strong>To</strong> {{voucher['attributes']['validity-end-date-and-time-utc'] | formatDate:true}}
+									<strong>From</strong>&nbsp;{{voucher['attributes']['validity-start-date-and-time-utc'] | formatDate:true}}&nbsp;
+									<strong>To</strong>&nbsp;{{voucher['attributes']['validity-end-date-and-time-utc'] | formatDate:true}}
 								</mat-cell>
 							</ng-container>
 

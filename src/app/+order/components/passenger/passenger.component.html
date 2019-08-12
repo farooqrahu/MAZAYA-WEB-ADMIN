@@ -1,0 +1,117 @@
+<div fxLayout="row">
+	<h4>Add Passenger</h4>
+</div>
+
+<div class="psngr-card" fxLayout="row" fxLayoutGap="20px">
+	<div fxFlex="3">
+		<app-progress-line></app-progress-line>
+	</div>
+
+	<div class="psngr-content" fxFlex fxLayout="column" fxLayoutGap="20px">
+		<app-order-nav [goNext]="passengerForm.valid && getPsngrFromLocalStorage && !isSelectionFastTack"></app-order-nav>
+		<div fxLayout="row wrap" fxLayoutGap="10px">
+			<div fxLayout="column" class="psngr__box" *ngFor="let member of getMembers; let i = index" fxFlex="40"
+					 fxLayoutAlign="start center">
+				<form novalidate [formGroup]="passengerForm" *ngIf="passengerForm" fxFlexFill>
+					<div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="20px" formArrayName="members">
+						<div fxLayout="column" fxFlex [formGroupName]="i" fxLayoutGap="20px">
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<app-dropdown-search class="app-dropdown-search" [label]="'Salutation'"
+																		 *ngIf="member.get('dialCode').value"
+																		 (handleItemChange)="salutationChange($event, member)"
+																		 [selectedItem]="member.get('dialCode').value" [items]="salutations">
+								</app-dropdown-search>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<div class="form-group">
+									<label>Firstname</label>
+									<input type="text" formControlName="first-name" class="form-control">
+								</div>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<div class="form-group">
+									<label>Lastname</label>
+									<input type="text" formControlName="last-name" class="form-control">
+								</div>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<div class="form-group">
+									<label>Email</label>
+									<input type="email" formControlName="email" class="form-control">
+								</div>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<app-dropdown-search *ngIf="member.get('nationality').value"
+																		 [selectedItem]="member.get('nationality').value"
+																		 (handleItemChange)="onNationalityChange($event, member)" [label]="'Nationality'"
+																		 [items]="nationalities$ | async">
+								</app-dropdown-search>
+							</div>
+
+							<div fxLayout="column" fxLayoutAlign="start start">
+								<label>Phone Number</label>
+								<div fxLayout="row" class="w-100">
+									<app-dropdown-search [ngClass]="'dialCode'" *ngIf="member.get('dialCode').value"
+																			 [selectedItem]="member.get('dialCode').value"
+																			 (handleItemChange)="onDialCodeChange($event, member)"
+																			 [items]="dialCodes$ | async"></app-dropdown-search>
+									<div class="form-group">
+										<input fxFlex type="email" formControlName="mobile" class="form-control phone-number">
+									</div>
+								</div>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<mazaya-datepicker [parentForm]="member" [controlName]="'passport-expiry-date'"
+																	 [errorText]="'Please enter your passport expiry date'"
+																	 [inputStyleClass]="'bg-color-black'" [label]="'Passport Expiry Date'"
+																	 [minDateValue]="minDateValue">
+								</mazaya-datepicker>
+							</div>
+
+							<div fxLayout="row" fxLayoutAlign="start center">
+								<label class="mr-2">Passport scans</label><br />
+								<button class="btn add-passport-scans-button"
+												(click)="triggerPassportScanFileSelect( passportScansFileInput )"
+												[ngClass]="{ 'adj-margin':getPassportScanFileType( member ) === 'pdf' }"></button>
+								<img [attr.src]="member.get('passport-scan').value.preview ? member.get('passport-scan').value.preview: member.get('passport-scan').value"
+										 *ngIf="member.get('passport-scan').value && getPassportScanFileType( member ) !== 'pdf'"
+										 class="img-fluid passport-scans">
+								<i class="icon fa-file-pdf-o" style="font-size: 30px;"
+									 *ngIf="getPassportScanFileType( member ) === 'pdf'"></i>
+
+
+								<input type="file" style="display:none;" accept="image/png,image/jpg,image/jpeg,application/pdf"
+											 #passportScansFileInput (change)="onPassportScanSelect($event,member)">
+								<div class="help-block text-danger"
+										 *ngIf="member.get('passport-scan').touched && member.get('passport-scan').hasError('required')">
+									<div i18n i18n-dir="ltr">
+										Please add a scan or picture of the passport
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div fxLayout="row" *ngIf="i !== 0" class="psngr__remove" (click)="onRemove(i)" fxLayoutAlign="start center"
+						 fxLayoutGap="20px">
+					<i class="fas fa-trash-alt"></i> Remove
+				</div>
+			</div>
+
+			<div class="psngr__box psngr__box-add" fxFlex="40" fxLayoutAlign="center center">
+				<i (click)="addMember()" class="fas fa-plus"></i>
+			</div>
+		</div>
+	</div>
+
+	<div fxFlex="25">
+		<app-order-panel></app-order-panel>
+	</div>
+
+</div>

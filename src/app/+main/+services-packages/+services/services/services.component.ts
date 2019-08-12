@@ -1,7 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ServiceModel } from '../../../../models/service.model';
-import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ViewServiceModalComponent } from '../../../../dialogs/view-service-modal/view-service-modal.component';
 import { findIndex } from 'lodash';
 import { ServicesService } from '../../../../services/api/services/services.service';

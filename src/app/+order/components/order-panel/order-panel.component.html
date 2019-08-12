@@ -1,0 +1,91 @@
+<mat-card>
+	<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+		<div fxFlex>
+			<h3>My Order</h3>
+		</div>
+		<div fxFlex="40">
+			<img src="assets/img/mazaya-logo-transparent.png">
+		</div>
+	</div>
+
+	<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+		<!-- flight details -->
+		<div *ngIf="(getFlight | async)" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px" fxFlexFill>
+			<h5 fxFlexFill>Flight Details</h5>
+			<div class="op__panel-section" fxFlexFill>
+				<div fxFlex="50" fxLayoutAlign="start center">
+					<span>{{ (getFlight | async)?.attributes['arrival-city-code'] }}</span> -
+					<span>{{ (getFlight | async)?.attributes['departure-city-code'] }}</span>
+				</div>
+				<div fxFlex="50" fxLayoutAlign="center end" fxLayout="column">
+					<span>{{ (getFlight | async)?.attributes['flight-number'] }}</span>
+					<span>{{ flightDateLong((getFlight | async)?.attributes['scheduled-utc']) | formatDate: 'en' }}</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- package details -->
+		<div *ngIf="(getPkg | async)" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px" fxFlexFill>
+			<h5 fxFlexFill>Your packages</h5>
+			<div class="op__panel-section" fxFlexFill>
+				<div fxFlex="50" fxLayoutAlign="start center">
+					<span>{{ (getPkg | async)?.attributes['name'] }}</span>
+				</div>
+				<div fxFlex="50" fxLayoutAlign="center end" fxLayout="column">
+					<span>{{ getPkgPrice(getPkg | async)?.price }} SAR</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- passengers details -->
+		<div *ngIf="(getPassengers | async)" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px" fxFlexFill>
+			<h5 fxFlexFill>Passenger</h5>
+			<div class="op__panel-section" fxFlexFill>
+				<div fxFlex fxLayoutAlign="start center">
+					<span>{{ (getPassengers | async)?.members?.length }} Passenger</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- location details -->
+		<div *ngIf="(getAddress | async)" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px" fxFlexFill>
+			<h5 fxFlexFill>Pickup Location</h5>
+			<div class="op__panel-section" fxFlexFill>
+				<div fxFlex fxLayoutAlign="start center">
+					<span>{{ (getAddress | async) }}</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Calculation -->
+		<div fxLayout="column" class="op__calc-panel" fxLayoutAlign="start center" fxLayoutGap="5px" fxFlexFill>
+			<div fxFlexFill>
+				<div fxFlex="50" fxLayoutAlign="start center">Subtotal</div>
+				<div fxFlex="50" fxLayoutAlign="end center">{{ calculateSubTotal(getPkgPrice(getPkg | async)?.price) }} SAR
+				</div>
+			</div>
+			<div fxFlexFill>
+				<div fxFlex="50" fxLayoutAlign="start center">Discount Amount</div>
+				<div fxFlex="50" fxLayoutAlign="end center">0 SAR</div>
+			</div>
+			<div fxFlexFill>
+				<div fxFlex="50" fxLayoutAlign="start center">VAT 5%</div>
+				<div fxFlex="50" fxLayoutAlign="end center">{{ calculateVAT(getPkgPrice(getPkg | async)?.price) }} SAR</div>
+			</div>
+			<div fxFlexFill class="mt-20">
+				<div fxFlex="50" fxLayoutAlign="start center">
+					<h4>Total</h4>
+				</div>
+				<div fxFlex="50" fxLayoutAlign="end center">
+					<h4>{{ calculateTotal(getPkgPrice(getPkg | async)?.price) }} SAR</h4>
+				</div>
+			</div>
+		</div>
+
+		<div fxFlexFill fxLayoutAlign="center center">
+			<button type="button"
+							[disabled]="!(getFlight | async) || !(getPkg | async) || !(getPassengers | async) || !(getAddress | async)"
+							(click)="onSubmit()" class="form-control btn-submit">Submit</button>
+		</div>
+	</div>
+</mat-card>

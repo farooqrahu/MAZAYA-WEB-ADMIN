@@ -96,12 +96,18 @@ export class VoucherAddComponent implements OnInit {
     for (; i++ < len;) {
       let r = Math.random() * (max - min) + min << 0;
       str += String.fromCharCode(r += r > 9 ? r < 36 ? 55 : 61 : 48);
+
     }
+
     return str.toUpperCase();
+
   }
 
+
   public parseFileToArray(event: any): void {
-    const fileReaded = event.target.files[0];
+
+
+  	const fileReaded = event.target.files[0];
     const extension = fileReaded.name.split('.')[1];
 
 		let reader: FileReader = new FileReader();
@@ -192,7 +198,7 @@ export class VoucherAddComponent implements OnInit {
           "agreement": {
             "data": {
               "type": "agreements",
-              "id": 1
+              "id": null
             }
           }
         }
@@ -207,7 +213,9 @@ export class VoucherAddComponent implements OnInit {
     this.voucherService.createVoucher(data).subscribe(res => {
       if (res)
         this.router.navigateByUrl('app/vouchers');
-    })
+    }, (err) => {
+    	alert(err);
+		});
   }
 
   public getPackages(): void {

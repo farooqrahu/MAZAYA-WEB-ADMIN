@@ -1,0 +1,89 @@
+h4 {
+  color: #FFF;
+  margin-bottom: 20px;
+}
+
+.ot__box {
+	height: 150px;
+	background-color: #222;
+	border-radius: 4px;
+	color: #FFF;
+	padding: 20px;
+
+	img {
+		height: 50px;
+	}
+
+	h5 {
+		margin-top: 5px;
+	}
+}
+
+.ot__circle {
+	border-radius: 50%;
+	border: 2px #FFF dashed;
+	height: 60px;
+	width: 60px;
+	cursor: pointer;
+
+	&:hover {
+		border: solid #898c8e;
+		background-color: #898c8e;
+
+		.fa-plus {
+			display: none;
+		}
+
+		.fa-check {
+			display: block;
+		}
+	}
+
+	&.selected {
+    border: solid #898c8e !important;
+    background-color: #898c8e;
+
+		.fa-plus {
+			display: none !important;
+		}
+
+		.fa-check {
+			display: block !important;
+		}
+	}
+
+	.fa-check {
+		display: none;
+	}
+}
+
+.fa-plus,
+.fa-check {
+	font-size: 35px;
+}
+
+:host ::ng-deep {
+
+	.form-control:disabled,
+	.form-control[readonly] {
+		cursor: not-allowed !important;
+	}
+
+	mat-card {
+		background-color: #000;
+		min-height: 400px;
+	}
+
+	.ui-inputtext {
+		color: #333 !important;
+		background: #222 !important;
+		border: 1px solid #222 !important;
+		color: #CCC !important;
+		border-radius: 0 2px 2px 0 !important;
+		min-width: 150px !important;
+	}
+
+	.ui-dialog-resizable .ui-dialog-content {
+		overflow: unset;
+	}
+}

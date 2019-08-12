@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { DateAdapter, MatButtonModule, MatDatepickerModule, MatIconModule, MatProgressBarModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { DateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -54,6 +58,7 @@ import { environment } from '../environments/environment';
 import { AgmCoreModule } from '@agm/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatListModule} from '@angular/material/list';
+import {CountriesService} from "./services/countries/countries.service";
 
 library.add(fas, fab, far);
 
@@ -113,7 +118,7 @@ const Interceptors = [
 			MatMomentDateModule,
 			MatButtonModule,
       MatIconModule,
-      MatListModule
+      MatListModule,
 		],
 		providers: [
 			...Interceptors,
@@ -123,6 +128,7 @@ const Interceptors = [
 			RolesService,
 			CapacitiesService,
 			GeocodingService,
+			CountriesService,
 			CheckoutService,
 			{
 				provide: DateAdapter,

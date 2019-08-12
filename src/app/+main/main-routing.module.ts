@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RedirectToRoleDefaultPageGuard } from '../guards/redirect-to-role-default-page.guard';
-
 import { FullLayoutComponent } from '../layouts/full/full-layout.component';
 
 const routes: Routes = [
@@ -35,6 +34,10 @@ const routes: Routes = [
 				loadChildren: './+services-packages/services-packages.module#ServicesPackagesModule'
 			},
 			{
+				path: 'agreements',
+				loadChildren: './+agreements/agreements.module#AgreementsModule'
+			},
+			{
 				path: 'account',
 				loadChildren: './+account/account.module#AccountModule'
 			},
@@ -45,10 +48,9 @@ const routes: Routes = [
 		]
 	}
 ];
-
 @NgModule(
-	{
-		imports: [ RouterModule.forChild(routes) ],
-		exports: [ RouterModule ]
-	})
-export class MainRoutingModule {}
+  {
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+  })
+export class MainRoutingModule { }

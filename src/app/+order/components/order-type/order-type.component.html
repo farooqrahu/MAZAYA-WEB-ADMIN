@@ -1,0 +1,33 @@
+<div fxLayout="row">
+	<h4>Select your Flight</h4>
+</div>
+
+<div class="ot-card" fxLayout="row" fxLayoutGap="20px">
+	<div fxFlex="3">
+		<app-progress-line></app-progress-line>
+	</div>
+
+	<div class="ot-content" fxFlex fxLayout="column" fxLayoutGap="20px">
+		<app-order-nav></app-order-nav>
+		<div fxLayout="row" fxLayoutGap="20px">
+			<div class="ot__box" fxFlex="50" *ngFor="let type of orderTypes; let i = index" fxLayoutAlign="center center">
+				<div fxFlex="80" fxLayoutGap="20px">
+					<img src="assets/img/icons/{{ type.img }}">
+					<h5>{{ type.text }}</h5>
+				</div>
+				<div fxFlex="20">
+					<div class="ot__circle" (click)="onSelect((i + 1), type.text)" fxLayoutAlign="center center"
+							 [ngClass]="{'selected': getSelectedOrder == (i + 1)}">
+						<i class="fas fa-plus"></i>
+						<i class="fas fa-check"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div fxFlex="25">
+		<app-order-panel></app-order-panel>
+	</div>
+
+</div>

@@ -4,11 +4,13 @@ import { AuthService } from 'ng2-ui-auth';
 import { UsersService } from '../../../services/api/users/users.service';
 import { singularize } from '../../../utils/strings';
 import { assignAttributes } from '../../../utils/json';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteAccountModalComponent } from '../../../dialogs/delete-account-modal/delete-account-modal.component';
 import { ActivateAccountModalComponent } from '../../../dialogs/activate-account-modal/activate-account-modal.component';
 import { DeactivateAccountModalComponent } from '../../../dialogs/deactivate-account-modal/deactivate-account-modal.component';
+import { ApproveAccountModalComponent } from '../../../dialogs/approve-account-modal/approve-account-modal.component';
 import { RestoreAccountModalComponent } from '../../../dialogs/restore-account-modal/restore-account-modal.component';
+import { RejectAccountModalComponent } from '../../../dialogs/reject-account-modal/reject-account-modal.component';
 
 declare const $: any;
 
@@ -118,6 +120,36 @@ export class UserViewComponent implements OnInit {
 				} else {
 					this.user.attributes[ 'de-activated' ] = true;
 				}
+			}
+		});
+	}
+
+	showApproveModal(event) {
+		event.preventDefault();
+		const dialogRef = this.dialog.open(ApproveAccountModalComponent, {
+			data: {
+				user: this.user
+			}
+		});
+		dialogRef.afterClosed().subscribe((result: any) => {
+			console.log('result: ', result);
+			if ( result !== null && typeof result !== 'undefined' ) {
+				this.user.attributes[ 'is-approved' ] = true;
+			}
+		});
+	}
+
+	showRejectModal(event) {
+		event.preventDefault();
+		const dialogRef = this.dialog.open(RejectAccountModalComponent, {
+			data: {
+				user: this.user
+			}
+		});
+		dialogRef.afterClosed().subscribe((result: any) => {
+			console.log('result: ', result);
+			if ( result !== null && typeof result !== 'undefined' ) {
+				this.user.attributes[ 'is-approved' ] = true;
 			}
 		});
 	}

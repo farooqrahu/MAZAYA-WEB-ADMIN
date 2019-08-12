@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+	<mat-card>
+		<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+			<ng-container *ngIf="orderSuccess">
+				<img class="payment-logo" src="assets/img/logos/mazaya-logo-transparent.png">
+				<h2>Payment Succeeded</h2>
+				<p>Your order has been sucessfully submitted.</p>
+				<p>Reference No.: <span class="bold">{{ bookingRef }}</span></p>
+			</ng-container>
+
+			<ng-container *ngIf="orderSuccess === false">
+				<img class="payment-logo" src="assets/img/logos/mazaya-logo-transparent.png">
+				<h2>Payment Failed</h2>
+				<p><a href="javascript:void(0)" routerLink="/order/select-flight">Try again</a></p>
+			</ng-container>
+
+		</div>
+	</mat-card>
+</div>

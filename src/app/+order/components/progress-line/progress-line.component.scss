@@ -1,0 +1,27 @@
+.progress__circle {
+	width: 50px;
+  border: thin #898c8e solid;
+  background-color: #898c8e;
+	text-align: center;
+	height: 50px;
+  border-radius: 50%;
+  color: #CCC;
+
+  &.active {
+    background-color: #333 !important;
+    border: thin #333 solid;
+  }
+}
+
+.progress__stepper {
+	.vl {
+		border-left: thin solid #333;
+    height: 40px;
+  }
+
+  &:last-child {
+    .vl {
+      border-left: none;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+<div class="row">
+	<div class="col-2 bar-menu-button" [routerLink]="['/app/agreements/reseller']">
+		<span class="d-inline-flex">
+			<mat-icon class="mr-1">keyboard_backspace</mat-icon>
+			Return
+		</span>
+	</div>
+</div>
+
+<div class="row mt-3" style="background-color: white">
+	<div class="col-12 p-4">
+
+		<mat-tab-group selectedIndex="0">
+			<mat-tab label="Agreement Details">
+				<h3 class="mt-3">Reseller agreement #{{ reseller?.id }}</h3>
+				<p><i class="far fa-calendar"></i> {{ reseller?.attributes['datetime-utc'] | date:'d MMMM y \'at\' hh:mm' }}</p>
+
+				<div class="row mt-3">
+					<div class="col-6 mb-2" *ngFor="let package of reseller?.attributes['agreement-package-list']">
+						<section class="p-3" style="background-color: #ccc">
+							<h5 class="mb-1"><img [src]="package['package-id'] === 2 ? 'https://mazayastorage.blob.core.windows.net/mazayablobs/ic_fast_track_booking@3x.png' : package['package-id'] === 3 ? 'https://mazayastorage.blob.core.windows.net/mazayablobs/ic_luggage-booking@3x.png' : 'https://mazayastorage.blob.core.windows.net/mazayablobs/ic_fullpackage_square.png'" width="48" height="48">&nbsp;&nbsp;&nbsp;{{ package['package-name'] }}</h5>
+							<div class="row">
+								<div class="col">
+									<mat-form-field class="mr-3">
+										<input matInput placeholder="Qty"
+													 type="number" [(ngModel)]="package['quantity']" min="0" [disabled]="role === 'reseller'">
+									</mat-form-field>
+									<div>
+										<small style="color: red" *ngIf="package['quantity'] === 0 && showError">Please enter a quantity.</small>
+									</div>
+								</div>
+								<div class="col">
+									<mat-form-field>
+										<input matInput placeholder="Fees"
+													 type="number" [(ngModel)]="package['commission']" min="0" [disabled]="role === 'reseller'">
+									</mat-form-field>
+									<div>
+										<small style="color: red" *ngIf="package['commission'] === 0 && showError">Please enter a commission.</small>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Submitted Orders">
+
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+	<div class="col-12 p-0" *ngIf="role === 'admin' && (reseller?.attributes['agreement-status-id'] === 1 || reseller?.attributes['agreement-status-id'] === '1')">
+		<div class="row--footer">
+			<button type="button" class="btn save-button mr-3" (click)="reject()">
+				REJECT
+			</button>
+
+			<button type="button" class="btn save-button" (click)="approve()">
+				APPROVE
+			</button>
+		</div>
+	</div>
+
+	<div class="col-12 p-0" *ngIf="role === 'admin' && (reseller?.attributes['agreement-status-id'] === 2 || reseller?.attributes['agreement-status-id'] === '2')">
+		<div class="row--footer">
+			<button type="button" class="btn save-button" (click)="savePackageList()">
+				SAVE
+			</button>
+		</div>
+	</div>
+</div>
+

@@ -23,6 +23,11 @@ export const appRoutes: Routes = [
 				path: 'app',
 				loadChildren: './+main/main.module#MainModule',
 				canActivate: [ IsLoggedInGuard ]
+			},
+			{
+				path: 'order',
+				loadChildren: './+order/order.module#OrderModule',
+				// canActivate: [ IsLoggedInGuard ]
 			}
 		]
 	},

@@ -12,7 +12,7 @@
 							<input type="date" class="form-control d-inline" formControlName="secondDate">
 							<mat-form-field class="w-20 date-filter-select mr-4">
 								<mat-label style="color:#7f7f7f;">Apply dates to</mat-label>
-								<mat-select class="date-filter-select" (change)="filterOrders()" [(ngModel)]="filterByDateType" [ngModelOptions]="{standalone: true}">
+								<mat-select class="date-filter-select" (selectionChange)="filterOrders()" [(ngModel)]="filterByDateType" [ngModelOptions]="{standalone: true}">
 									<mat-option value="booked-date">Booked Date</mat-option>
 									<mat-option value="flight-date">Flight Date</mat-option>
 								</mat-select>

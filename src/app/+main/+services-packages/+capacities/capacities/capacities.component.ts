@@ -1,6 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { DeleteCapacityModalComponent } from '../../../../dialogs/delete-capacity-modal/delete-capacity-modal.component';
 import { CapacitiesService } from '../../../../services/api/capacities/capacities.service';
 import { findIndex, orderBy } from 'lodash';

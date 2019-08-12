@@ -1,0 +1,15 @@
+<h2 matDialogTitle>Reject Account</h2>
+<mat-dialog-content>
+	<div class="row">
+		<div class="col-12 text-center">
+			Are you sure you want to reject the account for
+			<div>
+				{{data.user.attributes['first-name']}}?
+			</div>
+		</div>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+	<button mat-dialog-close class="btn btn-mazaya btn-mazaya-gray-alt-2">Cancel</button>
+	<button (click)="rejectAccount()" class="btn btn-mazaya btn-mazaya-gray-alt-2">Reject</button>
+</mat-dialog-actions>

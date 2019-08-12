@@ -1,0 +1,80 @@
+<div fxLayout="row">
+	<h4>Select your Flight</h4>
+</div>
+
+<div class="sf-card" fxLayout="row" fxLayoutGap="20px">
+	<div fxFlex="3">
+		<app-progress-line></app-progress-line>
+	</div>
+
+	<div class="sf-content" fxFlex fxLayout="column" fxLayoutGap="20px">
+		<app-order-nav [goNext]="flightForm.valid && getFlightFromLocalStorage" ></app-order-nav>
+
+		<div class="sf-form">
+			<div class="sf-tab" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+				<span *ngFor="let tab of tabText; let i = index" [class.active]="selectedTab === i"
+							(click)="selectTab(i)">{{ tab }}</span>
+			</div>
+
+			<form novalidate [formGroup]="flightForm" *ngIf="flightForm" >
+				<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+					<div fxFlexFill [fxLayout]="selectedTab === 1 ? 'row-reverse' : 'row'" fxLayoutAlign="start center"
+							 fxLayoutGap="20px">
+						<div [fxFlex]="selectedTab === 0 ? '40' : '60'">
+							<label>{{ selectedTab === 0 ? 'Origin': 'Destination' }} City</label>
+							<input [ngbTypeahead]="airportSearch" formControlName="flight" [inputFormatter]="airportResultFormatter"
+										 [resultFormatter]="airportResultFormatter" type="text" class="form-control arr-dep-input">
+						</div>
+						<div [fxFlex]="selectedTab === 1 ? '40' : '40'">
+							<label>{{ selectedTab === 1 ? 'Destination': 'Origin' }} City</label>
+							<div class="sf-text" fxLayoutAlign="start center">Riyadh King Khalid International Airport (RUH)</div>
+						</div>
+					</div>
+
+					<div fxFlexFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+						<div>
+							<label>Flight Number</label>
+							<input readonly type="text" formControlName="flightNumber" class="form-control">
+						</div>
+						<div>
+							<mazaya-datepicker [parentForm]="flightForm" [controlName]="'flightDate'"
+																 [label]="selectedTab === 1 ? 'Destination Date': 'Arrival Date'"></mazaya-datepicker>
+						</div>
+						<div fxFlex fxLayoutAlign="start end" class="w-70">
+							<button type="button" [disabled]="!flightForm.valid" (click)="searchFlight()"
+											class="form-control btn-search"><i class="fas fa-search"></i></button></div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<h5 *ngIf="searchedFlights">Search results</h5>
+		<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+			<div class="sf-search" fxFlexFill fxLayout="row" fxLayoutAlign="start center"
+					 *ngFor="let flight of searchedFlights; let i = index">
+				<div class="sf-search__img" fxLayoutAlign="center center" fxFlex="20">
+					<img [src]="flight.attributes.logo">
+				</div>
+				<div fxFlexFill fxFlex="20" fxLayoutAlign="center center" class="sf-search__text">
+					{{ flightDateLong(flight.attributes['scheduled-utc']) | formatDate: 'en' }}
+				</div>
+				<div fxFlexFill fxFlex="20" fxLayoutAlign="center center" class="sf-search__text">
+					{{ flight.attributes['arrival-city-code'] }} -
+					{{ flight.attributes['departure-city-code'] }}</div>
+				<div fxFlexFill fxFlex="20" fxLayoutAlign="center center" class="sf-search__text">
+					<span>Flight #</span>
+					<span>{{ flight.attributes['flight-number'] }}</span>
+				</div>
+				<div fxFlexFill fxFlex="20" fxLayoutAlign="center center">
+					<span *ngIf="getSelectedFlightIndex === (i + 1)" class="sf-search__selected-flight">Selected</span>
+					<button *ngIf="getSelectedFlightIndex !== (i + 1)" type="button" (click)="selectFlight(flight, (i + 1))" class="form-control">Select
+						Flight</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div fxFlex="25">
+		<app-order-panel ></app-order-panel>
+	</div>
+</div>

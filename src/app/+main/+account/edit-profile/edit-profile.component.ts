@@ -118,7 +118,8 @@ export class EditProfileComponent implements OnInit {
 				attributes: {
 					'first-name': this.first_name_internal.value,
 					'last-name': this.last_name_internal.value,
-					'mobile-number': `+966${this.mobile_internal.value}`,
+					// 'mobile-number': `+639173045896`,
+					'mobile-number': this.mobile_internal.value,
 					'email': this.email_internal.value
 				},
 				type: 'users'

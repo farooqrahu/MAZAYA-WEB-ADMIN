@@ -5,11 +5,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialFormsModule } from '../../material-forms/material-forms.module';
 import { SharedModule } from '../../shared/shared.module';
-
 import { AccountRoutingModule } from './account-routing.module';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { PackagesService } from 'app/services/api/packages/packages.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { OrderModule } from 'app/+order/order.module';
 
 @NgModule({
   imports: [
@@ -21,7 +23,10 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     SharedModule,
     NgbModule,
     FontAwesomeModule,
+    FlexLayoutModule,
+    OrderModule
   ],
-  declarations: [ViewProfileComponent, ChangePasswordComponent, EditProfileComponent]
+  declarations: [ViewProfileComponent, ChangePasswordComponent, EditProfileComponent, ChangePasswordComponent],
+  providers: [ PackagesService ]
 })
 export class AccountModule { }

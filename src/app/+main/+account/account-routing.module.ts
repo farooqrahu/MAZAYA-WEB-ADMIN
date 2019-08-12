@@ -28,12 +28,20 @@ const routes: Routes = [
 				}
 			},
 			{
-				path: 'change-password',
+				path: 'profile/change-password',
 				component: ChangePasswordComponent,
 				data: {
 					title: 'Change Password'
 				}
-			}
+      }
+      ,
+			// {
+			// 	path: 'submit-order',
+			// 	component: SubmitOrderComponent,
+			// 	data: {
+			// 		title: 'Submit Order'
+			// 	}
+			// }
 		]
 	}
 ];

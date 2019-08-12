@@ -7,7 +7,7 @@ import {
 	MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatPaginatorModule, MatRadioModule, MatSelectModule,
 	MatSlideToggleModule,
 	MatSortModule, MatTableModule,
-	MatTooltipModule
+	MatTooltipModule, MatChipsModule,MatAutocompleteModule, MatTabsModule, MatProgressBarModule,
 } from '@angular/material';
 import { MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
@@ -30,7 +30,11 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 		          MatSlideToggleModule,
 		          MatListModule,
 		          MatRadioModule,
-		          MatCheckboxModule
+		          MatCheckboxModule,
+							MatChipsModule,
+							MatAutocompleteModule,
+							MatTabsModule,
+							MatProgressBarModule,
 	          ],
 	          declarations: [],
 	          exports: [
@@ -49,7 +53,11 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 		          MatSlideToggleModule,
 		          MatListModule,
 		          MatRadioModule,
-		          MatCheckboxModule
+		          MatCheckboxModule,
+							MatChipsModule,
+							MatAutocompleteModule,
+							MatTabsModule,
+							MatProgressBarModule,
 	          ]
           })
 export class MaterialFormsModule {}

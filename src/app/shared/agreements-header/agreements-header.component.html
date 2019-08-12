@@ -1,0 +1,12 @@
+<div class="row tab-head mt-3">
+	<ul class="list-inline mb-0">
+		<li *ngIf="role === 'admin' || role === 'corporate'" class="list-inline-item pt-3 pb-3 pl-5 pr-5" [routerLink]="['/app','agreements','corporate']"
+		    routerLinkActive="active">
+			Corporate Agreements
+		</li>
+		<li *ngIf="role === 'admin' || role === 'reseller'" class="list-inline-item pt-3 pb-3 pl-5 pr-5" [routerLink]="['/app','agreements','reseller']"
+		    routerLinkActive="active">
+			Reseller Agreements
+		</li>
+	</ul>
+</div>
