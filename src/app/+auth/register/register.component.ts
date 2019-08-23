@@ -166,9 +166,13 @@ export class RegisterComponent implements OnInit {
 			}, (error) => {
 				let msg = '';
 				error.error.errors.forEach(error => {
-					msg += `${error.title}\n`;
+					msg += `${error.title === 'Validation Errors' ? error.detail : error.title}\n`;
 				});
-				alert(msg);
+				if (msg.includes('DbUpdateException')) {
+					alert('Email has already been used')
+				} else {
+					alert(msg);
+				}
 			});
 		}
 	}

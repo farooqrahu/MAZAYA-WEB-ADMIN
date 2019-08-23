@@ -40,13 +40,16 @@ export class UserViewComponent implements OnInit {
 				this.isCustomer = true;
 				this.usersService.viewCustomer(params[ 'id' ]).subscribe((result: any) => {
 					this.user = result.data;
+					console.log('this.user: ', this.user);
 					this.user = assignAttributes(this.user, result.included);
 				});
 			} else {
 				this.isCustomer = false;
 				this.usersService.viewUser(params[ 'id' ]).subscribe((result: any) => {
 					this.user = result.data;
+					console.log('result: ', result);
 					this.user = assignAttributes(this.user, result.included);
+					console.log('this.user: ', this.user);
 				});
 			}
 		});
@@ -134,7 +137,8 @@ export class UserViewComponent implements OnInit {
 		dialogRef.afterClosed().subscribe((result: any) => {
 			console.log('result: ', result);
 			if ( result !== null && typeof result !== 'undefined' ) {
-				this.user.attributes[ 'is-approved' ] = true;
+				this.user.attributes['is-approved'] = true;
+				this.user.attributes['de-activated'] = false;
 			}
 		});
 	}
@@ -149,7 +153,7 @@ export class UserViewComponent implements OnInit {
 		dialogRef.afterClosed().subscribe((result: any) => {
 			console.log('result: ', result);
 			if ( result !== null && typeof result !== 'undefined' ) {
-				this.user.attributes[ 'is-approved' ] = true;
+				this.user.attributes[ 'is-rejected' ] = true;
 			}
 		});
 	}

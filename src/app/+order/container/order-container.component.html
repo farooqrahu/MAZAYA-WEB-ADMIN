@@ -10,11 +10,10 @@
 	</div>
 </div>
 
-<p-dialog [width]="350" [positionTop]="30" [height]="auto" modal="modal" [responsive]="true" header="Payment Details"
+<p-dialog [width]="350" [positionTop]="30" modal="modal" [responsive]="true" header="Payment Details"
 					[(visible)]="showPaymentDetails" modal="true">
 	<div class="p-content" fxLayout="column" fxLayoutAlign="start start">
-		<mat-checkbox class="example-margin" [(ngModel)]="isCashPayment" [(indeterminate)]="indeterminate"
-									[disabled]="disabled">
+		<mat-checkbox class="example-margin" [(ngModel)]="isCashPayment">
 			Cash Payment
 		</mat-checkbox>
 	</div>

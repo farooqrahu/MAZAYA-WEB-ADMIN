@@ -34,6 +34,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { PaymentService } from './services/payment.service';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { IsLoggedInGuard } from 'app/guards/is-logged-in.guard';
+import { ResellerDialogComponent } from './components/reseller-dialog/reseller-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const route: Routes = [{
   path: '',
@@ -66,7 +68,8 @@ const route: Routes = [{
     MazayaDatepickerComponent,
     LocationComponent,
     GooglePlacesDirective,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    ResellerDialogComponent
   ],
   imports: [
     CommonModule,
@@ -85,8 +88,10 @@ const route: Routes = [{
     DialogModule,
     AgmCoreModule,
     RadioButtonModule,
+    MatDialogModule,
     RouterModule.forChild(route)
   ],
+  entryComponents: [ResellerDialogComponent],
   exports: [],
   providers: [
     PackagesService,

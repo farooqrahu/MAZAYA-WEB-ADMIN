@@ -5,6 +5,7 @@ import { HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { find, startCase, lowerCase } from 'lodash';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-package',
@@ -33,11 +34,36 @@ export class PackageComponent implements OnInit {
     this.packages$ = this.getPackages;
   }
 
+
   public onSelect(pkg: any, index: number): void {
     localStorage.setItem('waSelectedPackageIndex', JSON.stringify(index));
-    localStorage.setItem('waSelectedPackage', JSON.stringify(pkg));
 
-    this.myOrderService.setPkg(pkg);
+    let pkgArr: any[] = [];
+    let fmtPkgArr: any;
+
+    if (pkg.id == 1) {
+      pkgArr = [];
+      pkgArr.push(pkg);
+    } else {
+      //get existing pkg
+      const existingPkg = JSON.parse(localStorage.getItem('waSelectedPackages')) || null;
+
+      if (existingPkg) {
+        pkgArr.push(...existingPkg);
+      }
+
+      //remove index 1
+      pkgArr = _.filter(pkgArr, function (o) {
+        return o.id != 1;
+      });
+      pkgArr.push(pkg);
+    }
+
+    fmtPkgArr = _.uniqWith(pkgArr, _.isEqual);
+
+    localStorage.setItem('waSelectedPackages', JSON.stringify(fmtPkgArr));
+
+    this.myOrderService.setPkg(fmtPkgArr);
   }
 
   ngOnInit(): void {
@@ -47,8 +73,16 @@ export class PackageComponent implements OnInit {
     return JSON.parse(localStorage.getItem('waSelectedPackageIndex')) || null;
   }
 
-  public get getPkgFromLocalStorage(): any {
-    return JSON.parse(localStorage.getItem('waSelectedPackage')) || null;
+  public getPkgsIndex(index: number): boolean {
+    const ret = _.filter(this.getPkgsFromLocalStorage || null, function (o) {
+      return o.id == index;
+    });
+
+    return ret && ret.length > 0 ? true : false;
+  }
+
+  public get getPkgsFromLocalStorage(): any {
+    return JSON.parse(localStorage.getItem('waSelectedPackages')) || null;
   }
 
   public getPkgPrice(pkg: any): any {

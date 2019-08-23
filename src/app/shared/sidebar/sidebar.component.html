@@ -22,18 +22,19 @@
 		<ul class="navigation">
 			<!-- First level menu -->
 			<li [ngClass]="[menuItem.class]"
-			    [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'"
-			    [routerLinkActiveOptions]="{exact: true}" *ngFor="let menuItem of menuItems">
+          [routerLinkActiveOptions]="{exact: true}" *ngFor="let menuItem of menuItems; let i = index"
+          [routerLinkActive]="''"
+          >
 				<a [routerLink]="menuItem.class === '' ? [menuItem.path] : null"
 				   *ngIf="visibleForCurrentUser(menuItem.visibleFor)">
 					<i [ngClass]="[menuItem.icon]"></i>
 					<span class="menu-title">{{menuItem.title}}</span>
 					<span *ngIf="menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
 				</a>
-				<!-- Second level menu -->
+				<!-- Second level menu menuSubItem.submenu.length > 0 ? '' : 'active' -->
 				<ul class="menu-content" *ngIf="menuItem.submenu.length > 0">
 					<li *ngFor="let menuSubItem of menuItem.submenu"
-					    [routerLinkActive]="menuSubItem.submenu.length > 0 ? '' : 'active'"
+					    [routerLinkActive]="''"
 					    [routerLinkActiveOptions]="{exact: true}" [ngClass]="[menuSubItem.class]">
 						<a [routerLink]="menuSubItem.submenu.length > 0 ? null : [menuSubItem.path]"
 						   *ngIf="visibleForCurrentUser(menuSubItem.visibleFor)">

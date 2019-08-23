@@ -58,3 +58,11 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
  */
 // import 'intl/locale-data/jsonp/en';
 
+
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
+
+(window as any).Buffer = {
+  env: { DEBUG: undefined },
+};

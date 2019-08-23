@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { find, filter } from 'lodash';
 import { capitalize } from '../../../utils/strings';
+import {AuthService} from "ng2-ui-auth";
 
 @Component({
 	           selector: 'mazaya-user-add',
@@ -17,6 +18,7 @@ import { capitalize } from '../../../utils/strings';
 export class UserAddComponent implements OnInit {
 
 	roles: any[] = [];
+	role: string;
 
 	createInternalUserForm: FormGroup;
 
@@ -30,6 +32,7 @@ export class UserAddComponent implements OnInit {
 
 	@ViewChild('userAvatarFileInput', {static: false}) userAvatarFileInput: ElementRef;
 
+	company_name_internal: FormControl;
 	first_name_internal: FormControl;
 	last_name_internal: FormControl;
 	email_internal: FormControl;
@@ -59,8 +62,12 @@ export class UserAddComponent implements OnInit {
 	 * @param http
 	 */
 	constructor (private router: Router, private roleService: RolesService, private fb: FormBuilder,
-	             private http: HttpClient) {
+	             private http: HttpClient, private auth: AuthService) {
+		const payload = this.auth.getPayload();
+		this.role = (<string>payload[ 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' ]).toLowerCase();
+		console.log('role: ', this.role);
 
+		this.company_name_internal = new FormControl('');
 		this.first_name_internal = new FormControl('', Validators.compose([ Validators.required ]));
 		this.last_name_internal = new FormControl('', Validators.compose([ Validators.required ]));
 		this.email_internal = new FormControl('', Validators.compose([ Validators.required, Validators.email ]));
@@ -71,6 +78,7 @@ export class UserAddComponent implements OnInit {
 
 		this.createInternalUserForm = fb.group(
 			{
+				company_name: this.company_name_internal,
 				first_name: this.first_name_internal,
 				last_name: this.last_name_internal,
 				email: this.email_internal,
@@ -119,6 +127,13 @@ export class UserAddComponent implements OnInit {
 	}
 
 	createUser () {
+		console.log('createUser');
+		if (this.selectedRole.id === '3' || this.selectedRole.id === '8') {
+			this.createUserForm.get('password').clearValidators();
+			this.createUserForm.get('password').updateValueAndValidity();
+			this.createInternalUserForm.get('password').clearValidators();
+			this.createInternalUserForm.get('password').updateValueAndValidity();
+		}
 		if ( this.isCreateInternalUser() ) {
 			if ( this.createInternalUserForm.valid ) {
 				this.doCreateInternalUser();
@@ -154,6 +169,7 @@ export class UserAddComponent implements OnInit {
 				type: 'users'
 			}
 		};
+
 		this.http.post(`${environment.baseUrl}/users`, data).subscribe((result: any) => {
 			this.router.navigate([ 'app', 'users' ]);
 		}, (error) => {
@@ -182,30 +198,76 @@ export class UserAddComponent implements OnInit {
 				type: 'users'
 			}
 		};
-		const el = this.userAvatarFileInput.nativeElement;
-		if ( el.files && el.files[ 0 ] ) {
-			data.data.attributes[ 'image-url' ] = await this.uploadInternalAvatar();
-		}
-		this.invalidPhoneNumberError = false;
-		this.http.post(`${environment.baseUrl}/users`, data).subscribe((result: any) => {
-			this.router.navigate([ 'app', 'users' ], {
-				queryParams: {
-					role: this.selectedRole.attributes.name.toLowerCase()
-				}
-			});
-		}, (response) => {
-			const actualError: string = response.error.errors[ 0 ].detail;
-			if ( actualError && actualError.includes('phone number') ) {
-				this.invalidPhoneNumberError = true;
-			}
 
-			console.log('error here: ', response);
-			let msg = '';
-			response.error.errors.forEach(err => {
-				msg += `${err.title}\n`;
-			})
-			alert(msg);
-		});
+		if (this.selectedRole.id === '3' || this.selectedRole.id === '8') {
+			if (!this.company_name_internal.value) {
+				alert(`${this.selectedRole.id === '3' ? 'Reseller' : 'Corporate'} name is required`);
+				return;
+			}
+			if (this.selectedRole.id === '8') {
+				data.data.attributes['company-name'] = this.company_name_internal.value;
+				data.data.attributes['company-email'] = this.email_internal.value;
+				data.data.attributes['company-phone'] = `+966${this.mobile_internal.value}`;
+				data.data.attributes['remarks'] = '';
+			} else {
+				data.data.attributes['company-name'] = this.company_name_internal.value;
+				data.data.attributes['remarks'] = '';
+			}
+			delete data.data.attributes.password;
+
+			this.http.post(`${environment.baseUrl}/users/for-approval`, data).subscribe((result: any) => {
+				if (this.role === 'admin') {
+					console.log('result: ', result);
+					const data = {
+						data: {
+							attributes: {
+								'is-approved': true,
+							},
+							type: 'users'
+						}
+					};
+					const userId = result.data.id;
+
+					this.http.put(`${environment.baseUrl}/users/${userId}/approval`, data)
+						.subscribe((result) => {
+							this.router.navigate([ 'app', 'users' ]);
+						});
+				} else {
+					this.router.navigate([ 'app', 'users' ]);
+				}
+			}, (error) => {
+				let msg = '';
+				error.error.errors.forEach(error => {
+					msg += `${error.title}\n`;
+				});
+				alert(msg);
+			});
+		} else {
+			const el = this.userAvatarFileInput.nativeElement;
+			if ( el.files && el.files[ 0 ] ) {
+				data.data.attributes[ 'image-url' ] = await this.uploadInternalAvatar();
+			}
+			this.invalidPhoneNumberError = false;
+			this.http.post(`${environment.baseUrl}/users`, data).subscribe((result: any) => {
+				this.router.navigate([ 'app', 'users' ], {
+					queryParams: {
+						role: this.selectedRole.attributes.name.toLowerCase()
+					}
+				});
+			}, (response) => {
+				const actualError: string = response.error.errors[ 0 ].detail;
+				if ( actualError && actualError.includes('phone number') ) {
+					this.invalidPhoneNumberError = true;
+				}
+
+				console.log('error here: ', response);
+				let msg = '';
+				response.error.errors.forEach(err => {
+					msg += `${err.title}\n`;
+				})
+				alert(msg);
+			});
+		}
 	}
 
 	private uploadInternalAvatar () {
@@ -263,6 +325,7 @@ export class UserAddComponent implements OnInit {
 	}
 
 	selectRole (role) {
+		console.log('role: ', role);
 		this.selectedRole = role;
 	}
 

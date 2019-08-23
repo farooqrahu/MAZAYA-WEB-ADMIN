@@ -13,8 +13,9 @@ export class ResellerComponent implements OnInit {
 	payload: any;
 	role: string;
 	packagesDataSource = [];
+	includes: any;
 
-	columnsToDisplay: string[] = ['name', 'agreementId', 'status', 'actions'];
+	columnsToDisplay: string[] = ['id', 'name', 'agreementId', 'status', 'actions'];
 
 	pageVar = {
 		pageSize: 10,
@@ -49,11 +50,20 @@ export class ResellerComponent implements OnInit {
 			append += '[role]=reseller';
 		}
 
-		this.http.get(`${environment.baseUrl}/agreements?filter${append}&page[size]=${pageVar.pageSize}&page[number]=${pageVar.pageIndex}&sort=-datetime-utc`)
+		this.http.get(`${environment.baseUrl}/agreements?filter${append}&page[size]=${pageVar.pageSize}&page[number]=${pageVar.pageIndex}&sort=-datetime-utc&include=user`)
 			.subscribe((res: any) => {
 				console.log('res: ', res);
 				this.packagesDataSource = res.data;
+				this.includes = res.included;
 				this.pageLength = res['meta']['total-records'];
 			});
+	}
+
+	getResellerName(id: string|number) {
+		console.log('includes: ', this.includes);
+		console.log('id: ', id);
+		const user = this.includes.find(user => parseInt(user.id) === id);
+		console.log('user: ', user);
+		return user.attributes['company-name'];
 	}
 }

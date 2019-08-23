@@ -31,7 +31,11 @@ export class ProgressLineComponent implements OnInit {
     return this.myOrderService.progressIndex$;
   }
 
-  public get isSelectionFastTack(): boolean {
-    return JSON.parse(localStorage.getItem('waSelectedPackage')) ? JSON.parse(localStorage.getItem('waSelectedPackage')).id == 2 : false;
+  public get getPkgs(): any {
+    return JSON.parse(localStorage.getItem('waSelectedPackages')) || null;
+  }
+
+  public get isPkgMazaya(): boolean {
+    return this.getPkgs && this.getPkgs[0].id == 1 ? true : false;
   }
 }

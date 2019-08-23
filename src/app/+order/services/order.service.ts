@@ -9,9 +9,7 @@ import { find } from 'lodash';
 
 @Injectable()
 export class CheckoutService {
-  constructor(private geoLocationService: GeoCodingService, private orderService: OrderService) {
-
-  }
+  constructor(private geoLocationService: GeoCodingService, private orderService: OrderService) { }
 
   private get passengerFromLS(): any {
     return localStorage.getItem('waPassengers') ? JSON.parse(localStorage.getItem('waPassengers')).members : null;
@@ -21,8 +19,8 @@ export class CheckoutService {
     return JSON.parse(localStorage.getItem('waTotal')) || null;
   }
 
-  private get selectedPkg(): any {
-    return JSON.parse(localStorage.getItem('waSelectedPackage')) || null;
+  private get selectedPkgs(): any {
+    return JSON.parse(localStorage.getItem('waSelectedPackages')) || null;
   }
 
   private get bookingType(): string {
@@ -85,11 +83,11 @@ export class CheckoutService {
           type: 'orders'
         }
       };
-      
+
       let passportVars: any = {};
       let passenger = this.passengerFromLS ? this.passengerFromLS[0] : null;
 
-      if(!passenger) resolve(null);
+      if (!passenger) resolve(null);
 
       passportVars['mobile'] = `${passenger['dialCode']}${passenger['mobile']}`;
       passportVars['customer-email'] = passenger['email'];
@@ -113,8 +111,11 @@ export class CheckoutService {
       order.data.attributes.total = this.total;
 
       order.data.attributes['package-ids'] = [];
-      if (this.selectedPkg)
-        order.data.attributes['package-ids'].push(this.selectedPkg.id);
+      if (this.selectedPkgs && this.selectedPkgs.length > 0) {
+        this.selectedPkgs.forEach(item => {
+          order.data.attributes['package-ids'].push(item.id);
+        });
+      }
 
       //add members
       order.data.attributes['members'] = [];
@@ -141,15 +142,17 @@ export class CheckoutService {
       order.data.attributes['origin'] = this.flight.attributes['departure-airport'];
       order.data.attributes['destination'] = this.flight.attributes['arrival-airport'];
 
-      const latitude = this.location.geometry.location.lat;
-      const longitude = this.location.geometry.location.lng;
-      const address = await this.getFullAddress(latitude, longitude);
+      if (this.location) {
+        const latitude = this.location.geometry.location.lat;
+        const longitude = this.location.geometry.location.lng;
+        const address = await this.getFullAddress(latitude, longitude);
 
-      if (address.street) order.data.attributes['location-street'] = address.street;
-      if (address.district) order.data.attributes['location-district'] = address.district;
-      if (address.city) order.data.attributes['location-city'] = address.city;
-      order.data.attributes['location-longitude'] = longitude;
-      order.data.attributes['location-latitude'] = latitude;
+        if (address.street) order.data.attributes['location-street'] = address.street;
+        if (address.district) order.data.attributes['location-district'] = address.district;
+        if (address.city) order.data.attributes['location-city'] = address.city;
+        order.data.attributes['location-longitude'] = longitude;
+        order.data.attributes['location-latitude'] = latitude;
+      }
 
       resolve(order);
     }).catch((err) => {
@@ -191,6 +194,10 @@ export class OrderService {
   public getPackages(params: HttpParams, httpHeaders: HttpHeaders): Observable<any> {
     return this.http.get(`${environment.baseUrl}/packages`, { params, headers: httpHeaders });
   }
+
+  public getUserAgreement(userId: number): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/agreements?filter[user-id]=${userId}&include=user`)
+  }
 }
 
 @Injectable()
@@ -204,8 +211,8 @@ export class MyOrderService {
   public flight$: Observable<any>;
   private flight: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  public pkg$: Observable<any>;
-  private pkg: BehaviorSubject<any> = new BehaviorSubject(null);
+  public pkgs$: Observable<any[]>;
+  private pkgs: BehaviorSubject<any[]> = new BehaviorSubject(null);
 
   public psngrs$: Observable<any>;
   private psngrs: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -224,7 +231,7 @@ export class MyOrderService {
     this.progressLine$ = this.progressLine.asObservable();
 
     this.flight$ = this.flight.asObservable();
-    this.pkg$ = this.pkg.asObservable();
+    this.pkgs$ = this.pkgs.asObservable();
     this.psngrs$ = this.psngrs.asObservable();
     this.address$ = this.address.asObservable();
     this.showPaymentOption$ = this.showPaymentOption.asObservable();
@@ -234,7 +241,7 @@ export class MyOrderService {
   public clearService(): void {
     this.totalAmount.next(null);
     this.address.next(null);
-    this.pkg.next(null);
+    this.pkgs.next(null);
     this.flight.next(null);
     this.progressLine.next(null);
     this.progressIndex.next(null);
@@ -243,7 +250,6 @@ export class MyOrderService {
   public setTotalAmount(amount: any): void {
     this.totalAmount.next(amount);
   }
-
 
   public setPaymentOption(isVisible: boolean): void {
     this.showPaymentOption.next(isVisible);
@@ -258,7 +264,7 @@ export class MyOrderService {
   }
 
   public setPkg(pkg: any): void {
-    this.pkg.next(pkg);
+    this.pkgs.next(pkg);
   }
 
   public setFlight(flight: any): void {

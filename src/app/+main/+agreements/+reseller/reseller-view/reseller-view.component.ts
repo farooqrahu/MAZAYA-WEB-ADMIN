@@ -5,6 +5,9 @@ import { environment } from '../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'ng2-ui-auth';
 import { Observable, forkJoin } from 'rxjs';
+import { ApproveAgreementModalComponent } from '../../../../dialogs/approve-agreement-modal/approve-agreement-modal.component';
+import { MatDialog } from "@angular/material";
+import { RejectAgreementModalComponent } from "../../../../dialogs/reject-agreement-modal/reject-agreement-modal.component";
 
 
 @Component(
@@ -17,13 +20,15 @@ export class ResellerViewComponent implements OnInit, OnDestroy {
 	showError = false;
 	role: string;
 	reseller: any;
+	userAttributes: any;
 	vouchers: any[];
 	private routeSub: Subscription;
 	constructor (
 		private http: HttpClient,
 		private route: ActivatedRoute,
 		private auth: AuthService,
-		private router: Router
+		private router: Router,
+		private dialog: MatDialog
 	) {
 		const payload = this.auth.getPayload();
 		this.role = (<string>payload[ 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' ]).toLowerCase();
@@ -32,9 +37,9 @@ export class ResellerViewComponent implements OnInit, OnDestroy {
 	ngOnInit () {
 		// TODO: use flatmap
 		this.routeSub = this.route.params.subscribe(params => {
-			this.http.get(`${environment.baseUrl}/agreements/${params['resellerId']}`)
-				.subscribe(({ data }: any) => {
-					console.log('reseller: ', data);
+			this.http.get(`${environment.baseUrl}/agreements/${params['resellerId']}?include=user`)
+				.subscribe(({ data, included }: any) => {
+					this.userAttributes = included[0];
 					this.reseller = data;
 				});
 		});
@@ -44,18 +49,18 @@ export class ResellerViewComponent implements OnInit, OnDestroy {
 		this.routeSub.unsubscribe();
 	}
 
-	reject() {
-		const data = {
-			"data":
-				{
-					"type": "agreement-status",
-					"id": "3",
-				},
-		};
-		this.http.patch(`${environment.baseUrl}/agreements/${this.reseller.id}/relationships/agreement-status`, data)
-			.subscribe((res: any) => {
+	reject(event) {
+		event.preventDefault();
+		const dialogRef = this.dialog.open(RejectAgreementModalComponent, {
+			data: {
+				agreement: this.reseller,
+			}
+		});
+		dialogRef.afterClosed().subscribe((result: any) => {
+			if (result) {
 				this.router.navigateByUrl('app/agreements/reseller');
-			});
+			}
+		});
 	}
 	savePackageList() {
 		this.showError = false;
@@ -88,16 +93,10 @@ export class ResellerViewComponent implements OnInit, OnDestroy {
 			this.router.navigateByUrl('app/agreements/reseller');
 		});
 	}
-	approve() {
-		const data = {
-			"data": {
-				"type": "agreement-status",
-				"id": "2",
-			},
-		};
+	approve(event) {
+		event.preventDefault();
 		this.showError = false;
-
-		const promiseArray = [];
+		let promiseArray: any = [];
 		this.reseller.attributes['agreement-package-list'].forEach((pl) => {
 			if (pl['quantity'] === 0 || pl['commission'] === 0) {
 				this.showError = true;
@@ -110,7 +109,7 @@ export class ResellerViewComponent implements OnInit, OnDestroy {
 					},
 					"type": "agreement-packages",
 				},
-			};
+      };
 			promiseArray.push(this.http.patch(`${environment.baseUrl}/agreement-packages/${pl['id']}`, patchData));
 		});
 
@@ -118,14 +117,26 @@ export class ResellerViewComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		forkJoin(
-			promiseArray[0],
-			promiseArray[1],
-			promiseArray[2]).subscribe((response) => {
-			this.http.patch(`${environment.baseUrl}/agreements/${this.reseller.id}/relationships/agreement-status`, data)
-				.subscribe((res: any) => {
-					this.router.navigateByUrl('app/agreements/reseller');
-				});
+		const dialogRef = this.dialog.open(ApproveAgreementModalComponent, {
+			data: {
+				agreement: this.reseller,
+				observable: forkJoin(...promiseArray),
+			}
 		});
+		dialogRef.afterClosed().subscribe((result: any) => {
+			if (result) {
+				this.router.navigateByUrl('app/agreements/reseller');
+			}
+		});
+
+		// forkJoin(
+		// 	promiseArray[0],
+		// 	promiseArray[1],
+		// 	promiseArray[2]).subscribe((response) => {
+		// 	this.http.patch(`${environment.baseUrl}/agreements/${this.reseller.id}/relationships/agreement-status`, data)
+		// 		.subscribe((res: any) => {
+		// 			this.router.navigateByUrl('app/agreements/reseller');
+		// 		});
+		// });
 	}
 }

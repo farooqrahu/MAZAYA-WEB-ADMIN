@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EntityService } from '../entity/entity.service';
 import { environment } from '../../../../environments/environment';
-import {HttpHeaders} from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class UsersService extends EntityService {

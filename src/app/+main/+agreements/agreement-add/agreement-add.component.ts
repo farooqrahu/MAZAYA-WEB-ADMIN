@@ -83,7 +83,7 @@ export class AgreementAddComponent implements OnInit {
 					this.isDisplayWith = false;
 					return;
 				}
-				this.http.get(`${environment.baseUrl}/users?filter[deleted]=ne:true&filter[role]=${this.selectedType}&filter[first-name]=like:${this.searchText}`)
+				this.http.get(`${environment.baseUrl}/users?filter[deleted]=ne:true&filter[role]=${this.selectedType}&filter[company-name]=like:${this.searchText}&filter[full-name]=like:${this.searchText}&page[size]=50`)
 					.subscribe((res: any) => {
 						this.users = res.data;
 					});
@@ -311,6 +311,12 @@ export class AgreementAddComponent implements OnInit {
 				"type": "agreements",
 			},
 		};
+		const agreementPatchData = {
+			"data": {
+				"type": "agreement-status",
+				"id": "2",
+			},
+		};
 		const httpOptions = {
 			headers: new HttpHeaders({
 				'Content-Type':  'application/vnd.api+json',
@@ -329,7 +335,15 @@ export class AgreementAddComponent implements OnInit {
 				this.http.post(`${environment.baseUrl}/agreements`, agreementData, httpOptions)
 					.subscribe((res: any) => {
 						console.log('agreements res: ', res);
-						this.router.navigateByUrl('app/agreements/corporate');
+
+						if (this.role === 'admin') {
+							this.http.patch(`${environment.baseUrl}/agreements/${res.data.id}/relationships/agreement-status`, agreementPatchData)
+								.subscribe((res: any) => {
+									this.router.navigateByUrl('app/agreements/corporate');
+								});
+						} else {
+							this.router.navigateByUrl('app/agreements/corporate');
+						}
 					}, error => {
 						console.log('agreements error: ', error);
 					});
@@ -344,7 +358,15 @@ export class AgreementAddComponent implements OnInit {
 			this.http.post(`${environment.baseUrl}/agreements`, agreementData, httpOptions)
 				.subscribe((res: any) => {
 					console.log('agreements res: ', res);
-					this.router.navigateByUrl('app/agreements/reseller');
+					if (this.role === 'admin') {
+						this.http.patch(`${environment.baseUrl}/agreements/${res.data.id}/relationships/agreement-status`, agreementPatchData)
+							.subscribe((res: any) => {
+								this.router.navigateByUrl('app/agreements/reseller');
+							});
+					} else {
+						this.router.navigateByUrl('app/agreements/reseller');
+					}
+					// this.router.navigateByUrl('app/agreements/reseller');
 				}, error => {
 					console.log('agreements error: ', error);
 				});

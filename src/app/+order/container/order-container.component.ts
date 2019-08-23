@@ -5,6 +5,9 @@ import { environment } from 'environments/environment';
 import { PaymentService } from '../services/payment.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { UsersService } from 'app/services/api/users/users.service';
+import { AuthService } from 'ng2-ui-auth';
+import { map } from 'rxjs/operators';
 
 export enum PayfortPaymentOption {
   Visa = 'VISA',
@@ -35,13 +38,12 @@ export class OrderContainerComponent implements OnInit {
   public showPaymentDetails: boolean = false;
   public isCashPayment: boolean = false;
 
-  constructor(private route: Router, private orderService: OrderService, private paymentService: PaymentService, private fb: FormBuilder,
-    private myOrderService: MyOrderService) {
+  constructor(private route: Router, private fb: FormBuilder, private myOrderService: MyOrderService) {
     this.myOrderService.showPaymentOption$.subscribe(isVisible => {
       this.showPaymentDetails = isVisible;
     });
 
-    this.paymentForm = fb.group({
+    this.paymentForm = this.fb.group({
       access_code: [environment.payfort.accessCode, Validators.compose([Validators.required])],
       merchant_identifier: [environment.payfort.merchantIdentifier, Validators.compose([Validators.required])],
       command: [this.payfortPaymentOption, Validators.compose([Validators.required])],

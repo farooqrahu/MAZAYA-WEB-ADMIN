@@ -26,7 +26,6 @@ export class PaymentSuccessComponent implements OnInit {
 
   async ngOnInit() {
     const order = await this.checkoutService.getOrderData();
-    debugger
     if(order) {
       this.orderService.setOrder(order).subscribe(res => {
         if(res) {
@@ -40,7 +39,7 @@ export class PaymentSuccessComponent implements OnInit {
           localStorage.removeItem('waAddress');
           localStorage.removeItem('waTotal');
           localStorage.removeItem('waSelectedFlightIndex');
-          localStorage.removeItem('waSelectedPackage');
+          localStorage.removeItem('waSelectedPackages');
           localStorage.removeItem('waBookingType');
           localStorage.removeItem('waTotal');
           localStorage.removeItem('waSelectedPackageIndex');

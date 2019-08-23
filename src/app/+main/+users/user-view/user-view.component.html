@@ -41,8 +41,10 @@
 
 				<div class="row--details__right">
 					<div class="full-name">
-						{{ user.attributes['first-name'] }} {{user.attributes['last-name']}}, {{user.attributes['salutation']}}
+						{{ user.attributes['company-name'] ? user.attributes['company-name'] : user.attributes['first-name'] + ' ' + user.attributes['last-name'] + (user.attributes['salutation'] ? ', ' + user.attributes['salutation'] : '') }}
 					</div>
+
+					<h5 style="margin-top: -20px" *ngIf="user.attributes['company-name']">{{ user.attributes['full-name'] }}</h5>
 
 					<div class="row">
 						<div class="col-md-6">
@@ -61,7 +63,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="user-status">
-								<i class="fas fa-heartbeat"></i> {{ isDeactivated() ? 'Inactive' : 'Active'}}
+								<i class="fas fa-heartbeat"></i> {{ user.attributes['is-rejected'] ? 'Rejected' : isDeactivated() ? 'Inactive' : 'Active'}}
 							</div>
 						</div>
 					</div>
@@ -77,13 +79,13 @@
 								Edit Profile
 							</a>
 						</li>
-						<li class="list-inline-item" *ngIf="(!user.attributes['approval-required'] || user.attributes['is-approved']) && isDeactivated()">
+						<li class="list-inline-item" *ngIf="(!user.attributes['approval-required'] || (user.attributes['is-approved']) && isDeactivated() && !user.attributes['is-rejected'])">
 							<i class="fas fa-power-off mr-1"></i>
 							<a href="#" (click)="showActivateModal($event)">
 								Activate
 							</a>
 						</li>
-						<li class="list-inline-item" *ngIf="(!user.attributes['approval-required'] || user.attributes['is-approved']) && !isDeactivated()">
+						<li class="list-inline-item" *ngIf="(!user.attributes['approval-required'] || (user.attributes['is-approved']) && !isDeactivated() && !user.attributes['is-rejected'])">
 							<i class="fas fa-power-off mr-1"></i>
 							<a href="#" (click)="showDeactivateModal($event)">
 								Deactivate

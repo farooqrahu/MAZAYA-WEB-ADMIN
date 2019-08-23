@@ -49,7 +49,7 @@
 							</mat-form-field>
 							<mat-form-field class="w-100">
 								<mat-label>Phone Number</mat-label>
-								<input matInput type="tel" formControlName="mobile">
+								<input matInput type="text" formControlName="mobile" mask=" 00 000 0000">
 								<span matPrefix class="mr-1">+966</span>
 								<mat-error *ngIf="mobile_internal.hasError('required')">
 									Phone Number is required

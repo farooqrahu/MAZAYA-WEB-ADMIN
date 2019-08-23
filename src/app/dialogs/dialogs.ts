@@ -8,6 +8,8 @@ import { RestoreAccountModalComponent } from './restore-account-modal/restore-ac
 import { ViewServiceModalComponent } from './view-service-modal/view-service-modal.component';
 import { VoucherDetailsModalComponent } from './voucher-details-modal/voucher-details-modal.component';
 import { RejectAccountModalComponent } from './reject-account-modal/reject-account-modal.component';
+import { ApproveAgreementModalComponent } from './approve-agreement-modal/approve-agreement-modal.component';
+import { RejectAgreementModalComponent } from './reject-agreement-modal/reject-agreement-modal.component';
 
 export const Dialogs = [
 	DeleteAccountModalComponent,
@@ -20,4 +22,6 @@ export const Dialogs = [
 	DeleteCapacityModalComponent,
 	VoucherDetailsModalComponent,
 	DeleteVoucherModalComponent,
+	ApproveAgreementModalComponent,
+	RejectAgreementModalComponent,
 ];

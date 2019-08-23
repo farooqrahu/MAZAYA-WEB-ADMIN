@@ -38,6 +38,20 @@
 					<ng-container *ngIf="isRoleSelected()">
 						<h5>USER DETAILS</h5>
 						<form novalidate [formGroup]="createInternalUserForm" *ngIf="isCreateInternalUser()">
+							<mat-form-field class="w-100" *ngIf="selectedRole && selectedRole.id === '8'">
+								<mat-label>Company name<span class="text-danger">*</span></mat-label>
+								<input matInput type="text" formControlName="company_name">
+								<mat-error *ngIf="first_name_internal.hasError('required')">
+									Company name is required
+								</mat-error>
+							</mat-form-field>
+							<mat-form-field class="w-100" *ngIf="selectedRole && selectedRole.id === '3'">
+								<mat-label>Reseller name<span class="text-danger">*</span></mat-label>
+								<input matInput type="text" formControlName="company_name">
+								<mat-error *ngIf="first_name_internal.hasError('required')">
+									Reseller name is required
+								</mat-error>
+							</mat-form-field>
 							<mat-form-field class="w-100">
 								<mat-label>First Name<span class="text-danger">*</span></mat-label>
 								<input matInput type="text" formControlName="first_name">
@@ -65,8 +79,8 @@
 									(invalid)
 								</span>
 								</mat-label>
-								<input matInput type="tel" (change)="invalidPhoneNumberError = false;" maxlength="10"
-								       formControlName="mobile" placeholder="xxxxxxxxx">
+								<input matInput type="text" (change)="invalidPhoneNumberError = false;"
+								       formControlName="mobile" mask=" 00 000 0000">
 								<span matPrefix class="mr-1">+966</span>
 								<mat-error *ngIf="mobile_internal.hasError('required')">
 									Phone Number is required
@@ -75,7 +89,7 @@
 									Must be a valid Phone Number
 								</mat-error>
 							</mat-form-field>
-							<mat-form-field class="w-100">
+							<mat-form-field class="w-100" *ngIf="selectedRole && selectedRole.id !== '8' && selectedRole.id !== '3'">
 								<mat-label>Password<span class="text-danger">*</span></mat-label>
 								<input matInput type="password" formControlName="password">
 								<mat-error *ngIf="password_internal.hasError('required')">

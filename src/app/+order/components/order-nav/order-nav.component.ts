@@ -11,7 +11,7 @@ import { debug } from 'util';
 })
 export class OrderNavComponent implements OnInit {
   public progressIndex: number;
-  
+
   @Input()
   public goNext: boolean = true;
 
@@ -65,6 +65,15 @@ export class OrderNavComponent implements OnInit {
       default:
         break;
     }
+  }
 
+  public get isPkgMazaya(): boolean {
+    const progressIndex = JSON.parse(localStorage.getItem('waProgressIndex')) || null;
+
+    return this.getPkgs && this.getPkgs[0].id != 1 && progressIndex == 4 ? true : false;
+  }
+
+  public get getPkgs(): any {
+    return JSON.parse(localStorage.getItem('waSelectedPackages')) || null;
   }
 }

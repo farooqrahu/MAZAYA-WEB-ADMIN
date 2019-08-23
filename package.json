@@ -60,6 +60,7 @@
     "geolib": "^2.0.24",
     "intl": "^1.2.5",
     "jquery": "^3.2.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.5",
     "moment": "^2.22.0",
     "ng-http-loader": "^0.9.1",

@@ -36,7 +36,7 @@
 													<input type="text" placeholder="Search" aria-label="Number" matInput [matAutocomplete]="auto" [ngModel]='searchText' [ngModelOptions]="{ standalone: true }" (ngModelChange)='onChangeSearchText($event)'>
 													<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
 														<mat-option *ngFor="let user of users" [value]="user">
-															{{user['attributes']['first-name']}}
+															{{user['attributes']['full-name']}}
 														</mat-option>
 													</mat-autocomplete>
 												</mat-form-field>

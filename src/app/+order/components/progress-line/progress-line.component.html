@@ -5,7 +5,7 @@
 	<div class="vl"></div>
 </div>
 
-<div *ngIf="!isSelectionFastTack" class="progress__stepper" fxLayout="column" fxLayoutAlign="start center">
+<div *ngIf="isPkgMazaya" class="progress__stepper" fxLayout="column" fxLayoutAlign="start center">
 	<div class="progress__circle" [ngClass]="(progressIndex | async) === 5 ? 'active': ''" fxLayoutAlign="center center">5
 	</div>
 	<div class="vl"></div>

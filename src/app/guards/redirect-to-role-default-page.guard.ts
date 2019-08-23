@@ -14,7 +14,7 @@ export class RedirectToRoleDefaultPageGuard implements CanActivate {
 		const role: string = (<string>this.auth.getPayload()[ 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' ]).toLowerCase();
 		if ( role === 'admin' ) {
 			// TODO change this to dashboard once it's done
-			this.router.navigateByUrl('app/users');
+			this.router.navigateByUrl('app/dashboard');
 			return false;
 		} else if ( role === 'supervisor' ) {
 			this.router.navigateByUrl('app/orders/open');

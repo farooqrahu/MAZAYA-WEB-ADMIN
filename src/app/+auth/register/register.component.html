@@ -108,11 +108,15 @@
 													<span>Company Phone Number</span>
 												</label>
 												<!-- Company phone number -->
-												<input class="form-control"
-															 formControlName="phoneNumber"
-															 id="companyPhoneNumber"
-															 tabindex="4"
-															 type="text" mask=" 00 000 0000" prefix="+966">
+												<!--<input class="form-control"-->
+															 <!--formControlName="phoneNumber"-->
+															 <!--id="companyPhoneNumber"-->
+															 <!--tabindex="4"-->
+															 <!--type="text" mask=" 00 000 0000" prefix="+966">-->
+												<span matPrefix class="mr-1" style="margin-top: 1px;background-color: #222222 !important;border-top-left-radius: 5px !important;border-bottom-left-radius: 5px !important;border-color: #222222 !important;color: #848484 !important;margin-right: 0px !important;padding-top: 16px;padding-bottom: 18px;padding-left: 16px;padding-right: 16px;">+966</span>
+												<input matInput id="companyPhoneNumber" type="text" mask=" 00 000 0000"
+															 formControlName="phoneNumber" style="width: 82%; margin-left: 0; border-left: none;border-top-left-radius: 0px !important;border-bottom-left-radius: 0px !important;border-top-right-radius: 5px !important;">
+
 												<div class="help-block" *ngIf="!corporateForm.get('phoneNumber').valid && corporateForm.get('phoneNumber').touched">
 													<div>
 														Please enter your company phone number

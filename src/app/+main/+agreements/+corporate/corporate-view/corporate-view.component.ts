@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from "ng2-ui-auth";
 import * as moment from 'moment';
 import { VouchersService } from '../../../../services/api/vouchers/vouchers.service';
+import { ApproveAgreementModalComponent } from '../../../../dialogs/approve-agreement-modal/approve-agreement-modal.component';
+import { MatDialog } from "@angular/material";
+import { RejectAgreementModalComponent } from '../../../../dialogs/reject-agreement-modal/reject-agreement-modal.component';
 
 @Component(
 	{
@@ -17,6 +20,7 @@ export class CorporateViewComponent implements OnInit, OnDestroy {
 	showError = false;
 	role: string;
 	corporate: any;
+	userAttributes: any;
 	vouchers: any = [];
 	private routeSub: Subscription;
 	constructor (
@@ -24,7 +28,8 @@ export class CorporateViewComponent implements OnInit, OnDestroy {
 		private auth: AuthService,
 		private voucherService: VouchersService,
 		private route: ActivatedRoute,
-		private router: Router) {
+		private router: Router,
+		private dialog: MatDialog) {
 		const payload = this.auth.getPayload();
 		this.role = (<string>payload[ 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' ]).toLowerCase();
 	}
@@ -32,12 +37,15 @@ export class CorporateViewComponent implements OnInit, OnDestroy {
 	ngOnInit () {
 		// TODO: use flatmap
 		this.routeSub = this.route.params.subscribe(params => {
-			this.http.get(`${environment.baseUrl}/agreements/${params['corporateId']}`)
-				.subscribe(({ data }: any) => {
+			this.http.get(`${environment.baseUrl}/agreements/${params['corporateId']}?include=user`)
+				.subscribe(({ data, included }: any) => {
 					this.corporate = data;
+					this.userAttributes = included[0];
+					console.log('corporate: ', this.corporate);
+					console.log('userAttributes: ', this.userAttributes);
 					this.http.get(`${environment.baseUrl}/vouchers?filter[agreement-id]=${this.corporate.id}`)
 						.subscribe(({ data }: any) => {
-							console.log('data: ', data);
+							console.log('vouchers /data: ', data);
 							this.vouchers = data;
 						});
 				});
@@ -55,18 +63,18 @@ export class CorporateViewComponent implements OnInit, OnDestroy {
 		return ev;
 	}
 
-	reject() {
-		const data = {
-			"data":
-				{
-					"type": "agreement-status",
-					"id": "3",
-				},
-		};
-		this.http.patch(`${environment.baseUrl}/agreements/${this.corporate.id}/relationships/agreement-status`, data)
-			.subscribe((res: any) => {
+	reject(event) {
+		event.preventDefault();
+		const dialogRef = this.dialog.open(RejectAgreementModalComponent, {
+			data: {
+				agreement: this.corporate,
+			}
+		});
+		dialogRef.afterClosed().subscribe((result: any) => {
+			if (result) {
 				this.router.navigateByUrl('app/agreements/corporate');
-			});
+			}
+		});
 	}
 	saveVoucher() {
 		console.log('here');
@@ -112,15 +120,11 @@ export class CorporateViewComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	approve() {
-		const agreementData = {
-			"data": {
-				"type": "agreement-status",
-				"id": "2",
-			},
-		};
+	approve(event) {
 		let voucherSub = null;
 		this.showError = false;
+
+		event.preventDefault();
 
 		const vouchersCopy = JSON.parse(JSON.stringify(this.vouchers));
 
@@ -154,11 +158,16 @@ export class CorporateViewComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		voucherSub.subscribe(res => {
-			this.http.patch(`${environment.baseUrl}/agreements/${this.corporate.id}/relationships/agreement-status`, agreementData)
-				.subscribe((res: any) => {
-					this.router.navigateByUrl('app/agreements/corporate');
-				});
+		const dialogRef = this.dialog.open(ApproveAgreementModalComponent, {
+			data: {
+				agreement: this.corporate,
+				observable: voucherSub,
+			}
+		});
+		dialogRef.afterClosed().subscribe((result: any) => {
+			if (result) {
+				this.router.navigateByUrl('app/agreements/corporate');
+			}
 		});
 	}
 }

@@ -11,7 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainRoutingModule } from './main-routing.module';
 import { MaterialFormsModule } from '../material-forms/material-forms.module';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 @NgModule(
 	{
 		imports: [
@@ -28,7 +28,7 @@ import {MatListModule} from '@angular/material/list';
 		declarations: [
 			ContentBoxComponent,
 			DashboardComponent,
-			FullLayoutComponent
+      FullLayoutComponent
 		],
 		providers: []
 	})

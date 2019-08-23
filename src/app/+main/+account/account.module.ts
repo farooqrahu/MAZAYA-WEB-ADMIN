@@ -12,6 +12,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { PackagesService } from 'app/services/api/packages/packages.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { OrderModule } from 'app/+order/order.module';
+import { NgxMaskModule } from "ngx-mask";
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { OrderModule } from 'app/+order/order.module';
     NgbModule,
     FontAwesomeModule,
     FlexLayoutModule,
-    OrderModule
+    OrderModule,
+		NgxMaskModule.forRoot(),
   ],
   declarations: [ViewProfileComponent, ChangePasswordComponent, EditProfileComponent, ChangePasswordComponent],
   providers: [ PackagesService ]

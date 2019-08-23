@@ -13,7 +13,11 @@ export const appRoutes: Routes = [
 				path: '',
 				redirectTo: 'app/dashboard',
 				pathMatch: 'full'
-			},
+      },
+      // {
+			// 	path: 'dashboard',
+			// 	loadChildren: './+dashboard/dashboard.module#DashboardModule'
+			// },
 			{
 				path: 'auth',
 				loadChildren: './+auth/auth.module#AuthModule',

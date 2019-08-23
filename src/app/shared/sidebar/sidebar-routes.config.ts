@@ -4,16 +4,17 @@ import { RouteInfo } from './sidebar.metadata';
  * All Routes used in the Sidebar
  */
 export const ROUTES: RouteInfo[] = [
-  //  {
-  //    path: '/dashboard',
-  //    title: 'Dashboard',
-  //    icon: 'ft-layout',
-  //    class: '',
-  //    badge: '',
-  //    badgeClass: '',
-  //    isExternalLink: false,
-  //    submenu: []
-  //  },
+   {
+     path: '/app/dashboard',
+     title: 'Dashboard',
+     icon: 'ft-layout',
+     class: '',
+     badge: '',
+     badgeClass: '',
+     isExternalLink: false,
+     submenu: [],
+     visibleFor: ['admin']
+   },
   {
     path: '',
     title: 'Users',
@@ -148,7 +149,7 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     isExternalLink: false,
-    visibleFor: ['admin', 'supervisor', 'driver', 'operator'],
+    visibleFor: ['admin', 'supervisor', 'driver', 'operator', 'reseller'],
     submenu: [
       {
         path: '/app/orders/open',
@@ -172,6 +173,28 @@ export const ROUTES: RouteInfo[] = [
         visibleFor: ['admin', 'supervisor', 'driver', 'operator'],
         submenu: []
       },
+			{
+				path: '/order/select-flight',
+				title: 'Submit Order',
+				icon: '',
+				class: '',
+				badge: '',
+				badgeClass: '',
+				isExternalLink: false,
+				visibleFor: ['reseller'],
+				submenu: []
+			},
+			{
+				path: '/order/select-flight',
+				title: 'Order History',
+				icon: '',
+				class: '',
+				badge: '',
+				badgeClass: '',
+				isExternalLink: false,
+				visibleFor: ['reseller'],
+				submenu: []
+			}
       //			{
       //				path: '/app/orders/booking/select-flight',
       //				title: 'Place Order',
@@ -232,17 +255,6 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/app/account/profile',
         title: 'View Profile',
-        icon: '',
-        class: '',
-        badge: '',
-        badgeClass: '',
-        isExternalLink: false,
-        visibleFor: ['*'],
-        submenu: []
-      },
-      {
-        path: '/order/select-flight',
-        title: 'Submit Order',
         icon: '',
         class: '',
         badge: '',

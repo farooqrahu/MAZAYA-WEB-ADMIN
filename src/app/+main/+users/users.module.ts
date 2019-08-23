@@ -13,6 +13,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MaterialFormsModule } from '../../material-forms/material-forms.module';
+import { NgxMaskModule } from "ngx-mask";
 
 @NgModule(
 	{
@@ -26,7 +27,8 @@ import { MaterialFormsModule } from '../../material-forms/material-forms.module'
 			NgxErrorsModule,
 			NgbModule,
 			MatDialogModule,
-			MaterialFormsModule
+			MaterialFormsModule,
+			NgxMaskModule.forRoot(),
 		],
 		declarations: [
 			MembershipApprovalComponent,

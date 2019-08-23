@@ -65,8 +65,8 @@
 									(invalid)
 								</span>
 								</mat-label>
-								<input matInput type="tel" (change)="invalidPhoneNumberError = false;" maxlength="9"
-								       formControlName="mobile" placeholder="xxxxxxxxx">
+								<input matInput type="text" (change)="invalidPhoneNumberError = false;"
+								       formControlName="mobile" placeholder="xxxxxxxxx" mask=" 00 000 0000">
 								<span matPrefix class="mr-1">+966</span>
 								<mat-error *ngIf="mobile_internal.hasError('required')">
 									Phone Number is required

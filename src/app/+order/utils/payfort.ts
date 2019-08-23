@@ -2,9 +2,6 @@ import * as uuid from 'uuid';
 import * as shajs from 'sha.js';
 import * as _ from 'lodash';
 
-declare var require: any;
-var CryptoJS = require("crypto-js");
-
 export const uuid4 = () => {
   let guid = uuid();
   guid = guid.replace(/-|_|\s/gm, '').trim();
